@@ -1,8 +1,8 @@
 import React from 'react';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import ProductsList from './pages/product/ProductList';
+import { Outlet } from 'react-router-dom';
+
 const { Header, Content, Sider } = Layout;
 
 
@@ -10,17 +10,6 @@ const App: React.FC = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
-
-  const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <p>Home Page</p>,
-    },
-    {
-      path: '/products',
-      element: <ProductsList />
-    },
-  ]);
 
 
   return (
@@ -57,7 +46,7 @@ const App: React.FC = () => {
               background: colorBgContainer,
             }}
           >
-            <RouterProvider router={router} />
+            <Outlet />
           </Content>
         </Layout>
       </Layout>
