@@ -14,4 +14,9 @@ const LoginPage: React.FC = () => {
   )
 }
 
+export const LoginPageRoute = {
+  path: '/login',
+  element: <LoginPage />,
+};
+
 export default LoginPage;

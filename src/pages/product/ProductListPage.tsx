@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Table } from "antd";
+import { Breadcrumb, Table, Layout, theme } from "antd";
 import axios from "axios";
+
+const { Content } = Layout;
 
 type ProductRow = {
   id: number;
@@ -13,7 +15,10 @@ type ProductRow = {
   }
 }
 
-const ProductsList: React.FC = () => {
+const ProductsListPage: React.FC = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
   const [dataSource, setdataSource] = useState([]);
   const columns = [
     {
@@ -52,8 +57,36 @@ const ProductsList: React.FC = () => {
       })
   }, [])
   return (
-    <Table dataSource={dataSource} columns={columns} />
+    <>
+      <Breadcrumb style={{ margin: '16px 0' }}
+        items={[
+          {
+            title: 'Home'
+          },
+          {
+            title: 'Produtos'
+          },
+          {
+            title: 'Lista'
+          },
+        ]} />
+      <Content
+        style={{
+          padding: 24,
+          margin: 0,
+          minHeight: 280,
+          background: colorBgContainer,
+        }}
+      >
+        <Table dataSource={dataSource} columns={columns} />
+      </Content>
+    </>
   )
 }
 
-export default ProductsList;
+export const ProductListRoute = {
+  path: 'products',
+  element: <ProductsListPage />
+};
+
+export default ProductsListPage;

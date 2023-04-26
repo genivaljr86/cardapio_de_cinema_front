@@ -1,9 +1,9 @@
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 
 import { Outlet } from 'react-router-dom';
 
-const { Header, Content, Sider } = Layout;
+const { Header, Sider } = Layout;
 
 
 const App: React.FC = () => {
@@ -26,32 +26,15 @@ const App: React.FC = () => {
           />
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}
-            items={[
-              {
-                title: 'Home'
-              },
-              {
-                title: 'Produtos'
-              },
-              {
-                title: 'Lista'
-              },
-            ]} />
-          <Content
-            style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-            }}
-          >
-            <Outlet />
-          </Content>
+          <Outlet />
         </Layout>
       </Layout>
     </Layout>
   );
 };
 
+export const AppPageRoute = {
+  path: '/app',
+  element: <App />
+}
 export default App;
