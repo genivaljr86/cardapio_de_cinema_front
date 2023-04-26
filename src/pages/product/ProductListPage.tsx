@@ -23,13 +23,11 @@ const ProductsListPage: React.FC = () => {
   const columns = [
     {
       title: 'Nome',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'name'
     },
     {
       title: 'Preço',
       dataIndex: 'price',
-      key: 'price',
       render: (value: number) => {
         return `R$ ${value}`;
       }
