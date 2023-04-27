@@ -83,7 +83,7 @@ const ProductsListPage: React.FC = () => {
 }
 
 export const ProductListRoute = {
-  path: 'products',
+  index: true,
   element: <ProductsListPage />
 };
 

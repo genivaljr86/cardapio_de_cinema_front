@@ -1,8 +1,13 @@
 import { ClientCreatePageRoute } from "./ClientCreatePage";
 import { ClientListPageRoute } from "./ClientListPage"
 
-const ClientPageRoutes = [
-  ClientListPageRoute,
-  ClientCreatePageRoute
-];
+
+const ClientPageRoutes = {
+  path: 'clients',
+  children: [
+    ClientListPageRoute,
+    ClientCreatePageRoute
+  ]
+}
+console.log('ClientPageRoutes', ClientPageRoutes);
 export default ClientPageRoutes;

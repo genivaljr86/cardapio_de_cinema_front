@@ -1,6 +1,10 @@
 import { ProductListRoute } from "./ProductListPage";
 
-const ProductPageRoutes = [
-  ProductListRoute
-];
+const ProductPageRoutes = {
+  path: 'products',
+  children: [
+    ProductListRoute
+  ]
+}
+  ;
 export default ProductPageRoutes;

@@ -81,7 +81,7 @@ const ClientListPage: React.FC = () => {
 }
 
 export const ClientListPageRoute = {
-  path: 'clients',
+  index: true,
   element: <ClientListPage />
 };
 
