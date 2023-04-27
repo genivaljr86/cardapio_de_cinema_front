@@ -1,4 +1,6 @@
 import { ProductListRoute } from "./ProductListPage";
 
-const ProductPageRoutes = ProductListRoute;
+const ProductPageRoutes = [
+  ProductListRoute
+];
 export default ProductPageRoutes;

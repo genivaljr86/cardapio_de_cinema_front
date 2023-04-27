@@ -20,11 +20,6 @@ const App: React.FC = () => {
       <Layout>
         <Sider width={200} style={{ background: colorBgContainer }}>
           <SidebarMenu />
-          {/* <Menu
-            mode="inline"
-            style={{ height: '100%', borderRight: 0 }}
-            items={sideMenuItens}
-          /> */}
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
           <Outlet />
