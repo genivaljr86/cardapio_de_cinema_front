@@ -1,16 +1,33 @@
-import { useMatches } from "react-router-dom";
+import { theme } from "antd";
+import { Content } from "antd/es/layout/layout";
+import CBreadcrumb from "../../components/CBreadBrumb";
 
 const ClientCreatePage: React.FC = () => {
-  const matches = useMatches();
 
-  console.log('matches', matches);
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (<>
-    <h1>Cliente Create Page</h1>
+    <CBreadcrumb />
+    <Content
+      style={{
+        padding: 24,
+        margin: 0,
+        minHeight: 280,
+        background: colorBgContainer,
+      }}
+    >
+      <h1>Novo Cliente</h1>
+    </Content>
   </>)
 }
 
 export const ClientCreatePageRoute = {
   path: 'new',
-  element: <ClientCreatePage />
+  element: <ClientCreatePage />,
+  handle: {
+    label: 'Novo'
+  }
 }
 export default ClientCreatePage;

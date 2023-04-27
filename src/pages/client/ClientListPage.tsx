@@ -21,6 +21,7 @@ const ClientListPage: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
   const [dataSource, setdataSource] = useState([]);
+
   const columns = [
     {
       title: 'Nome',
@@ -82,7 +83,10 @@ const ClientListPage: React.FC = () => {
 
 export const ClientListPageRoute = {
   index: true,
-  element: <ClientListPage />
+  element: <ClientListPage />,
+  handle: {
+    label: 'Lista'
+  }
 };
 
 export default ClientListPage;

@@ -11,6 +11,9 @@ const HomePageRoute = {
 const AppSubRoutes = {
   path: '/app',
   element: <App />,
+  handle: {
+    label: 'Home'
+  },
   children: [
     HomePageRoute,
     ClientPageRoutes,

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Table, Layout, theme } from "antd";
+import { Table, Layout, theme } from "antd";
 import axios from "axios";
+import CBreadcrumb from "../../components/CBreadBrumb";
 
 const { Content } = Layout;
 
@@ -56,18 +57,7 @@ const ProductsListPage: React.FC = () => {
   }, [])
   return (
     <>
-      <Breadcrumb style={{ margin: '16px 0' }}
-        items={[
-          {
-            title: 'Home'
-          },
-          {
-            title: 'Produtos'
-          },
-          {
-            title: 'Lista'
-          },
-        ]} />
+      <CBreadcrumb />
       <Content
         style={{
           padding: 24,
@@ -84,7 +74,10 @@ const ProductsListPage: React.FC = () => {
 
 export const ProductListRoute = {
   index: true,
-  element: <ProductsListPage />
+  element: <ProductsListPage />,
+  handle: {
+    label: 'Lista'
+  }
 };
 
 export default ProductsListPage;
