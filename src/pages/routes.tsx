@@ -21,7 +21,7 @@ const AppSubRoutes = {
 const routes = [
   {
     path: '/',
-    element: <h1>Home Page</h1>,
+    element: <h1>Initial Page</h1>,
 
   },
   LoginPageRoutes,

@@ -1,5 +1,5 @@
 import { ClientCreatePageRoute } from "./ClientCreatePage";
-import { ClientListPageRoute } from "./ClientListPage"
+import { ClientListPageRoute } from "./ClientListPage";
 
 
 const ClientPageRoutes = {
@@ -8,6 +8,6 @@ const ClientPageRoutes = {
     ClientListPageRoute,
     ClientCreatePageRoute
   ]
-}
-console.log('ClientPageRoutes', ClientPageRoutes);
+};
+
 export default ClientPageRoutes;
