@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Breadcrumb, Table, Layout, theme } from "antd";
+import { Table, Layout, theme } from "antd";
 import axios from "axios";
+import CBreadcrumb from "../../components/CBreadBrumb";
 
 const { Content } = Layout;
 
@@ -55,18 +56,7 @@ const ClientListPage: React.FC = () => {
   }, [])
   return (
     <>
-      <Breadcrumb style={{ margin: '16px 0' }}
-        items={[
-          {
-            title: 'Home'
-          },
-          {
-            title: 'Clientes'
-          },
-          {
-            title: 'Lista'
-          },
-        ]} />
+      <CBreadcrumb />
       <Content
         style={{
           padding: 24,

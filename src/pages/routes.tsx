@@ -1,3 +1,4 @@
+import { redirect } from "react-router-dom";
 import App from "./app/App";
 import ClientPageRoutes from "./client/routes";
 import LoginPageRoutes from "./login/routes";
@@ -24,7 +25,7 @@ const AppSubRoutes = {
 const routes = [
   {
     path: '/',
-    element: <h1>Initial Page</h1>,
+    loader: async () => redirect('/app')
 
   },
   LoginPageRoutes,
