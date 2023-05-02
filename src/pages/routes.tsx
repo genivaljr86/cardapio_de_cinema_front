@@ -3,6 +3,7 @@ import App from "./app/App";
 import ClientPageRoutes from "./client/routes";
 import LoginPageRoutes from "./login/routes";
 import ProductPageRoutes from "./product/routes";
+import ErrorPage from "./error/ErrorPage";
 
 const HomePageRoute = {
   index: true,
@@ -25,7 +26,8 @@ const AppSubRoutes = {
 const routes = [
   {
     path: '/',
-    loader: async () => redirect('/app')
+    loader: async () => redirect('/app'),
+    errorElement: <ErrorPage />,
 
   },
   LoginPageRoutes,
