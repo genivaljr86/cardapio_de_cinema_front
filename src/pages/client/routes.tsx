@@ -1,4 +1,5 @@
 import { ClientCreatePageRoute } from "./ClientCreatePage";
+import { ClientEditPageRoute } from "./ClientEditPage";
 import { ClientListPageRoute } from "./ClientListPage";
 import { ClientViewPageRoute } from "./ClientViewPage";
 
@@ -11,7 +12,8 @@ const ClientPageRoutes = {
   children: [
     ClientListPageRoute,
     ClientCreatePageRoute,
-    ClientViewPageRoute
+    ClientViewPageRoute,
+    ClientEditPageRoute
   ]
 };
 

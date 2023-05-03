@@ -44,6 +44,15 @@ export function postClients(data: Client) {
   )
 }
 
+export function putClient(id: string, data: Client) {
+  return axios.put(`${devApi}/clients/${id}`,
+    {
+      data,
+      ...headerParams
+    }
+  )
+}
+
 export function deleteClient(id: number) {
   return axios.delete(`${devApi}/clients/${id}`, headerParams)
 }

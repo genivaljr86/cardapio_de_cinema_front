@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
 import { useEffect, useState } from "react";
 import { ClientResponseDataObject, getClientByID } from "../../services/client";
-import { Descriptions, Skeleton } from "antd";
+import { Button, Descriptions, Skeleton } from "antd";
 
 const ClientViewPage: React.FC = () => {
 
@@ -31,10 +31,16 @@ const ClientViewPage: React.FC = () => {
           <Skeleton active />
         )
           : (
-            <Descriptions title={'Dados Pessoais'}>
-              <Descriptions.Item label={'Nome'}>{clientData.attributes?.name}</Descriptions.Item>
-              <Descriptions.Item label={'Endereço'}>{clientData.attributes?.address}</Descriptions.Item>
-            </Descriptions>
+            <>
+              <Descriptions title={'Dados Pessoais'}>
+                <Descriptions.Item label={'Nome'}>{clientData.attributes?.name}</Descriptions.Item>
+                <Descriptions.Item label={'Endereço'}>{clientData.attributes?.address}</Descriptions.Item>
+              </Descriptions>
+              {/* 
+                @todo Review url link
+              */}
+              <Button href={`../edit/${id}`} type="primary">Editar Cliente</Button>
+            </>
           )
       }
     </CTemplatePage>
