@@ -1,14 +1,14 @@
-import { Button, Form, Input, Space, notification } from "antd";
+import { Form, notification } from "antd";
 import CTemplatePage from "../../components/CTemplatePage";
 import { Client, postClients } from "../../services/client";
 import { useNavigate } from "react-router-dom";
+import ClientForm from "../../components/forms/ClientForm";
 
 const ClientCreatePage: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
   const onFinish = async (values: Client) => {
-
     try {
       const { data: { data: { id } } } = await postClients(values);
       notification.success({
@@ -24,36 +24,9 @@ const ClientCreatePage: React.FC = () => {
     }
   }
 
-  const onReset = () => {
-    form.resetFields();
-  };
-
   return (<>
     <CTemplatePage>
-      <Form
-        layout="vertical"
-        autoComplete="off"
-        form={form}
-        requiredMark={true}
-        onFinish={onFinish}
-        style={{ maxWidth: 600 }} >
-        <Form.Item name="name" label="Nome"
-          rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
-          <Input placeholder="Insira o nome completo" />
-        </Form.Item>
-        <Form.Item name="address" label="Endereço"
-          rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
-          <Input placeholder="Insira o endereço completo" />
-        </Form.Item>
-        <Form.Item >
-          <Space size="small">
-            <Button type="primary" htmlType="submit">Criar Cliente</Button>
-            <Button htmlType="button" type="link" onClick={onReset}>
-              Limpar
-            </Button>
-          </Space>
-        </Form.Item>
-      </Form>
+      <ClientForm form={form} onFinish={onFinish} />
     </CTemplatePage>
   </>);
 }

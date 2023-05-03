@@ -1,8 +1,9 @@
-import { Button, Form, Input, Skeleton, Space, notification } from "antd";
+import { Form, Skeleton, notification } from "antd";
 import CTemplatePage from "../../components/CTemplatePage";
 import { Client, getClientByID, putClient } from "../../services/client";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import ClientForm from "../../components/forms/ClientForm";
 
 const ClientEditPage: React.FC = () => {
   const [form] = Form.useForm();
@@ -42,40 +43,13 @@ const ClientEditPage: React.FC = () => {
     }
   }
 
-  const onReset = () => {
-    form.resetFields();
-  };
-
   return (<>
     <CTemplatePage>
       {
         loading ? (
           <Skeleton />
         ) : (
-          <Form
-            layout="vertical"
-            autoComplete="off"
-            form={form}
-            requiredMark={true}
-            onFinish={onFinish}
-            style={{ maxWidth: 600 }} >
-            <Form.Item name="name" label="Nome"
-              rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
-              <Input placeholder="Insira o nome completo" />
-            </Form.Item>
-            <Form.Item name="address" label="Endereço"
-              rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
-              <Input placeholder="Insira o endereço completo" />
-            </Form.Item>
-            <Form.Item >
-              <Space size="small">
-                <Button type="primary" htmlType="submit">Salvar</Button>
-                <Button htmlType="button" type="link" onClick={onReset}>
-                  Limpar
-                </Button>
-              </Space>
-            </Form.Item>
-          </Form>
+          <ClientForm form={form} onFinish={onFinish} />
         )
       }
     </CTemplatePage>

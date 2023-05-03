@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
 import { useEffect, useState } from "react";
 import { ClientResponseDataObject, getClientByID } from "../../services/client";
@@ -9,6 +9,8 @@ const ClientViewPage: React.FC = () => {
   const { id } = useParams();
   const [clientData, setclientData] = useState({} as ClientResponseDataObject);
   const [loading, setLoading] = useState(true)
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +41,7 @@ const ClientViewPage: React.FC = () => {
               {/* 
                 @todo Review url link
               */}
-              <Button href={`../edit/${id}`} type="primary">Editar Cliente</Button>
+              <Button onClick={() => navigate(`../edit/${id}`)} type="primary">Editar Cliente</Button>
             </>
           )
       }
