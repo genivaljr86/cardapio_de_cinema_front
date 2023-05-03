@@ -43,3 +43,7 @@ export function postClients(data: Client) {
     }
   )
 }
+
+export function deleteClient(id: number) {
+  return axios.delete(`${devApi}/clients/${id}`, headerParams)
+}

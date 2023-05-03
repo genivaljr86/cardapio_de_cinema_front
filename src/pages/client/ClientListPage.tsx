@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Table } from "antd";
-import { ClientResponseDataObject, getClients } from "../../services/client";
+import { Button, Modal, Skeleton, Table, notification } from "antd";
+import { ClientResponseDataObject, deleteClient, getClients } from "../../services/client";
 import { Link } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage";
-import { UsergroupAddOutlined } from "@ant-design/icons";
+import { ExclamationCircleFilled, UsergroupAddOutlined } from "@ant-design/icons";
 
 
 const ClientListPage: React.FC = () => {
-  const [dataSource, setdataSource] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     {
@@ -17,38 +18,84 @@ const ClientListPage: React.FC = () => {
     {
       title: 'Endereço',
       dataIndex: 'address'
+    },
+    {
+      title: '',
+      dataIndex: 'actions'
     }
   ];
+
+  async function fetchData() {
+    setLoading(true);
+    try {
+      const { data: { data: dataResponse } } = await getClients();
+      const dataList = dataResponse.map((row: ClientResponseDataObject) => {
+        const { id, attributes: { name, address } } = row;
+        return {
+          key: id,
+          name: <Link to={`view/${id}`}>{name}</Link>,
+          address,
+          actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>
+        }
+      });
+
+      setDataSource(dataList)
+    } catch (err) {
+      throw Error;
+    }
+    setLoading(false);
+
+  };
+
+  const showDeleteConfirm = (id: number) => {
+    Modal.confirm({
+      title: 'Tem certeza que desejar apagar?',
+      icon: <ExclamationCircleFilled />,
+      content: 'Essa ação é irreversivel.',
+      okText: 'Sim',
+      okType: 'danger',
+      cancelText: 'Não',
+      onOk() {
+        return new Promise((resolve, reject) => {
+          deleteClient(id!)
+            .then(response => {
+              notification.success({
+                message: 'Sucesso!',
+                description: 'Cliente apagado com sucesso'
+              })
+              fetchData();
+              resolve(response);
+            })
+            .catch(err => {
+              notification.error({
+                message: 'Erro!',
+                description: 'Não foi possivel criar agora, tente mais tarde'
+              });
+              reject();
+            });
+        })
+      },
+    });
+  };
+
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const { data: { data: dataResponse } } = await getClients();
-        const dataList = dataResponse.map((row: ClientResponseDataObject) => {
-          const { id, attributes: { name, address } } = row;
-          return {
-            key: id,
-            name: <Link to={`view/${id}`}>{name}</Link>,
-            address
-          }
-        });
-
-        setdataSource(dataList)
-      } catch (err) {
-        throw Error;
-      }
-    };
-
     fetchData();
-
+    //eslint-disable-next-line
   }, [])
   return (
     <>
       <CTemplatePage>
-        <Table dataSource={dataSource} columns={columns} />
+        {
+          loading ? (
+            <Skeleton />
+          ) : (
+            <Table dataSource={dataSource} columns={columns} />
+          )
+        }
         {/* 
         @todo Review url link
         */}
-        <Button href={'./clients/new'} icon={<UsergroupAddOutlined />} >Criar Cliente</Button>
+        <Button type="primary" href={'./clients/new'} icon={<UsergroupAddOutlined />} >Criar Cliente</Button>
       </CTemplatePage>
     </>
   )
