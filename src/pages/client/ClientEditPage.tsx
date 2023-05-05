@@ -38,7 +38,7 @@ const ClientEditPage: React.FC = () => {
     } catch (err) {
       notification.error({
         message: 'Erro!',
-        description: 'Não foi possivel criar agora, tente mais tarde'
+        description: 'Não foi possivel editar agora, tente mais tarde.'
       })
     }
   }
