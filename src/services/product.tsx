@@ -19,11 +19,11 @@ export interface ProductRequest {
 
 export interface ProductListResponseDataItem {
   id?: number;
-  attributes?: Product;
+  attributes: Product;
 }
 
 export interface ProductListResponse {
-  data?: ProductListResponseDataItem[];
+  data: ProductListResponseDataItem[];
   meta?: {
     pagination?: {
       page?: number;
@@ -37,9 +37,9 @@ export interface ProductListResponse {
 }
 
 export interface Product {
-  name?: string;
+  name: string;
   /** @format float */
-  price?: number;
+  price: number;
   photo?: {
     data?: {
       id?: number;
@@ -287,8 +287,8 @@ export interface Product {
 }
 
 export interface ProductResponseDataObject {
-  id?: number;
-  attributes?: Product;
+  id: number;
+  attributes: Product;
 }
 
 export interface ProductResponse {
@@ -298,4 +298,30 @@ export interface ProductResponse {
 
 export function getProducts() {
   return axios.get(`${devApi}/products`, headerParams)
+}
+
+export function getProductByID(id: string) {
+  return axios.get(`${devApi}/products/${id}`, headerParams)
+}
+
+export function postProducts(data: Product) {
+  return axios.post(`${devApi}/products`,
+    {
+      data,
+      ...headerParams
+    }
+  )
+}
+
+export function putProducts(id: string, data: Product) {
+  return axios.put(`${devApi}/products/${id}`,
+    {
+      data,
+      ...headerParams
+    }
+  )
+}
+
+export function deleteProducts(id: number) {
+  return axios.delete(`${devApi}/products/${id}`, headerParams)
 }
