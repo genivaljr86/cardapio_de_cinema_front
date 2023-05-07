@@ -4,13 +4,14 @@ import { ClientResponseDataObject, deleteClient, getClients } from "../../servic
 import { Link } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage";
 import { ExclamationCircleFilled, UsergroupAddOutlined } from "@ant-design/icons";
+import { ColumnsType } from "antd/es/table";
 
 
 const ClientListPage: React.FC = () => {
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const columns = [
+  const columns: ColumnsType<any> = [
     {
       title: 'Nome',
       dataIndex: 'name'
@@ -21,6 +22,7 @@ const ClientListPage: React.FC = () => {
     },
     {
       title: '',
+      align: 'right',
       dataIndex: 'actions'
     }
   ];
@@ -87,7 +89,10 @@ const ClientListPage: React.FC = () => {
       <CTemplatePage>
         {
           loading ? (
-            <Skeleton />
+            <>
+              <Skeleton />
+              <Skeleton />
+            </>
           ) : (
             <Table dataSource={dataSource} columns={columns} />
           )

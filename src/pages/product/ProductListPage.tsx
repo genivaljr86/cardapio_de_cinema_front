@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Table, notification } from "antd";
+import { Button, Modal, Skeleton, Table, notification } from "antd";
+import { CoffeeOutlined, ExclamationCircleFilled } from "@ant-design/icons";
+import { ColumnsType } from 'antd/lib/table'
 import CTemplatePage from "../../components/CTemplatePage";
 import { ProductResponseDataObject, deleteProducts, getProducts } from "../../services/product";
-import { CoffeeOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import currencyFilter from "../../utils/currencyFilter";
 
 const ProductsListPage: React.FC = () => {
   const [dataSource, setdataSource] = useState([]);
-  const columns = [
+  const [loading, setLoading] = useState(false);
+
+  const columns: ColumnsType<any> = [
     {
       title: 'Nome',
       dataIndex: 'name'
@@ -20,6 +23,7 @@ const ProductsListPage: React.FC = () => {
     },
     {
       title: '',
+      align: 'right',
       dataIndex: 'actions'
     }
   ];
@@ -41,6 +45,8 @@ const ProductsListPage: React.FC = () => {
     } catch (err) {
       throw err;
     }
+
+    setLoading(false);
   }
 
   const showDeleteConfirm = (id: number) => {
@@ -65,7 +71,7 @@ const ProductsListPage: React.FC = () => {
             .catch(err => {
               notification.error({
                 message: 'Erro!',
-                description: 'Não foi possivel criar agora, tente mais tarde'
+                description: 'Não foi possivel apagar agora, tente mais tarde'
               });
               reject(err);
             });
@@ -76,13 +82,27 @@ const ProductsListPage: React.FC = () => {
 
 
   useEffect(() => {
+    setLoading(true);
     fetchData();
     // eslint-disable-next-line
   }, [])
   return (
     <>
       <CTemplatePage>
-        <Table dataSource={dataSource} columns={columns} />
+        {
+          loading ? (
+            <>
+              <Skeleton />
+              <Skeleton />
+            </>
+          ) : (
+            <Table
+              // @todo Create pagination and loading in table 
+              //loading={loading}
+              dataSource={dataSource}
+              columns={columns} />
+          )
+        }
         <Button type="primary" href={'./products/new'} icon={<CoffeeOutlined />} >Criar Produto</Button>
       </CTemplatePage>
     </>
