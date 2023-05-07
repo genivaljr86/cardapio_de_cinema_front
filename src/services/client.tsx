@@ -11,6 +11,7 @@ const headerParams = {
 export interface Client {
   name?: string;
   address?: string;
+  phone?: string;
   /** @format date-time */
   createdAt?: string;
   /** @format date-time */
