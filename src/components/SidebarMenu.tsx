@@ -1,4 +1,4 @@
-import { CoffeeOutlined, HomeOutlined, PoweroffOutlined, TeamOutlined } from "@ant-design/icons";
+import { CoffeeOutlined, DollarOutlined, HomeOutlined, PoweroffOutlined, TeamOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
@@ -30,6 +30,11 @@ const SidebarMenu: React.FC = () => {
       key: '/app/clients',
       icon: <TeamOutlined />,
       label: <Link to={'clients'}>Clientes</Link>
+    },
+    {
+      key: '/app/orders',
+      icon: <DollarOutlined />,
+      label: <Link to={'orders'}>Vendas</Link>
     },
     {
       key: 'logout',

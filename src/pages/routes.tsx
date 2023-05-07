@@ -4,6 +4,7 @@ import ClientPageRoutes from "./client/routes";
 import LoginPageRoutes from "./login/routes";
 import ProductPageRoutes from "./product/routes";
 import ErrorPage from "./error/ErrorPage";
+import OrderPageRoutes from "./order/routes";
 
 const HomePageRoute = {
   index: true,
@@ -19,7 +20,8 @@ const AppSubRoutes = {
   children: [
     HomePageRoute,
     ClientPageRoutes,
-    ProductPageRoutes
+    ProductPageRoutes,
+    OrderPageRoutes
   ]
 };
 
