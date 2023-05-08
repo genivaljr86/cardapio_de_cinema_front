@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CTemplatePage from "../../components/CTemplatePage"
 import { ProductResponseDataObject, getProductByID } from "../../services/product";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button, Descriptions, Skeleton } from "antd";
 import currencyFilter from "../../utils/currencyFilter";
 
@@ -42,10 +42,9 @@ const ProductViewPage: React.FC = () => {
                   {currencyFilter(productDataAttributes.price)}
                 </Descriptions.Item>
               </Descriptions>
-              {/* 
-                @todo Review url link
-              */}
-              <Button onClick={() => navigate(`../edit/${id}`)} type="primary">Editar Produto</Button>
+              <Link to={`../edit/${id}`}>
+                <Button type="primary">Editar Produto</Button>
+              </Link>
             </>
           )
       }

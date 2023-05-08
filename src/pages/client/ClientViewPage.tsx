@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
 import { useEffect, useState } from "react";
 import { ClientResponseDataObject, getClientByID } from "../../services/client";
@@ -38,10 +38,9 @@ const ClientViewPage: React.FC = () => {
                 <Descriptions.Item label={'Nome'}>{clientData.attributes?.name}</Descriptions.Item>
                 <Descriptions.Item label={'Endereço'}>{clientData.attributes?.address}</Descriptions.Item>
               </Descriptions>
-              {/* 
-                @todo Review url link
-              */}
-              <Button onClick={() => navigate(`../edit/${id}`)} type="primary">Editar Cliente</Button>
+              <Link to={`../edit/${id}`}>
+                <Button type="primary">Editar Cliente</Button>
+              </Link>
             </>
           )
       }

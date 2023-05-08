@@ -103,7 +103,9 @@ const ProductsListPage: React.FC = () => {
               columns={columns} />
           )
         }
-        <Button type="primary" href={'./products/new'} icon={<CoffeeOutlined />} >Criar Produto</Button>
+        <Link to={`./new`}>
+          <Button type="primary" icon={<CoffeeOutlined />}>Criar Produto</Button>
+        </Link>
       </CTemplatePage>
     </>
   )

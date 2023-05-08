@@ -91,16 +91,14 @@ const ClientListPage: React.FC = () => {
           loading ? (
             <>
               <Skeleton />
-              <Skeleton />
             </>
           ) : (
             <Table dataSource={dataSource} columns={columns} />
           )
         }
-        {/* 
-          @todo Review url link
-        */}
-        <Button type="primary" href={'./clients/new'} icon={<UsergroupAddOutlined />} >Criar Cliente</Button>
+        <Link to={'./new'}>
+          <Button type="primary" icon={<UsergroupAddOutlined />}>Criar Cliente</Button>
+        </Link>
       </CTemplatePage>
     </>
   )
