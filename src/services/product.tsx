@@ -296,8 +296,11 @@ export interface ProductResponse {
   meta?: object;
 }
 
-export function getProducts() {
-  return axios.get(`${devApi}/products`, headerParams)
+export function getProducts(params?: any) {
+  return axios.get(`${devApi}/products`, {
+    params,
+    ...headerParams
+  })
 }
 
 export function getProductByID(id: string) {

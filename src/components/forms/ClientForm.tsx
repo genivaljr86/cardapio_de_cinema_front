@@ -21,6 +21,10 @@ const ClientForm: React.FC<{ form: FormInstance, onFinish: any }> = ({ form, onF
         rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
         <Input placeholder="Insira o endereço completo" />
       </Form.Item>
+      <Form.Item name="phone" label="Telefone"
+        rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
+        <Input placeholder="Insira o telefone" />
+      </Form.Item>
       <Form.Item >
         <Space size="small">
           <Button type="primary" htmlType="submit">Salvar</Button>

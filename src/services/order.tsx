@@ -396,8 +396,13 @@ export interface OrderResponse {
   meta?: object;
 }
 
-export function getOrders() {
-  return axios.get(`${devApi}/orders`, headerParams)
+export function getOrders(params?: any) {
+  return axios.get(`${devApi}/orders`,
+    {
+      params,
+      ...headerParams
+    }
+  )
 }
 
 export function getOrderByID(id: string) {

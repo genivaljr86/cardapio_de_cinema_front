@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Skeleton, Table, notification } from "antd";
+import { Button, Modal, Table, TablePaginationConfig, notification } from "antd";
 import { CoffeeOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { ColumnsType } from 'antd/lib/table'
 import CTemplatePage from "../../components/CTemplatePage";
 import { ProductResponseDataObject, deleteProducts, getProducts } from "../../services/product";
 import { Link } from "react-router-dom";
 import currencyFilter from "../../utils/currencyFilter";
+import Constants from "../../constants";
+
+interface TableParams {
+  pagination?: TablePaginationConfig;
+}
 
 const ProductsListPage: React.FC = () => {
+  const { pagination: { pageSize } } = Constants;
+
   const [dataSource, setdataSource] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize,
+    },
+  });
 
   const columns: ColumnsType<any> = [
     {
@@ -30,9 +44,13 @@ const ProductsListPage: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const { data: { data: dataResponse } } = await getProducts();
+      const params = {
+        'pagination[page]': tableParams.pagination?.current,
+        'pagination[pageSize]': tableParams.pagination?.pageSize
+      }
+      const { data: { data: dataResponse, meta: { pagination } } } = await getProducts(params);
       const dataList = dataResponse.map((row: ProductResponseDataObject) => {
-        const { id, attributes: { name, price } } = row;
+        const { id, attributes: { name, price, } } = row;
         return {
           key: id,
           name: <Link to={`view/${id}`}>{name}</Link>,
@@ -40,13 +58,25 @@ const ProductsListPage: React.FC = () => {
           actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>
         }
       });
-      setdataSource(dataList)
+      setdataSource(dataList);
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: pagination.total
+        },
+      });
 
     } catch (err) {
       throw err;
     }
 
     setLoading(false);
+  }
+  const handleTableChange = (
+    pagination: TablePaginationConfig
+  ) => {
+    setTableParams({ pagination })
   }
 
   const showDeleteConfirm = (id: number) => {
@@ -85,24 +115,16 @@ const ProductsListPage: React.FC = () => {
     setLoading(true);
     fetchData();
     // eslint-disable-next-line
-  }, [])
+  }, [JSON.stringify(tableParams)])
   return (
     <>
       <CTemplatePage>
-        {
-          loading ? (
-            <>
-              <Skeleton />
-              <Skeleton />
-            </>
-          ) : (
-            <Table
-              // @todo Create pagination and loading in table 
-              //loading={loading}
-              dataSource={dataSource}
-              columns={columns} />
-          )
-        }
+        <Table
+          loading={loading}
+          dataSource={dataSource}
+          pagination={tableParams.pagination}
+          onChange={handleTableChange}
+          columns={columns} />
         <Link to={`./new`}>
           <Button type="primary" icon={<CoffeeOutlined />}>Criar Produto</Button>
         </Link>

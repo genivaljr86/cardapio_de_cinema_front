@@ -28,8 +28,13 @@ export interface ClientResponse {
   meta?: object;
 }
 
-export function getClients() {
-  return axios.get(`${devApi}/clients`, headerParams)
+export function getClients(params?: any) {
+  return axios.get(`${devApi}/clients`,
+    {
+      params,
+      ...headerParams
+    }
+  )
 }
 
 export function getClientByID(id: string) {

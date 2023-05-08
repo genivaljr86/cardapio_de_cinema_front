@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Skeleton, Table, notification } from "antd";
+import { Button, Modal, Table, notification } from "antd";
 import { ClientResponseDataObject, deleteClient, getClients } from "../../services/client";
 import { Link } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage";
 import { ExclamationCircleFilled, UsergroupAddOutlined } from "@ant-design/icons";
-import { ColumnsType } from "antd/es/table";
+import { ColumnsType, TablePaginationConfig } from "antd/es/table";
+import Constants from "../../constants";
+
+interface TableParams {
+  pagination?: TablePaginationConfig;
+}
 
 
 const ClientListPage: React.FC = () => {
+  const { pagination: { pageSize } } = Constants;
+
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize,
+    },
+  });
 
   const columns: ColumnsType<any> = [
     {
@@ -30,7 +44,11 @@ const ClientListPage: React.FC = () => {
   async function fetchData() {
     setLoading(true);
     try {
-      const { data: { data: dataResponse } } = await getClients();
+      const params = {
+        'pagination[page]': tableParams.pagination?.current,
+        'pagination[pageSize]': tableParams.pagination?.pageSize
+      }
+      const { data: { data: dataResponse, meta: { pagination } } } = await getClients(params);
       const dataList = dataResponse.map((row: ClientResponseDataObject) => {
         const { id, attributes: { name, address } } = row;
         return {
@@ -41,13 +59,27 @@ const ClientListPage: React.FC = () => {
         }
       });
 
-      setDataSource(dataList)
+      setDataSource(dataList);
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: pagination.total
+        },
+      });
+
     } catch (err) {
       throw Error;
     }
     setLoading(false);
 
   };
+
+  const handleTableChange = (
+    pagination: TablePaginationConfig
+  ) => {
+    setTableParams({ pagination })
+  }
 
   const showDeleteConfirm = (id: number) => {
     Modal.confirm({
@@ -83,19 +115,15 @@ const ClientListPage: React.FC = () => {
   useEffect(() => {
     fetchData();
     //eslint-disable-next-line
-  }, [])
+  }, [JSON.stringify(tableParams)])
   return (
     <>
       <CTemplatePage>
-        {
-          loading ? (
-            <>
-              <Skeleton />
-            </>
-          ) : (
-            <Table dataSource={dataSource} columns={columns} />
-          )
-        }
+        <Table loading={loading}
+          dataSource={dataSource}
+          pagination={tableParams.pagination}
+          onChange={handleTableChange}
+          columns={columns} />
         <Link to={'./new'}>
           <Button type="primary" icon={<UsergroupAddOutlined />}>Criar Cliente</Button>
         </Link>

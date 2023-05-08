@@ -4,13 +4,26 @@ import { ColumnsType } from "antd/lib/table";
 import { OrderResponseDataObject, deleteOrders, getOrders } from "../../services/order";
 import { Link } from "react-router-dom";
 import currencyFilter from "../../utils/currencyFilter";
-import { Button, Modal, Skeleton, Table, notification } from "antd";
+import { Button, Modal, Table, TablePaginationConfig, notification } from "antd";
 import { DollarCircleOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import dateTimeFilter from "../../utils/dateTimeFilter";
+import Constants from "../../constants";
+
+interface TableParams {
+  pagination?: TablePaginationConfig;
+}
 
 const OrderListPage: React.FC = () => {
+  const { pagination: { pageSize } } = Constants;
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [tableParams, setTableParams] = useState<TableParams>({
+    pagination: {
+      current: 1,
+      pageSize
+    },
+  });
 
   const columns: ColumnsType<any> = [
     {
@@ -40,7 +53,11 @@ const OrderListPage: React.FC = () => {
   async function fetchData() {
     setLoading(true);
     try {
-      const { data: { data: dataResponse } } = await getOrders();
+      const params = {
+        'pagination[page]': tableParams.pagination?.current,
+        'pagination[pageSize]': tableParams.pagination?.pageSize
+      }
+      const { data: { data: dataResponse, meta: { pagination } } } = await getOrders(params);
       const dataList = dataResponse.map((row: OrderResponseDataObject) => {
         const { id, attributes: { name, address, amount_price, delivery_date } } = row;
         return {
@@ -53,12 +70,25 @@ const OrderListPage: React.FC = () => {
           actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>
         }
       });
-      setDataSource(dataList)
+      setDataSource(dataList);
+      setTableParams({
+        ...tableParams,
+        pagination: {
+          ...tableParams.pagination,
+          total: pagination.total
+        },
+      });
     } catch (err) {
       throw err;
     }
     setLoading(false);
   };
+
+  const handleTableChange = (
+    pagination: TablePaginationConfig
+  ) => {
+    setTableParams({ pagination })
+  }
 
   const showDeleteConfirm = (id: number) => {
     Modal.confirm({
@@ -94,20 +124,16 @@ const OrderListPage: React.FC = () => {
   useEffect(() => {
     fetchData();
     //eslint-disable-next-line
-  }, [])
+  }, [JSON.stringify(tableParams)])
 
   return (
     <CTemplatePage>
-      {
-        loading ? (
-          <>
-            <Skeleton />
-            <Skeleton />
-          </>
-        ) : (
-          <Table dataSource={dataSource} columns={columns} />
-        )
-      }
+      <Table
+        loading={loading}
+        dataSource={dataSource}
+        pagination={tableParams.pagination}
+        onChange={handleTableChange}
+        columns={columns} />
       <Link to={'./new'}>
         <Button type="primary" icon={<DollarCircleOutlined />} >Criar Venda</Button>
       </Link>

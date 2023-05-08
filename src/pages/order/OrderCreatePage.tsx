@@ -1,20 +1,43 @@
 import { useNavigate } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
-import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, SelectProps, Space, notification } from "antd";
+import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Select, Space, Table, notification } from "antd";
 import { Order, postOrders } from "../../services/order";
 import { useEffect, useState } from "react";
 import { Client, ClientResponseDataObject, getClients } from "../../services/client";
-import locale from "antd/es/date-picker/locale/pt_BR";
-import dayjs from "dayjs";
 import { dateRequestFilter } from "../../utils/dateTimeFilter";
+import { OptionProps } from "antd/es/select";
+import { Product, ProductResponseDataObject, getProducts } from "../../services/product";
+import { OrderDetail, postOrderDetails } from "../../services/orderDetail";
+import currencyFilter from "../../utils/currencyFilter";
+import { ColumnsType } from "antd/es/table";
+
+const columns: ColumnsType<any> = [
+  {
+    title: 'Nome',
+    dataIndex: 'name'
+  },
+  {
+    title: 'Quantidade',
+    dataIndex: 'quantity',
+    align: 'right'
+  },
+  {
+    title: 'Preço',
+    dataIndex: 'price',
+    align: 'right'
+  },
+
+]
 
 const OrderCreatePage: React.FC = () => {
   const [form] = Form.useForm();
   const [clientsList, setClientsList] = useState<Client[]>([])
-  const [clientListOptions, setClientListOptions] = useState([])
-  const [productsList, setProductsList] = useState([])
+  const [clientListOptions, setClientListOptions] = useState<OptionProps[]>([])
   const [clientsLoading, setClientsLoading] = useState(false)
+  const [productsList, setProductsList] = useState<Product[]>([])
+  const [productListOptions, setProductListOptions] = useState<OptionProps[]>([])
   const [productsLoading, setProductsLoading] = useState(false)
+  const [orderDetails, setOrderDetails] = useState<OrderDetail[]>([]);
   const navigate = useNavigate();
 
   async function fetchClientsData() {
@@ -43,26 +66,74 @@ const OrderCreatePage: React.FC = () => {
     setClientsLoading(false);
   }
 
-  const handleChangeClient = (id: any) => {
-    form.setFieldValue('name', clientsList[id].name)
-    form.setFieldValue('address', clientsList[id].address)
-    form.setFieldValue('phone', clientsList[id].phone)
+  async function fetchProductsData() {
+    setProductsLoading(true);
+    try {
+      const productListHandle: Product[] = [];
+      const { data: { data: dataResponse } } = await getProducts();
+      const orderListOptionsHandle = dataResponse.map((row: ProductResponseDataObject) => {
+        const { id, attributes: { name, price } } = row;
+        /**
+         * @todo Remove this conditional for reasons of TS
+         */
+        if (id) {
+          productListHandle[id] = { name, price };
+        }
+        return {
+          value: id,
+          label: name
+        }
+      });
+      setProductsList(productListHandle);
+      setProductListOptions(orderListOptionsHandle);
+    } catch (err) {
+      throw err;
+    }
+    setProductsLoading(false);
   }
 
   useEffect(() => {
     fetchClientsData();
   }, [])
 
-  const onFinish = async (values: Order) => {
-    console.log("values", values);
-    console.log('data', dateRequestFilter(values.delivery_date));
+  useEffect(() => {
+    fetchProductsData();
+  }, [])
 
-    const valuesHandled = {
+  const handleChangeClient = (id: any) => {
+    form.setFieldValue('name', clientsList[id].name)
+    form.setFieldValue('address', clientsList[id].address)
+    form.setFieldValue('phone', clientsList[id].phone)
+  }
+
+  const handleChangeProduct = (id: any) => {
+    const orderDetail: OrderDetail = {
+      product_id: id,
+      quantity: 1,
+      ...productsList[id]
+    };
+    setOrderDetails([
+      ...orderDetails,
+      orderDetail
+    ])
+  }
+
+  const onFinish = async (values: Order) => {
+    const orderHandled = {
       ...values,
       delivery_date: dateRequestFilter(values.delivery_date)
     }
+
+    /**
+     * @todo Create endpoint for Bulk Request Order Details
+     */
     try {
-      const { data: { data: { id } } } = await postOrders(valuesHandled);
+      const { data: { data: { id } } } = await postOrders(orderHandled);
+      const orderDetailHandled = {
+        order_id: id,
+        ...orderDetails[0]
+      }
+      await postOrderDetails(orderDetailHandled);
       notification.success({
         message: 'Sucesso!',
         description: `A venda de ${values.name} foi criada!`
@@ -89,6 +160,11 @@ const OrderCreatePage: React.FC = () => {
             <Form.Item name="client" label="Cliente"
               rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
               <Select
+                showSearch
+                placeholder="Escolha um cliente"
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
                 loading={clientsLoading}
                 options={clientListOptions}
                 onChange={handleChangeClient} />
@@ -108,11 +184,32 @@ const OrderCreatePage: React.FC = () => {
             <Form.Item name="delivery_date" label="Data de Entrega">
               <DatePicker />
             </Form.Item>
-            <Form.Item name="amount_price" label="Valor Total" initialValue={22.40}>
+            <Form.Item hidden name="amount_price" label="Valor Total" initialValue={22.40}>
               <InputNumber readOnly bordered={false} prefix="R$" />
             </Form.Item>
           </Col>
         </Row>
+        <Select
+          showSearch
+          placeholder="Escolha um produto"
+          filterOption={(input, option) =>
+            (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+          }
+          loading={productsLoading}
+          options={productListOptions}
+          onChange={handleChangeProduct}
+        />
+        <Table
+          dataSource={
+            orderDetails.map((order, index) => ({
+              key: index,
+              name: order?.name,
+              quantity: order?.quantity,
+              price: currencyFilter(order?.price)
+            }))
+          }
+          columns={columns}
+        />
         <Form.Item >
           <Space size="small">
             <Button type="primary" htmlType="submit">Salvar</Button>
