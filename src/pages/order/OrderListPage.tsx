@@ -108,7 +108,9 @@ const OrderListPage: React.FC = () => {
           <Table dataSource={dataSource} columns={columns} />
         )
       }
-      <Button type="primary" href={'./orders/new'} icon={<DollarCircleOutlined />} >Criar Venda</Button>
+      <Link to={'./new'}>
+        <Button type="primary" icon={<DollarCircleOutlined />} >Criar Venda</Button>
+      </Link>
     </CTemplatePage>
   )
 }
