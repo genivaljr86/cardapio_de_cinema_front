@@ -22,8 +22,8 @@ const OrderViewPage: React.FC = () => {
       } catch (err) {
         throw err;
       }
+      setLoading(false)
     }
-    setLoading(false)
     fetchData();
     // eslint-disable-next-line
   }, [])

@@ -67,7 +67,7 @@ const OrderCreatePage: React.FC = () => {
         message: 'Sucesso!',
         description: `A venda de ${values.name} foi criada!`
       })
-      // navigate(`../view/${id}`);
+      navigate(`../view/${id}`);
     } catch (err) {
       notification.error({
         message: 'Erro!',
@@ -116,9 +116,6 @@ const OrderCreatePage: React.FC = () => {
         <Form.Item >
           <Space size="small">
             <Button type="primary" htmlType="submit">Salvar</Button>
-            {/* <Button htmlType="button" type="link" onClick={onReset}>
-            Limpar
-          </Button> */}
           </Space>
         </Form.Item>
       </Form>
