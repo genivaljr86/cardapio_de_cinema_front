@@ -19,6 +19,7 @@ export interface Error {
   };
 }
 
+
 export interface ClientRequest {
   data: {
     name: string;
