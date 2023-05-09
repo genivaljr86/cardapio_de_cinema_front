@@ -405,23 +405,28 @@ export function getOrders(params?: any) {
   )
 }
 
-export function getOrderByID(id: string) {
-  return axios.get(`${devApi}/orders/${id}`, headerParams)
-}
-
-export function postOrders(data: Order) {
-  return axios.post(`${devApi}/orders`,
+export function getOrderByID(id: string, params?: any) {
+  return axios.get(`${devApi}/orders/${id}`,
     {
-      data,
+      params,
       ...headerParams
     }
   )
 }
 
-export function putOrders(id: string, data: Order) {
-  return axios.put(`${devApi}/orders/${id}`,
+export function postOrders(data: Order, params?: any) {
+  return axios.post(`${devApi}/orders`, { data },
     {
-      data,
+      params,
+      ...headerParams
+    }
+  )
+}
+
+export function putOrders(id: string, data: Order, params?: any) {
+  return axios.put(`${devApi}/orders/${id}`, { data },
+    {
+      params,
       ...headerParams
     }
   )

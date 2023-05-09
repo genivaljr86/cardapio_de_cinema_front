@@ -6,8 +6,7 @@ import dayjs from "dayjs";
  * @returns Converted date. e.g: terça-feira, 23 de maio de 2023
  */
 export default function dateTimeFilter(value: string, opts?: Object) {
-
-  return new Intl.DateTimeFormat('pt-BR', { ...opts, dateStyle: 'full' }).format(new Date(value));
+  return value === undefined ? '' : new Intl.DateTimeFormat('pt-BR', { ...opts, dateStyle: 'full' }).format(new Date(value));
 }
 /**
  * Filter to send date in server format

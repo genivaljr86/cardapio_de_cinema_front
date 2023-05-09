@@ -39,6 +39,12 @@ export interface OrderDetail {
     };
   };
 }
+
+export interface OrderDetailResponseDataObject {
+  id?: number;
+  attributes?: OrderDetail;
+}
+
 export function getOrderDetails(params?: any) {
   return axios.get(`${devApi}/order-details`,
     {
@@ -48,28 +54,33 @@ export function getOrderDetails(params?: any) {
   )
 }
 
-export function getOrderDetailByID(id: string) {
-  return axios.get(`${devApi}/order-details/${id}`, headerParams)
-}
-
-export function postOrderDetails(data: OrderDetail) {
-  return axios.post(`${devApi}/order-details`,
+export function getOrderDetailByID(id: string, params?: any) {
+  return axios.get(`${devApi}/order-details/${id}`,
     {
-      data,
+      params,
       ...headerParams
     }
   )
 }
 
-export function putOrderDetail(id: string, data: OrderDetail) {
-  return axios.put(`${devApi}/order-details/${id}`,
+export function postOrderDetails(data: OrderDetail, params?: any) {
+  return axios.post(`${devApi}/order-details`, { data },
     {
-      data,
+      params,
       ...headerParams
     }
   )
 }
 
-export function deleteOrderDetail(id: number) {
+export function putOrderDetail(id: string, data: OrderDetail, params?: any) {
+  return axios.put(`${devApi}/order-details/${id}`, { data },
+    {
+      params,
+      ...headerParams
+    }
+  )
+}
+
+export function deleteOrderDetail(id: number, params?: any) {
   return axios.delete(`${devApi}/order-details/${id}`, headerParams)
 }

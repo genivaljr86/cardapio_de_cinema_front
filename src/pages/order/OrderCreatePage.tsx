@@ -25,8 +25,7 @@ const columns: ColumnsType<any> = [
     title: 'Preço',
     dataIndex: 'price',
     align: 'right'
-  },
-
+  }
 ]
 
 const OrderCreatePage: React.FC = () => {
@@ -138,7 +137,7 @@ const OrderCreatePage: React.FC = () => {
         message: 'Sucesso!',
         description: `A venda de ${values.name} foi criada!`
       })
-      navigate(`../view/${id}`);
+      // navigate(`../view/${id}`);
     } catch (err) {
       notification.error({
         message: 'Erro!',
