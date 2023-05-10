@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import CTemplatePage from "../../components/CTemplatePage"
 import { ProductResponseDataObject, getProductByID } from "../../services/product";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Button, Descriptions, Skeleton } from "antd";
 import currencyFilter from "../../utils/currencyFilter";
 
@@ -11,12 +11,10 @@ const ProductViewPage: React.FC = () => {
   const [productDataAttributes, setproductDataAttributes] = useState({} as ProductResponseDataObject['attributes']);
   const [loading, setLoading] = useState(true)
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { data: { attributes } } } = await getProductByID(id!);
+        const { data: { attributes } } = await getProductByID(id!);
         setproductDataAttributes(attributes)
       } catch (err) {
         console.log("err", err);

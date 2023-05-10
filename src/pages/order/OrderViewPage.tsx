@@ -36,7 +36,7 @@ const OrderViewPage: React.FC = () => {
     setLoading(true)
     const fetchData = async () => {
       try {
-        const { data: { data: orderDataResponse } } = await getOrderByID(id!, { 'populate[0]': 'client' });
+        const { data: orderDataResponse } = await getOrderByID(id!, { 'populate[0]': 'client' });
         setOrderData(orderDataResponse);
         const { data: { data: orderDetailsDataResponse } } = await getOrderDetails({ 'filters[order_id]': id });
         setOrderDetails(orderDetailsDataResponse);

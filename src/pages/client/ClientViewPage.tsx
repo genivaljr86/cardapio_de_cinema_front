@@ -13,7 +13,7 @@ const ClientViewPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data: { data: dataResponse } } = await getClientByID(id!);
+        const { data: dataResponse } = await getClientByID(id!);
         setclientData(dataResponse)
       } catch (err) {
         console.log("err", err);

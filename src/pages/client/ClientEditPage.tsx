@@ -14,7 +14,7 @@ const ClientEditPage: React.FC = () => {
   async function fetchData() {
     setLoading(true);
     try {
-      const { data: { data: { attributes: { name, address, phone } } } } = await getClientByID(id!);
+      const { data: { attributes: { name, address, phone } } } = await getClientByID(id!);
       form.setFieldsValue({ name, address, phone })
     } catch (err) {
       throw err;

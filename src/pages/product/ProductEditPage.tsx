@@ -15,7 +15,7 @@ const ProductEditPage: React.FC = () => {
   async function fetchData() {
     setLoading(true);
     try {
-      const { data: { data: { attributes: { name, price } } } } = await getProductByID(id!);
+      const { data: { attributes: { name, price } } } = await getProductByID(id!);
       form.setFieldsValue({ name, price })
     } catch (err) {
       throw err;
