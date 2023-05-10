@@ -10,7 +10,7 @@ const ClientViewPage: React.FC = () => {
   const { id } = useParams();
   const [clientData, setclientData] = useState({} as ClientResponseDataObject);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<undefined | AxiosError>(undefined)
+  const [error, setError] = useState<AxiosError | undefined>(undefined)
 
   useEffect(() => {
     const fetchData = async () => {

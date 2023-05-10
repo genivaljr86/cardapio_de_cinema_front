@@ -32,7 +32,7 @@ const OrderViewPage: React.FC = () => {
   const [orderData, setOrderData] = useState<OrderResponseDataObject>();
   const [orderDetails, setOrderDetails] = useState<OrderDetailResponseDataObject[]>()
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<undefined | AxiosError>(undefined)
+  const [error, setError] = useState<AxiosError | undefined>(undefined)
 
   useEffect(() => {
     setLoading(true)

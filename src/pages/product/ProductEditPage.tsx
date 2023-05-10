@@ -9,7 +9,7 @@ import { AxiosError } from "axios";
 const ProductEditPage: React.FC = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<undefined | AxiosError>(undefined)
+  const [error, setError] = useState<AxiosError | undefined>(undefined)
   const navigate = useNavigate();
   const { id } = useParams();
 

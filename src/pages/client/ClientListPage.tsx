@@ -18,7 +18,7 @@ const ClientListPage: React.FC = () => {
 
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<undefined | AxiosError>(undefined)
+  const [error, setError] = useState<AxiosError | undefined>(undefined)
 
 
   const [tableParams, setTableParams] = useState<TableParams>({
