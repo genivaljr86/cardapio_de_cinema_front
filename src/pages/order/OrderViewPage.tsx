@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
 import { useEffect, useState } from "react";
 import { OrderResponseDataObject, getOrderByID } from "../../services/order";
@@ -7,7 +7,6 @@ import currencyFilter from "../../utils/currencyFilter";
 import { OrderDetailResponseDataObject, getOrderDetails } from "../../services/orderDetail";
 import { ColumnsType } from "antd/es/table";
 import dateTimeFilter from "../../utils/dateTimeFilter";
-
 
 const columns: ColumnsType<any> = [
   {
@@ -31,9 +30,7 @@ const OrderViewPage: React.FC = () => {
   const { id } = useParams();
   const [orderData, setOrderData] = useState<OrderResponseDataObject>();
   const [orderDetails, setOrderDetails] = useState<OrderDetailResponseDataObject[]>()
-  const [loading, setLoading] = useState(false)
-
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setLoading(true)
@@ -60,33 +57,35 @@ const OrderViewPage: React.FC = () => {
             <Skeleton active />
             <Skeleton active />
           </>
+        ) : (
+          <>
+            <Descriptions title={'Dados de Entrega'}>
+              <Descriptions.Item label={'Nome'}>{orderData?.attributes.name}</Descriptions.Item>
+              <Descriptions.Item label={'Endereço de Entrega'}>{orderData?.attributes.address}</Descriptions.Item>
+              <Descriptions.Item label={'Telefone'}>{orderData?.attributes.phone}</Descriptions.Item>
+              <Descriptions.Item label={'Data de Entrega'}>
+                {dateTimeFilter(orderData?.attributes.delivery_date!)}
+              </Descriptions.Item>
+              <Descriptions.Item label={'Valor Total'}>
+                {currencyFilter(orderData?.attributes.amount_price!)}
+              </Descriptions.Item>
+            </Descriptions>
+            <Descriptions title={'Produtos'}>
+            </Descriptions>
+            <Table
+              dataSource={
+                orderDetails?.map(({ attributes }, index) => ({
+                  key: index,
+                  name: attributes?.name,
+                  quantity: attributes?.quantity,
+                  price: currencyFilter(attributes?.price!)
+                }))
+              }
+              columns={columns}
+              showHeader={false}
+            />
+          </>
         )
-          :
-          (
-            <>
-              <Descriptions title={'Dados de Entrega'}>
-                <Descriptions.Item label={'Nome'}>{orderData?.attributes.name}</Descriptions.Item>
-                <Descriptions.Item label={'Endereço de Entrega'}>{orderData?.attributes.address}</Descriptions.Item>
-                <Descriptions.Item label={'Telefone'}>{orderData?.attributes.phone}</Descriptions.Item>
-                <Descriptions.Item label={'Data de Entrega'}>{dateTimeFilter(orderData?.attributes.delivery_date!)}</Descriptions.Item>
-                <Descriptions.Item label={'Valor Total'}>{currencyFilter(orderData?.attributes.amount_price!)}</Descriptions.Item>
-              </Descriptions>
-              <Descriptions title={'Produtos'}>
-              </Descriptions>
-              <Table
-                showHeader={false}
-                dataSource={
-                  orderDetails?.map(({ attributes }, index) => ({
-                    key: index,
-                    name: attributes?.name,
-                    quantity: attributes?.quantity,
-                    price: currencyFilter(attributes?.price!)
-                  }))
-                }
-                columns={columns}
-              />
-            </>
-          )
       }
     </CTemplatePage>
   )

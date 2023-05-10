@@ -7,7 +7,7 @@ import { Client, ClientResponseDataObject, getClients } from "../../services/cli
 import { dateRequestFilter } from "../../utils/dateTimeFilter";
 import { OptionProps } from "antd/es/select";
 import { Product, ProductResponseDataObject, getProducts } from "../../services/product";
-import { OrderDetail, postOrderDetails } from "../../services/orderDetail";
+import { OrderDetail, postBulkOrderDetails } from "../../services/orderDetail";
 import currencyFilter from "../../utils/currencyFilter";
 import { ColumnsType } from "antd/es/table";
 
@@ -127,17 +127,20 @@ const OrderCreatePage: React.FC = () => {
      * @todo Create endpoint for Bulk Request Order Details
      */
     try {
-      const { data: { data: { id } } } = await postOrders(orderHandled);
-      const orderDetailHandled = {
-        order_id: id,
-        ...orderDetails[0]
-      }
-      await postOrderDetails(orderDetailHandled);
+      const { data: { data: { id: order_id } } } = await postOrders(orderHandled);
+      const orderDetailsHandled = orderDetails.map(orderDetail => (
+        {
+          order_id,
+          ...orderDetail
+        }
+      ))
+
+      await postBulkOrderDetails(orderDetailsHandled);
       notification.success({
         message: 'Sucesso!',
         description: `A venda de ${values.name} foi criada!`
       })
-      // navigate(`../view/${id}`);
+      navigate(`../view/${order_id}`);
     } catch (err) {
       notification.error({
         message: 'Erro!',

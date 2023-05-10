@@ -72,6 +72,15 @@ export function postOrderDetails(data: OrderDetail, params?: any) {
   )
 }
 
+export function postBulkOrderDetails(data: OrderDetail[], params?: any) {
+  return axios.post(`${devApi}/bulk-order-details`, { data },
+    {
+      params,
+      ...headerParams
+    }
+  )
+}
+
 export function putOrderDetail(id: string, data: OrderDetail, params?: any) {
   return axios.put(`${devApi}/order-details/${id}`, { data },
     {
