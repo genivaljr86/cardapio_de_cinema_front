@@ -1,12 +1,4 @@
-import axios from "axios";
-import Constants from "../constants";
-
-const { devApi, devToken } = Constants;
-const headerParams = {
-  headers: {
-    Authorization: `Bearer ${devToken}`
-  }
-};
+import { request } from "../utils/request";
 
 
 export interface OrderDetail {
@@ -46,50 +38,25 @@ export interface OrderDetailResponseDataObject {
 }
 
 export function getOrderDetails(params?: any) {
-  return axios.get(`${devApi}/order-details`,
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.get(`/order-details`, { params })
 }
 
 export function getOrderDetailByID(id: string, params?: any) {
-  return axios.get(`${devApi}/order-details/${id}`,
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.get(`/order-details/${id}`, { params })
 }
 
 export function postOrderDetails(data: OrderDetail, params?: any) {
-  return axios.post(`${devApi}/order-details`, { data },
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.post(`/order-details`, { data }, { params })
 }
 
 export function postBulkOrderDetails(data: OrderDetail[], params?: any) {
-  return axios.post(`${devApi}/bulk-order-details`, { data },
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.post(`/bulk-order-details`, { data }, { params })
 }
 
 export function putOrderDetail(id: string, data: OrderDetail, params?: any) {
-  return axios.put(`${devApi}/order-details/${id}`, { data },
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.put(`/order-details/${id}`, { data }, { params })
 }
 
 export function deleteOrderDetail(id: number, params?: any) {
-  return axios.delete(`${devApi}/order-details/${id}`, headerParams)
+  return request.delete(`/order-details/${id}`, { params })
 }

@@ -1,12 +1,5 @@
-import axios from "axios";
-import Constants from "../constants";
+import { request } from "../utils/request";
 
-const { devApi, devToken } = Constants;
-const headerParams = {
-  headers: {
-    Authorization: `Bearer ${devToken}`
-  }
-};
 export interface Order {
   client?: {
     data?: {
@@ -397,41 +390,21 @@ export interface OrderResponse {
 }
 
 export function getOrders(params?: any) {
-  return axios.get(`${devApi}/orders`,
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.get(`/orders`, { params })
 }
 
 export function getOrderByID(id: string, params?: any) {
-  return axios.get(`${devApi}/orders/${id}`,
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.get(`/orders/${id}`, { params })
 }
 
 export function postOrders(data: Order, params?: any) {
-  return axios.post(`${devApi}/orders`, { data },
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.post(`/orders`, { data }, { params })
 }
 
 export function putOrders(id: string, data: Order, params?: any) {
-  return axios.put(`${devApi}/orders/${id}`, { data },
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.put(`/orders/${id}`, { data }, { params })
 }
 
 export function deleteOrders(id: number) {
-  return axios.delete(`${devApi}/orders/${id}`, headerParams)
+  return request.delete(`/orders/${id}`)
 }

@@ -1,12 +1,4 @@
-import axios from "axios";
-import Constants from "../constants";
-
-const { devApi, devToken } = Constants;
-const headerParams = {
-  headers: {
-    Authorization: `Bearer ${devToken}`
-  }
-}
+import { request } from "../utils/request";
 
 export interface Client {
   name?: string;
@@ -29,36 +21,21 @@ export interface ClientResponse {
 }
 
 export function getClients(params?: any) {
-  return axios.get(`${devApi}/clients`,
-    {
-      params,
-      ...headerParams
-    }
-  )
+  return request.get(`/clients`, { params })
 }
 
-export function getClientByID(id: string) {
-  return axios.get(`${devApi}/clients/${id}`, headerParams)
+export function getClientByID(id: string, params?: any) {
+  return request.get(`/clients/${id}`, { params })
 }
 
-export function postClients(data: Client) {
-  return axios.post(`${devApi}/clients`,
-    {
-      data,
-      ...headerParams
-    }
-  )
+export function postClients(data: Client, params?: any) {
+  return request.post(`/clients`, { data }, { params })
 }
 
-export function putClient(id: string, data: Client) {
-  return axios.put(`${devApi}/clients/${id}`,
-    {
-      data,
-      ...headerParams
-    }
-  )
+export function putClient(id: string, data: Client, params?: any) {
+  return request.put(`/clients/${id}`, { data }, { params })
 }
 
-export function deleteClient(id: number) {
-  return axios.delete(`${devApi}/clients/${id}`, headerParams)
+export function deleteClient(id: number, params?: any) {
+  return request.delete(`/clients/${id}`, { params })
 }

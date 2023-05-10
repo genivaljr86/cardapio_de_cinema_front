@@ -1,12 +1,5 @@
-import axios from "axios";
-import Constants from "../constants";
+import { request } from "../utils/request";
 
-const { devApi, devToken } = Constants;
-const headerParams = {
-  headers: {
-    Authorization: `Bearer ${devToken}`
-  }
-};
 
 export interface ProductRequest {
   data: {
@@ -297,34 +290,21 @@ export interface ProductResponse {
 }
 
 export function getProducts(params?: any) {
-  return axios.get(`${devApi}/products`, {
-    params,
-    ...headerParams
-  })
+  return request.get(`/products`, { params })
 }
 
-export function getProductByID(id: string) {
-  return axios.get(`${devApi}/products/${id}`, headerParams)
+export function getProductByID(id: string, params?: any) {
+  return request.get(`/products/${id}`, { params })
 }
 
-export function postProducts(data: Product) {
-  return axios.post(`${devApi}/products`,
-    {
-      data,
-      ...headerParams
-    }
-  )
+export function postProducts(data: Product, params?: any) {
+  return request.post(`/products`, { data }, { params })
 }
 
-export function putProducts(id: string, data: Product) {
-  return axios.put(`${devApi}/products/${id}`,
-    {
-      data,
-      ...headerParams
-    }
-  )
+export function putProducts(id: string, data: Product, params?: any) {
+  return request.put(`/products/${id}`, { data }, { params })
 }
 
-export function deleteProducts(id: number) {
-  return axios.delete(`${devApi}/products/${id}`, headerParams)
+export function deleteProducts(id: number, params?: any) {
+  return request.delete(`/products/${id}`, { params })
 }
