@@ -4,10 +4,13 @@ import { Client, getClientByID, putClient } from "../../services/client";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ClientForm from "../../components/forms/ClientForm";
+import { AxiosError } from "axios";
 
 const ClientEditPage: React.FC = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<undefined | AxiosError>(undefined)
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -17,7 +20,7 @@ const ClientEditPage: React.FC = () => {
       const { data: { attributes: { name, address, phone } } } = await getClientByID(id!);
       form.setFieldsValue({ name, address, phone })
     } catch (err) {
-      throw err;
+      setError(err as AxiosError)
     }
     setLoading(false);
   }
@@ -44,7 +47,7 @@ const ClientEditPage: React.FC = () => {
   }
 
   return (<>
-    <CTemplatePage>
+    <CTemplatePage error={error}>
       {
         loading ? (
           <Skeleton />

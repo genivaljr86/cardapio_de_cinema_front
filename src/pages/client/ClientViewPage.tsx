@@ -3,12 +3,14 @@ import CTemplatePage from "../../components/CTemplatePage"
 import { useEffect, useState } from "react";
 import { ClientResponseDataObject, getClientByID } from "../../services/client";
 import { Button, Descriptions, Skeleton } from "antd";
+import { AxiosError } from "axios";
 
 const ClientViewPage: React.FC = () => {
 
   const { id } = useParams();
   const [clientData, setclientData] = useState({} as ClientResponseDataObject);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<undefined | AxiosError>(undefined)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,8 +18,7 @@ const ClientViewPage: React.FC = () => {
         const { data: dataResponse } = await getClientByID(id!);
         setclientData(dataResponse)
       } catch (err) {
-        console.log("err", err);
-        throw err;
+        setError(err as AxiosError)
       }
       setLoading(false)
     }
@@ -25,7 +26,7 @@ const ClientViewPage: React.FC = () => {
     // eslint-disable-next-line
   }, [])
   return <>
-    <CTemplatePage>
+    <CTemplatePage error={error}>
       {
         loading ? (
           <Skeleton active />

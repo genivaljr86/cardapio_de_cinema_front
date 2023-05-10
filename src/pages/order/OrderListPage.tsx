@@ -8,15 +8,42 @@ import { Button, Modal, Table, TablePaginationConfig, notification } from "antd"
 import { DollarCircleOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import dateTimeFilter from "../../utils/dateTimeFilter";
 import Constants from "../../constants";
+import { AxiosError } from "axios";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
 }
 
+const columns: ColumnsType<any> = [
+  {
+    title: 'ID',
+    dataIndex: 'orderId'
+
+  },
+  {
+    title: 'Cliente',
+    dataIndex: 'name'
+  },
+  {
+    title: 'Valor',
+    dataIndex: 'amount_price'
+  },
+  {
+    title: 'Data de Entrega',
+    dataIndex: 'delivery_date'
+  },
+  {
+    title: '',
+    align: 'right',
+    dataIndex: 'actions'
+  }
+]
+
 const OrderListPage: React.FC = () => {
   const { pagination: { pageSize } } = Constants;
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<undefined | AxiosError>(undefined)
 
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -25,30 +52,6 @@ const OrderListPage: React.FC = () => {
     },
   });
 
-  const columns: ColumnsType<any> = [
-    {
-      title: 'ID',
-      dataIndex: 'orderId'
-
-    },
-    {
-      title: 'Cliente',
-      dataIndex: 'name'
-    },
-    {
-      title: 'Valor',
-      dataIndex: 'amount_price'
-    },
-    {
-      title: 'Data de Entrega',
-      dataIndex: 'delivery_date'
-    },
-    {
-      title: '',
-      align: 'right',
-      dataIndex: 'actions'
-    }
-  ]
 
   async function fetchData() {
     setLoading(true);
@@ -79,7 +82,7 @@ const OrderListPage: React.FC = () => {
         },
       });
     } catch (err) {
-      throw err;
+      setError(err as AxiosError)
     }
     setLoading(false);
   };
@@ -127,7 +130,7 @@ const OrderListPage: React.FC = () => {
   }, [JSON.stringify(tableParams)])
 
   return (
-    <CTemplatePage>
+    <CTemplatePage error={error}>
       <Table
         loading={loading}
         dataSource={dataSource}

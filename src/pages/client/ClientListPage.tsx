@@ -6,6 +6,7 @@ import CTemplatePage from "../../components/CTemplatePage";
 import { ExclamationCircleFilled, UsergroupAddOutlined } from "@ant-design/icons";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import Constants from "../../constants";
+import { AxiosError } from "axios";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
@@ -17,6 +18,8 @@ const ClientListPage: React.FC = () => {
 
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<undefined | AxiosError>(undefined)
+
 
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {
@@ -69,7 +72,7 @@ const ClientListPage: React.FC = () => {
       });
 
     } catch (err) {
-      throw Error;
+      setError(err as AxiosError)
     }
     setLoading(false);
 
@@ -118,7 +121,7 @@ const ClientListPage: React.FC = () => {
   }, [JSON.stringify(tableParams)])
   return (
     <>
-      <CTemplatePage>
+      <CTemplatePage error={error}>
         <Table loading={loading}
           dataSource={dataSource}
           pagination={tableParams.pagination}

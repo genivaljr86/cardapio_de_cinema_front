@@ -4,10 +4,12 @@ import ProductForm from "../../components/forms/ProductForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { getProductByID, putProducts } from "../../services/product";
 import { useEffect, useState } from "react";
+import { AxiosError } from "axios";
 
 const ProductEditPage: React.FC = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<undefined | AxiosError>(undefined)
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -18,7 +20,7 @@ const ProductEditPage: React.FC = () => {
       const { data: { attributes: { name, price } } } = await getProductByID(id!);
       form.setFieldsValue({ name, price })
     } catch (err) {
-      throw err;
+      setError(err as AxiosError)
     }
     setLoading(false);
   }
@@ -45,7 +47,7 @@ const ProductEditPage: React.FC = () => {
   }
   return (
     <>
-      <CTemplatePage>
+      <CTemplatePage error={error}>
         {
           loading ? (
             <Skeleton />

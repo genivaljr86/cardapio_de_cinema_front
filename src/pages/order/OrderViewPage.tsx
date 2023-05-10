@@ -7,6 +7,7 @@ import currencyFilter from "../../utils/currencyFilter";
 import { OrderDetailResponseDataObject, getOrderDetails } from "../../services/orderDetail";
 import { ColumnsType } from "antd/es/table";
 import dateTimeFilter from "../../utils/dateTimeFilter";
+import { AxiosError } from "axios";
 
 const columns: ColumnsType<any> = [
   {
@@ -31,6 +32,7 @@ const OrderViewPage: React.FC = () => {
   const [orderData, setOrderData] = useState<OrderResponseDataObject>();
   const [orderDetails, setOrderDetails] = useState<OrderDetailResponseDataObject[]>()
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<undefined | AxiosError>(undefined)
 
   useEffect(() => {
     setLoading(true)
@@ -41,7 +43,7 @@ const OrderViewPage: React.FC = () => {
         const { data: { data: orderDetailsDataResponse } } = await getOrderDetails({ 'filters[order_id]': id });
         setOrderDetails(orderDetailsDataResponse);
       } catch (err) {
-        throw err;
+        setError(err as AxiosError)
       }
       setLoading(false)
     }
@@ -50,7 +52,7 @@ const OrderViewPage: React.FC = () => {
   }, [])
 
   return (
-    <CTemplatePage>
+    <CTemplatePage error={error}>
       {
         loading ? (
           <>
