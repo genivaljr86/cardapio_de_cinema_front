@@ -361,6 +361,7 @@ export interface Order {
   name: string;
   /** @format date-time */
   delivery_date: string;
+  custom_delivery: boolean;
   /** @format date-time */
   createdAt: string;
   /** @format date-time */
