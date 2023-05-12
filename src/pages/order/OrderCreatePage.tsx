@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
-import { Button, Card, Col, DatePicker, Form, Input, InputNumber, Row, Select, Space, Switch, Table, Tooltip, notification } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, InputNumber, Row, Select, Space, Switch, Table, notification } from "antd";
 import { Order, postOrders } from "../../services/order";
 import { useEffect, useState } from "react";
 import { Client, ClientResponseDataObject, getClients } from "../../services/client";
@@ -10,7 +10,7 @@ import { Product, ProductResponseDataObject, getProducts } from "../../services/
 import { OrderDetail, postBulkOrderDetails } from "../../services/orderDetail";
 import currencyFilter from "../../utils/currencyFilter";
 import { ColumnsType } from "antd/es/table";
-import { EditFilled, EditOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 
 const CustomFormItem = styled(Form.Item)`
