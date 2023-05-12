@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
-import { Button, Card, Col, DatePicker, Form, Input, InputNumber, Row, Select, Space, Switch, Table, notification } from "antd";
+import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, Row, Select, Space, Switch, Table, notification } from "antd";
 import { Order, postOrders } from "../../services/order";
 import { useEffect, useState } from "react";
 import { Client, ClientResponseDataObject, getClients } from "../../services/client";
@@ -10,11 +10,18 @@ import { Product, ProductResponseDataObject, getProducts } from "../../services/
 import { OrderDetail, postBulkOrderDetails } from "../../services/orderDetail";
 import currencyFilter from "../../utils/currencyFilter";
 import { ColumnsType } from "antd/es/table";
-import { EditOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import Title from "antd/es/typography/Title";
 
 const CustomFormItem = styled(Form.Item)`
-  margin-bottom: 0;
+  margin-top: 10px;
+  margin-bottom: 5px;
+`
+
+const FormSectionTitle = styled(Title)`
+  margin-top: 10px;
+  margin-bottom: 5px;
 `
 
 
@@ -100,8 +107,6 @@ const OrderCreatePage: React.FC = () => {
     setProductsLoading(false);
   }
 
-
-
   useEffect(() => {
     fetchClientsData();
   }, [])
@@ -177,7 +182,7 @@ const OrderCreatePage: React.FC = () => {
         <Row gutter={16}>
           <Col span={8}>
             <Card title="Cliente">
-              <Form.Item name="client" label="Cliente"
+              <Form.Item name="client"
                 rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
                 <Select
                   showSearch
@@ -189,23 +194,22 @@ const OrderCreatePage: React.FC = () => {
                   options={clientListOptions}
                   onChange={handleChangeClient} />
               </Form.Item>
-
-            </Card>
-          </Col>{
-            clientFilled && (
-              <>
-                <Col span={8} hidden={true}>
-                  <Card title="Entrega"
-                    extra={
-                      <>
+              {
+                clientFilled ? (
+                  <>
+                    <Row>
+                      <Col span={21}>
+                        <FormSectionTitle level={5}>Dados de Entrega</FormSectionTitle>
+                      </Col>
+                      <Col span={3}>
                         <CustomFormItem name="custom_delivery" valuePropName="checked" initialValue={false}>
                           <Switch
+                            title="Editar Dados de Entrega"
                             checkedChildren={<EditOutlined />}
                             onChange={handleChangeCustomDelivery} />
                         </CustomFormItem>
-                      </>
-                    }
-                  >
+                      </Col>
+                    </Row>
                     <Form.Item name="name" label="Nome"
                       rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
                       <Input placeholder="Insira o nome completo"
@@ -227,38 +231,41 @@ const OrderCreatePage: React.FC = () => {
                     <Form.Item hidden name="amount_price" label="Valor Total" initialValue={22.40}>
                       <InputNumber readOnly bordered={false} prefix="R$" />
                     </Form.Item>
-                  </Card>
-                </Col>
-                <Col span={8}>
-                  <Card title="Carrinho"
-                    extra={
-                      <Select
-                        showSearch
-                        placeholder="Adicione um produto"
-                        filterOption={(input, option) =>
-                          (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                        }
-                        loading={productsLoading}
-                        options={productListOptions}
-                        onChange={handleChangeProduct}
-                      />}
-                  >
-                    <Table
-                      dataSource={
-                        orderDetails.map((order, index) => ({
-                          key: index,
-                          name: order?.name,
-                          quantity: order?.quantity,
-                          price: currencyFilter(order?.price)
-                        }))
-                      }
-                      columns={columns}
-                    />
-                  </Card>
-                </Col>
-              </>
-            )
-          }
+                  </>
+                ) : (
+                  <Empty description="Escolha um cliente" />
+                )
+              }
+
+            </Card>
+          </Col>
+          <Col span={16}>
+            <Card title="Carrinho">
+              <Select
+                style={{ width: '100%' }}
+                showSearch
+                placeholder="Adicione um produto"
+                filterOption={(input, option) =>
+                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                }
+                loading={productsLoading}
+                options={productListOptions}
+                onChange={handleChangeProduct}
+              />
+              <Table
+                dataSource={
+                  orderDetails.map((order, index) => ({
+                    key: index,
+                    name: order?.name,
+                    quantity: order?.quantity,
+                    price: currencyFilter(order?.price),
+                    actions: <Button type="link"><DeleteOutlined /></Button>
+                  }))
+                }
+                columns={columns}
+              />
+            </Card>
+          </Col>
         </Row>
         <Form.Item>
           <Space size="small">
