@@ -21,7 +21,7 @@ const columns: ColumnsType<any> = [
 
   },
   {
-    title: 'Cliente',
+    title: 'Cliente (Destinário)',
     dataIndex: 'name'
   },
   {
@@ -57,16 +57,29 @@ const OrderListPage: React.FC = () => {
     setLoading(true);
     try {
       const params = {
+        'populate[1]': 'client',
         'pagination[page]': tableParams.pagination?.current,
         'pagination[pageSize]': tableParams.pagination?.pageSize
       }
       const { data: { data: dataResponse, meta: { pagination } } } = await getOrders(params);
       const dataList = dataResponse.map((row: OrderResponseDataObject) => {
-        const { id, attributes: { name, address, amount_price, delivery_date } } = row;
+        const {
+          id,
+          attributes: { name, address, amount_price, delivery_date, custom_delivery,
+            client: {
+              data: {
+                attributes: {
+                  name: clientName
+                }
+              }
+            }
+          }
+        } = row;
+
         return {
           key: id,
           orderId: <Link to={`view/${id}`}>{`#${id}`}</Link>,
-          name,
+          name: clientName + (custom_delivery ? ` (${name})` : ``),
           address,
           amount_price: currencyFilter(amount_price!),
           delivery_date: dateTimeFilter(delivery_date),

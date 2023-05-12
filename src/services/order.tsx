@@ -1,11 +1,11 @@
 import { request } from "../utils/request";
 
 export interface Order {
-  client?: {
-    data?: {
+  client: {
+    data: {
       id?: number;
-      attributes?: {
-        name?: string;
+      attributes: {
+        name: string;
         address?: string;
         /** @format date-time */
         createdAt?: string;

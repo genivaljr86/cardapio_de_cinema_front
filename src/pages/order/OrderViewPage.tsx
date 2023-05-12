@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
 import { useEffect, useState } from "react";
 import { OrderResponseDataObject, getOrderByID } from "../../services/order";
@@ -8,6 +8,11 @@ import { OrderDetailResponseDataObject, getOrderDetails } from "../../services/o
 import { ColumnsType } from "antd/es/table";
 import dateTimeFilter from "../../utils/dateTimeFilter";
 import { AxiosError } from "axios";
+
+type ClientData = {
+  id: number
+  name: string;
+}
 
 const columns: ColumnsType<any> = [
   {
@@ -29,7 +34,8 @@ const columns: ColumnsType<any> = [
 const OrderViewPage: React.FC = () => {
 
   const { id } = useParams();
-  const [orderData, setOrderData] = useState<OrderResponseDataObject>();
+  const [orderData, setOrderData] = useState<OrderResponseDataObject['attributes']>()
+  const [clientData, setClientData] = useState<ClientData>()
   const [orderDetails, setOrderDetails] = useState<OrderDetailResponseDataObject[]>()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AxiosError | undefined>(undefined)
@@ -38,8 +44,10 @@ const OrderViewPage: React.FC = () => {
     setLoading(true)
     const fetchData = async () => {
       try {
-        const { data: orderDataResponse } = await getOrderByID(id!, { 'populate[0]': 'client' });
-        setOrderData(orderDataResponse);
+        const { data: { attributes: orderAttributes } } = await getOrderByID(id!, { 'populate[0]': 'client' })
+        const { data: { id: clientID, attributes: { name: clientName } } } = orderAttributes.client;
+        setOrderData(orderAttributes)
+        setClientData({ id: clientID, name: clientName })
         const { data: { data: orderDetailsDataResponse } } = await getOrderDetails({ 'filters[order_id]': id });
         setOrderDetails(orderDetailsDataResponse);
       } catch (err) {
@@ -61,15 +69,25 @@ const OrderViewPage: React.FC = () => {
           </>
         ) : (
           <>
+            {/* @todo: Adicionar dados do Cliente original */}
             <Descriptions title={'Dados de Entrega'}>
-              <Descriptions.Item label={'Nome'}>{orderData?.attributes.name}</Descriptions.Item>
-              <Descriptions.Item label={'Endereço de Entrega'}>{orderData?.attributes.address}</Descriptions.Item>
-              <Descriptions.Item label={'Telefone'}>{orderData?.attributes.phone}</Descriptions.Item>
+              <Descriptions.Item label={'Cliente'}>
+                <Link to={`../../clients/view/${clientData?.id}`}>
+                  {clientData?.name}
+                </Link>
+              </Descriptions.Item>
+              {
+                orderData?.custom_delivery && (
+                  <Descriptions.Item label={'Destinatário'}>{orderData?.name}</Descriptions.Item>
+                )
+              }
+              <Descriptions.Item label={'Endereço de Entrega'}>{orderData?.address}</Descriptions.Item>
+              <Descriptions.Item label={'Telefone'}>{orderData?.phone}</Descriptions.Item>
               <Descriptions.Item label={'Data de Entrega'}>
-                {dateTimeFilter(orderData?.attributes.delivery_date!)}
+                {dateTimeFilter(orderData?.delivery_date!)}
               </Descriptions.Item>
               <Descriptions.Item label={'Valor Total'}>
-                {currencyFilter(orderData?.attributes.amount_price!)}
+                {currencyFilter(orderData?.amount_price!)}
               </Descriptions.Item>
             </Descriptions>
             <Descriptions title={'Produtos'}>
