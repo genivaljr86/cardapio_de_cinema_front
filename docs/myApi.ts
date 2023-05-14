@@ -19,7 +19,6 @@ export interface Error {
   };
 }
 
-
 export interface ClientRequest {
   data: {
     name: string;
@@ -181,8 +180,9 @@ export interface OrderRequest {
     address?: string;
     phone?: string;
     name?: string;
-    /** @format date */
+    /** @format date-time */
     delivery_date?: string;
+    custom_delivery?: boolean;
   };
 }
 
@@ -351,8 +351,9 @@ export interface Order {
               address?: string;
               phone?: string;
               name?: string;
-              /** @format date */
+              /** @format date-time */
               delivery_date?: string;
+              custom_delivery?: boolean;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -543,6 +544,8 @@ export interface Order {
         price?: number;
         /** @format float */
         quantity?: number;
+        /** @format float */
+        amount_price?: number;
         /** @format date-time */
         createdAt?: string;
         /** @format date-time */
@@ -565,8 +568,9 @@ export interface Order {
   address?: string;
   phone?: string;
   name?: string;
-  /** @format date */
+  /** @format date-time */
   delivery_date?: string;
+  custom_delivery?: boolean;
   /** @format date-time */
   createdAt?: string;
   /** @format date-time */
@@ -606,6 +610,8 @@ export interface OrderDetailRequest {
     price: number;
     /** @format float */
     quantity: number;
+    /** @format float */
+    amount_price: number;
   };
 }
 
@@ -934,6 +940,8 @@ export interface OrderDetail {
               price?: number;
               /** @format float */
               quantity?: number;
+              /** @format float */
+              amount_price?: number;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -956,8 +964,9 @@ export interface OrderDetail {
         address?: string;
         phone?: string;
         name?: string;
-        /** @format date */
+        /** @format date-time */
         delivery_date?: string;
+        custom_delivery?: boolean;
         /** @format date-time */
         createdAt?: string;
         /** @format date-time */
@@ -988,6 +997,8 @@ export interface OrderDetail {
   price: number;
   /** @format float */
   quantity: number;
+  /** @format float */
+  amount_price: number;
   /** @format date-time */
   createdAt?: string;
   /** @format date-time */
@@ -1320,8 +1331,9 @@ export interface Product {
               address?: string;
               phone?: string;
               name?: string;
-              /** @format date */
+              /** @format date-time */
               delivery_date?: string;
+              custom_delivery?: boolean;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -1429,6 +1441,8 @@ export interface Product {
         price?: number;
         /** @format float */
         quantity?: number;
+        /** @format float */
+        amount_price?: number;
         /** @format date-time */
         createdAt?: string;
         /** @format date-time */
@@ -1476,1290 +1490,29 @@ export interface ProductResponse {
   meta?: object;
 }
 
-export interface UploadFileRequest {
-  data: {
-    name: string;
-    alternativeText?: string;
-    caption?: string;
-    width?: number;
-    height?: number;
-    formats?: any;
-    hash: string;
-    ext?: string;
-    mime: string;
-    /** @format float */
-    size: number;
-    url: string;
-    previewUrl?: string;
-    provider: string;
-    provider_metadata?: any;
-    related?: (number | string)[];
-    /** @example "string or id" */
-    folder?: number | string;
-    folderPath: string;
-  };
-}
-
-export interface UploadFileListResponseDataItem {
-  id?: number;
-  attributes?: UploadFile;
-}
-
-export interface UploadFileListResponse {
-  data?: UploadFileListResponseDataItem[];
-  meta?: {
-    pagination?: {
-      page?: number;
-      /** @min 25 */
-      pageSize?: number;
-      /** @max 1 */
-      pageCount?: number;
-      total?: number;
-    };
-  };
-}
-
 export interface UploadFile {
-  name: string;
+  id?: number;
+  name?: string;
   alternativeText?: string;
   caption?: string;
+  /** @format integer */
   width?: number;
+  /** @format integer */
   height?: number;
-  formats?: any;
-  hash: string;
+  formats?: number;
+  hash?: string;
   ext?: string;
-  mime: string;
-  /** @format float */
-  size: number;
-  url: string;
+  mime?: string;
+  /** @format double */
+  size?: number;
+  url?: string;
   previewUrl?: string;
-  provider: string;
-  provider_metadata?: any;
-  related?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    }[];
-  };
-  folder?: {
-    data?: {
-      id?: number;
-      attributes?: {
-        name?: string;
-        pathId?: number;
-        parent?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-        children?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          }[];
-        };
-        files?: {
-          data?: {
-            id?: number;
-            attributes?: {
-              name?: string;
-              alternativeText?: string;
-              caption?: string;
-              width?: number;
-              height?: number;
-              formats?: any;
-              hash?: string;
-              ext?: string;
-              mime?: string;
-              /** @format float */
-              size?: number;
-              url?: string;
-              previewUrl?: string;
-              provider?: string;
-              provider_metadata?: any;
-              related?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                }[];
-              };
-              folder?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              folderPath?: string;
-              /** @format date-time */
-              createdAt?: string;
-              /** @format date-time */
-              updatedAt?: string;
-              createdBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: {
-                    firstname?: string;
-                    lastname?: string;
-                    username?: string;
-                    /** @format email */
-                    email?: string;
-                    resetPasswordToken?: string;
-                    registrationToken?: string;
-                    isActive?: boolean;
-                    roles?: {
-                      data?: {
-                        id?: number;
-                        attributes?: {
-                          name?: string;
-                          code?: string;
-                          description?: string;
-                          users?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            }[];
-                          };
-                          permissions?: {
-                            data?: {
-                              id?: number;
-                              attributes?: {
-                                action?: string;
-                                subject?: string;
-                                properties?: any;
-                                conditions?: any;
-                                role?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                /** @format date-time */
-                                createdAt?: string;
-                                /** @format date-time */
-                                updatedAt?: string;
-                                createdBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                updatedBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                              };
-                            }[];
-                          };
-                          /** @format date-time */
-                          createdAt?: string;
-                          /** @format date-time */
-                          updatedAt?: string;
-                          createdBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                          updatedBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                        };
-                      }[];
-                    };
-                    blocked?: boolean;
-                    preferedLanguage?: string;
-                    /** @format date-time */
-                    createdAt?: string;
-                    /** @format date-time */
-                    updatedAt?: string;
-                    createdBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                    updatedBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                  };
-                };
-              };
-              updatedBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-            };
-          }[];
-        };
-        path?: string;
-        /** @format date-time */
-        createdAt?: string;
-        /** @format date-time */
-        updatedAt?: string;
-        createdBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-        updatedBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-      };
-    };
-  };
-  folderPath: string;
-  /** @format date-time */
-  createdAt?: string;
-  /** @format date-time */
-  updatedAt?: string;
-  createdBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-  updatedBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-}
-
-export interface UploadFileResponseDataObject {
-  id?: number;
-  attributes?: UploadFile;
-}
-
-export interface UploadFileResponse {
-  data?: UploadFileResponseDataObject;
-  meta?: object;
-}
-
-export interface UploadFolderRequest {
-  data: {
-    name: string;
-    pathId: number;
-    /** @example "string or id" */
-    parent?: number | string;
-    children?: (number | string)[];
-    files?: (number | string)[];
-    path: string;
-  };
-}
-
-export interface UploadFolderListResponseDataItem {
-  id?: number;
-  attributes?: UploadFolder;
-}
-
-export interface UploadFolderListResponse {
-  data?: UploadFolderListResponseDataItem[];
-  meta?: {
-    pagination?: {
-      page?: number;
-      /** @min 25 */
-      pageSize?: number;
-      /** @max 1 */
-      pageCount?: number;
-      total?: number;
-    };
-  };
-}
-
-export interface UploadFolder {
-  name: string;
-  pathId: number;
-  parent?: {
-    data?: {
-      id?: number;
-      attributes?: {
-        name?: string;
-        pathId?: number;
-        parent?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-        children?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          }[];
-        };
-        files?: {
-          data?: {
-            id?: number;
-            attributes?: {
-              name?: string;
-              alternativeText?: string;
-              caption?: string;
-              width?: number;
-              height?: number;
-              formats?: any;
-              hash?: string;
-              ext?: string;
-              mime?: string;
-              /** @format float */
-              size?: number;
-              url?: string;
-              previewUrl?: string;
-              provider?: string;
-              provider_metadata?: any;
-              related?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                }[];
-              };
-              folder?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              folderPath?: string;
-              /** @format date-time */
-              createdAt?: string;
-              /** @format date-time */
-              updatedAt?: string;
-              createdBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: {
-                    firstname?: string;
-                    lastname?: string;
-                    username?: string;
-                    /** @format email */
-                    email?: string;
-                    resetPasswordToken?: string;
-                    registrationToken?: string;
-                    isActive?: boolean;
-                    roles?: {
-                      data?: {
-                        id?: number;
-                        attributes?: {
-                          name?: string;
-                          code?: string;
-                          description?: string;
-                          users?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            }[];
-                          };
-                          permissions?: {
-                            data?: {
-                              id?: number;
-                              attributes?: {
-                                action?: string;
-                                subject?: string;
-                                properties?: any;
-                                conditions?: any;
-                                role?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                /** @format date-time */
-                                createdAt?: string;
-                                /** @format date-time */
-                                updatedAt?: string;
-                                createdBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                updatedBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                              };
-                            }[];
-                          };
-                          /** @format date-time */
-                          createdAt?: string;
-                          /** @format date-time */
-                          updatedAt?: string;
-                          createdBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                          updatedBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                        };
-                      }[];
-                    };
-                    blocked?: boolean;
-                    preferedLanguage?: string;
-                    /** @format date-time */
-                    createdAt?: string;
-                    /** @format date-time */
-                    updatedAt?: string;
-                    createdBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                    updatedBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                  };
-                };
-              };
-              updatedBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-            };
-          }[];
-        };
-        path?: string;
-        /** @format date-time */
-        createdAt?: string;
-        /** @format date-time */
-        updatedAt?: string;
-        createdBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-        updatedBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-      };
-    };
-  };
-  children?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    }[];
-  };
-  files?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    }[];
-  };
-  path: string;
-  /** @format date-time */
-  createdAt?: string;
-  /** @format date-time */
-  updatedAt?: string;
-  createdBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-  updatedBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-}
-
-export interface UploadFolderResponseDataObject {
-  id?: number;
-  attributes?: UploadFolder;
-}
-
-export interface UploadFolderResponse {
-  data?: UploadFolderResponseDataObject;
-  meta?: object;
-}
-
-export interface UsersPermissionsPermissionRequest {
-  data: {
-    action: string;
-    /** @example "string or id" */
-    role?: number | string;
-  };
-}
-
-export interface UsersPermissionsPermissionListResponseDataItem {
-  id?: number;
-  attributes?: UsersPermissionsPermission;
-}
-
-export interface UsersPermissionsPermissionListResponse {
-  data?: UsersPermissionsPermissionListResponseDataItem[];
-  meta?: {
-    pagination?: {
-      page?: number;
-      /** @min 25 */
-      pageSize?: number;
-      /** @max 1 */
-      pageCount?: number;
-      total?: number;
-    };
-  };
-}
-
-export interface UsersPermissionsPermission {
-  action: string;
-  role?: {
-    data?: {
-      id?: number;
-      attributes?: {
-        name?: string;
-        description?: string;
-        type?: string;
-        permissions?: {
-          data?: {
-            id?: number;
-            attributes?: {
-              action?: string;
-              role?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              /** @format date-time */
-              createdAt?: string;
-              /** @format date-time */
-              updatedAt?: string;
-              createdBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: {
-                    firstname?: string;
-                    lastname?: string;
-                    username?: string;
-                    /** @format email */
-                    email?: string;
-                    resetPasswordToken?: string;
-                    registrationToken?: string;
-                    isActive?: boolean;
-                    roles?: {
-                      data?: {
-                        id?: number;
-                        attributes?: {
-                          name?: string;
-                          code?: string;
-                          description?: string;
-                          users?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            }[];
-                          };
-                          permissions?: {
-                            data?: {
-                              id?: number;
-                              attributes?: {
-                                action?: string;
-                                subject?: string;
-                                properties?: any;
-                                conditions?: any;
-                                role?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                /** @format date-time */
-                                createdAt?: string;
-                                /** @format date-time */
-                                updatedAt?: string;
-                                createdBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                updatedBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                              };
-                            }[];
-                          };
-                          /** @format date-time */
-                          createdAt?: string;
-                          /** @format date-time */
-                          updatedAt?: string;
-                          createdBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                          updatedBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                        };
-                      }[];
-                    };
-                    blocked?: boolean;
-                    preferedLanguage?: string;
-                    /** @format date-time */
-                    createdAt?: string;
-                    /** @format date-time */
-                    updatedAt?: string;
-                    createdBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                    updatedBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                  };
-                };
-              };
-              updatedBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-            };
-          }[];
-        };
-        users?: {
-          data?: {
-            id?: number;
-            attributes?: {
-              username?: string;
-              /** @format email */
-              email?: string;
-              provider?: string;
-              resetPasswordToken?: string;
-              confirmationToken?: string;
-              confirmed?: boolean;
-              blocked?: boolean;
-              role?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              /** @format date-time */
-              createdAt?: string;
-              /** @format date-time */
-              updatedAt?: string;
-              createdBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              updatedBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-            };
-          }[];
-        };
-        /** @format date-time */
-        createdAt?: string;
-        /** @format date-time */
-        updatedAt?: string;
-        createdBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-        updatedBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-      };
-    };
-  };
-  /** @format date-time */
-  createdAt?: string;
-  /** @format date-time */
-  updatedAt?: string;
-  createdBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-  updatedBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-}
-
-export interface UsersPermissionsPermissionResponseDataObject {
-  id?: number;
-  attributes?: UsersPermissionsPermission;
-}
-
-export interface UsersPermissionsPermissionResponse {
-  data?: UsersPermissionsPermissionResponseDataObject;
-  meta?: object;
-}
-
-export interface UsersPermissionsRoleRequest {
-  data: {
-    name: string;
-    description?: string;
-    type?: string;
-    permissions?: (number | string)[];
-    users?: (number | string)[];
-  };
-}
-
-export interface UsersPermissionsRoleListResponseDataItem {
-  id?: number;
-  attributes?: UsersPermissionsRole;
-}
-
-export interface UsersPermissionsRoleListResponse {
-  data?: UsersPermissionsRoleListResponseDataItem[];
-  meta?: {
-    pagination?: {
-      page?: number;
-      /** @min 25 */
-      pageSize?: number;
-      /** @max 1 */
-      pageCount?: number;
-      total?: number;
-    };
-  };
-}
-
-export interface UsersPermissionsRole {
-  name: string;
-  description?: string;
-  type?: string;
-  permissions?: {
-    data?: {
-      id?: number;
-      attributes?: {
-        action?: string;
-        role?: {
-          data?: {
-            id?: number;
-            attributes?: {
-              name?: string;
-              description?: string;
-              type?: string;
-              permissions?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                }[];
-              };
-              users?: {
-                data?: {
-                  id?: number;
-                  attributes?: {
-                    username?: string;
-                    /** @format email */
-                    email?: string;
-                    provider?: string;
-                    resetPasswordToken?: string;
-                    confirmationToken?: string;
-                    confirmed?: boolean;
-                    blocked?: boolean;
-                    role?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                    /** @format date-time */
-                    createdAt?: string;
-                    /** @format date-time */
-                    updatedAt?: string;
-                    createdBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: {
-                          firstname?: string;
-                          lastname?: string;
-                          username?: string;
-                          /** @format email */
-                          email?: string;
-                          resetPasswordToken?: string;
-                          registrationToken?: string;
-                          isActive?: boolean;
-                          roles?: {
-                            data?: {
-                              id?: number;
-                              attributes?: {
-                                name?: string;
-                                code?: string;
-                                description?: string;
-                                users?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  }[];
-                                };
-                                permissions?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: {
-                                      action?: string;
-                                      subject?: string;
-                                      properties?: any;
-                                      conditions?: any;
-                                      role?: {
-                                        data?: {
-                                          id?: number;
-                                          attributes?: object;
-                                        };
-                                      };
-                                      /** @format date-time */
-                                      createdAt?: string;
-                                      /** @format date-time */
-                                      updatedAt?: string;
-                                      createdBy?: {
-                                        data?: {
-                                          id?: number;
-                                          attributes?: object;
-                                        };
-                                      };
-                                      updatedBy?: {
-                                        data?: {
-                                          id?: number;
-                                          attributes?: object;
-                                        };
-                                      };
-                                    };
-                                  }[];
-                                };
-                                /** @format date-time */
-                                createdAt?: string;
-                                /** @format date-time */
-                                updatedAt?: string;
-                                createdBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                updatedBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                              };
-                            }[];
-                          };
-                          blocked?: boolean;
-                          preferedLanguage?: string;
-                          /** @format date-time */
-                          createdAt?: string;
-                          /** @format date-time */
-                          updatedAt?: string;
-                          createdBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                          updatedBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                        };
-                      };
-                    };
-                    updatedBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                  };
-                }[];
-              };
-              /** @format date-time */
-              createdAt?: string;
-              /** @format date-time */
-              updatedAt?: string;
-              createdBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              updatedBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-            };
-          };
-        };
-        /** @format date-time */
-        createdAt?: string;
-        /** @format date-time */
-        updatedAt?: string;
-        createdBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-        updatedBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-      };
-    }[];
-  };
-  users?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    }[];
-  };
-  /** @format date-time */
-  createdAt?: string;
-  /** @format date-time */
-  updatedAt?: string;
-  createdBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-  updatedBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-}
-
-export interface UsersPermissionsRoleResponseDataObject {
-  id?: number;
-  attributes?: UsersPermissionsRole;
-}
-
-export interface UsersPermissionsRoleResponse {
-  data?: UsersPermissionsRoleResponseDataObject;
-  meta?: object;
-}
-
-export interface UsersPermissionsUserRequest {
-  data: {
-    username: string;
-    /** @format email */
-    email: string;
-    provider?: string;
-    /**
-     * @format password
-     * @example "*******"
-     */
-    password?: string;
-    resetPasswordToken?: string;
-    confirmationToken?: string;
-    confirmed?: boolean;
-    blocked?: boolean;
-    /** @example "string or id" */
-    role?: number | string;
-  };
-}
-
-export interface UsersPermissionsUserListResponseDataItem {
-  id?: number;
-  attributes?: UsersPermissionsUser;
-}
-
-export interface UsersPermissionsUserListResponse {
-  data?: UsersPermissionsUserListResponseDataItem[];
-  meta?: {
-    pagination?: {
-      page?: number;
-      /** @min 25 */
-      pageSize?: number;
-      /** @max 1 */
-      pageCount?: number;
-      total?: number;
-    };
-  };
-}
-
-export interface UsersPermissionsUser {
-  username: string;
-  /** @format email */
-  email: string;
   provider?: string;
-  resetPasswordToken?: string;
-  confirmationToken?: string;
-  confirmed?: boolean;
-  blocked?: boolean;
-  role?: {
-    data?: {
-      id?: number;
-      attributes?: {
-        name?: string;
-        description?: string;
-        type?: string;
-        permissions?: {
-          data?: {
-            id?: number;
-            attributes?: {
-              action?: string;
-              role?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              /** @format date-time */
-              createdAt?: string;
-              /** @format date-time */
-              updatedAt?: string;
-              createdBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: {
-                    firstname?: string;
-                    lastname?: string;
-                    username?: string;
-                    /** @format email */
-                    email?: string;
-                    resetPasswordToken?: string;
-                    registrationToken?: string;
-                    isActive?: boolean;
-                    roles?: {
-                      data?: {
-                        id?: number;
-                        attributes?: {
-                          name?: string;
-                          code?: string;
-                          description?: string;
-                          users?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            }[];
-                          };
-                          permissions?: {
-                            data?: {
-                              id?: number;
-                              attributes?: {
-                                action?: string;
-                                subject?: string;
-                                properties?: any;
-                                conditions?: any;
-                                role?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                /** @format date-time */
-                                createdAt?: string;
-                                /** @format date-time */
-                                updatedAt?: string;
-                                createdBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                                updatedBy?: {
-                                  data?: {
-                                    id?: number;
-                                    attributes?: object;
-                                  };
-                                };
-                              };
-                            }[];
-                          };
-                          /** @format date-time */
-                          createdAt?: string;
-                          /** @format date-time */
-                          updatedAt?: string;
-                          createdBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                          updatedBy?: {
-                            data?: {
-                              id?: number;
-                              attributes?: object;
-                            };
-                          };
-                        };
-                      }[];
-                    };
-                    blocked?: boolean;
-                    preferedLanguage?: string;
-                    /** @format date-time */
-                    createdAt?: string;
-                    /** @format date-time */
-                    updatedAt?: string;
-                    createdBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                    updatedBy?: {
-                      data?: {
-                        id?: number;
-                        attributes?: object;
-                      };
-                    };
-                  };
-                };
-              };
-              updatedBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-            };
-          }[];
-        };
-        users?: {
-          data?: {
-            id?: number;
-            attributes?: {
-              username?: string;
-              /** @format email */
-              email?: string;
-              provider?: string;
-              resetPasswordToken?: string;
-              confirmationToken?: string;
-              confirmed?: boolean;
-              blocked?: boolean;
-              role?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              /** @format date-time */
-              createdAt?: string;
-              /** @format date-time */
-              updatedAt?: string;
-              createdBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-              updatedBy?: {
-                data?: {
-                  id?: number;
-                  attributes?: object;
-                };
-              };
-            };
-          }[];
-        };
-        /** @format date-time */
-        createdAt?: string;
-        /** @format date-time */
-        updatedAt?: string;
-        createdBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-        updatedBy?: {
-          data?: {
-            id?: number;
-            attributes?: object;
-          };
-        };
-      };
-    };
-  };
+  provider_metadata?: object;
   /** @format date-time */
   createdAt?: string;
   /** @format date-time */
   updatedAt?: string;
-  createdBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-  updatedBy?: {
-    data?: {
-      id?: number;
-      attributes?: object;
-    };
-  };
-}
-
-export interface UsersPermissionsUserResponseDataObject {
-  id?: number;
-  attributes?: UsersPermissionsUser;
-}
-
-export interface UsersPermissionsUserResponse {
-  data?: UsersPermissionsUserResponseDataObject;
-  meta?: object;
 }
 
 export interface UsersPermissionsRole {
@@ -2767,8 +1520,10 @@ export interface UsersPermissionsRole {
   name?: string;
   description?: string;
   type?: string;
-  createdAt?: datetime;
-  updatedAt?: datetime;
+  /** @format date-time */
+  createdAt?: string;
+  /** @format date-time */
+  updatedAt?: string;
 }
 
 export interface UsersPermissionsUser {
@@ -2784,10 +1539,16 @@ export interface UsersPermissionsUser {
   confirmed?: boolean;
   /** @example false */
   blocked?: boolean;
-  /** @example "2022-06-02T08:32:06.258Z" */
-  createdAt?: datetime;
-  /** @example "2022-06-02T08:32:06.267Z" */
-  updatedAt?: datetime;
+  /**
+   * @format date-time
+   * @example "2022-06-02T08:32:06.258Z"
+   */
+  createdAt?: string;
+  /**
+   * @format date-time
+   * @example "2022-06-02T08:32:06.267Z"
+   */
+  updatedAt?: string;
 }
 
 export interface UsersPermissionsUserRegistration {
@@ -3415,42 +2176,49 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   };
   upload = {
     /**
+     * @description Upload files
+     *
+     * @tags Upload - File
+     * @name UploadCreate
+     * @request POST:/upload
+     * @secure
+     */
+    uploadCreate: (
+      data: {
+        /** The folder where the file(s) will be uploaded to (only supported on strapi-provider-upload-aws-s3). */
+        path?: string;
+        /** The ID of the entry which the file(s) will be linked to */
+        refId?: string;
+        /** The unique ID (uid) of the model which the file(s) will be linked to (api::restaurant.restaurant). */
+        ref?: string;
+        /** The field of the entry which the file(s) will be precisely linked to. */
+        field?: string;
+        files: File[];
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<UploadFile[], any>({
+        path: `/upload`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.FormData,
+        format: "json",
+        ...params,
+      }),
+
+    /**
      * No description
      *
      * @tags Upload - File
-     * @name GetUploadFiles
+     * @name FilesList
      * @request GET:/upload/files
      * @secure
      */
-    getUploadFiles: (
-      query?: {
-        /** Sort by attributes ascending (asc) or descending (desc) */
-        sort?: string;
-        /** Return page/pageSize (default: true) */
-        "pagination[withCount]"?: boolean;
-        /** Page number (default: 0) */
-        "pagination[page]"?: number;
-        /** Page size (default: 25) */
-        "pagination[pageSize]"?: number;
-        /** Offset value (default: 0) */
-        "pagination[start]"?: number;
-        /** Number of entities to return (default: 25) */
-        "pagination[limit]"?: number;
-        /** Fields to return (ex: title,author) */
-        fields?: string;
-        /** Relations to return */
-        populate?: string;
-        /** Filters to apply */
-        filters?: object;
-        /** Locale to apply */
-        locale?: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<UploadFileListResponse, Error>({
+    filesList: (params: RequestParams = {}) =>
+      this.request<UploadFile[], any>({
         path: `/upload/files`,
         method: "GET",
-        query: query,
         secure: true,
         format: "json",
         ...params,
@@ -3460,12 +2228,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Upload - File
-     * @name GetUploadFilesId
+     * @name FilesDetail
      * @request GET:/upload/files/{id}
      * @secure
      */
-    getUploadFilesId: (id: number, params: RequestParams = {}) =>
-      this.request<UploadFileResponse, Error>({
+    filesDetail: (id: string, params: RequestParams = {}) =>
+      this.request<UploadFile, any>({
         path: `/upload/files/${id}`,
         method: "GET",
         secure: true,
@@ -3477,12 +2245,12 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * No description
      *
      * @tags Upload - File
-     * @name DeleteUploadFilesId
+     * @name FilesDelete
      * @request DELETE:/upload/files/{id}
      * @secure
      */
-    deleteUploadFilesId: (id: number, params: RequestParams = {}) =>
-      this.request<number, Error>({
+    filesDelete: (id: string, params: RequestParams = {}) =>
+      this.request<UploadFile, any>({
         path: `/upload/files/${id}`,
         method: "DELETE",
         secure: true,
@@ -3490,318 +2258,39 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         ...params,
       }),
   };
-  usersPermissions = {
+  uploadIdId = {
     /**
-     * No description
+     * @description Upload file information
      *
-     * @tags Users-Permissions - Users & Roles
-     * @name PermissionsList
-     * @summary Get default generated permissions
-     * @request GET:/users-permissions/permissions
+     * @tags Upload - File
+     * @name UploadIdCreate
+     * @request POST:/upload?id={id}
      * @secure
      */
-    permissionsList: (params: RequestParams = {}) =>
-      this.request<
-        {
-          permissions?: UsersPermissionsPermissionsTree;
-        },
-        Error
-      >({
-        path: `/users-permissions/permissions`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name RolesDetail
-     * @summary Get a role
-     * @request GET:/users-permissions/roles/{id}
-     * @secure
-     */
-    rolesDetail: (id: string, params: RequestParams = {}) =>
-      this.request<
-        {
-          role?: UsersPermissionsRole;
-        },
-        Error
-      >({
-        path: `/users-permissions/roles/${id}`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name RolesList
-     * @summary List roles
-     * @request GET:/users-permissions/roles
-     * @secure
-     */
-    rolesList: (params: RequestParams = {}) =>
-      this.request<
-        {
-          roles?: (UsersPermissionsRole & {
-            nb_users?: number;
-          })[];
-        },
-        Error
-      >({
-        path: `/users-permissions/roles`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name RolesCreate
-     * @summary Create a role
-     * @request POST:/users-permissions/roles
-     * @secure
-     */
-    rolesCreate: (
-      data: {
-        name?: string;
-        description?: string;
-        type?: string;
-        permissions?: UsersPermissionsPermissionsTree;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          ok?: "true";
-        },
-        Error
-      >({
-        path: `/users-permissions/roles`,
-        method: "POST",
-        body: data,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name RolesUpdate
-     * @summary Update a role
-     * @request PUT:/users-permissions/roles/{role}
-     * @secure
-     */
-    rolesUpdate: (
-      role: string,
-      data: {
-        name?: string;
-        description?: string;
-        type?: string;
-        permissions?: UsersPermissionsPermissionsTree;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        {
-          ok?: "true";
-        },
-        Error
-      >({
-        path: `/users-permissions/roles/${role}`,
-        method: "PUT",
-        body: data,
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name RolesDelete
-     * @summary Delete a role
-     * @request DELETE:/users-permissions/roles/{role}
-     * @secure
-     */
-    rolesDelete: (role: string, params: RequestParams = {}) =>
-      this.request<
-        {
-          ok?: "true";
-        },
-        Error
-      >({
-        path: `/users-permissions/roles/${role}`,
-        method: "DELETE",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-  };
-  users = {
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name CountList
-     * @summary Get user count
-     * @request GET:/users/count
-     * @secure
-     */
-    countList: (params: RequestParams = {}) =>
-      this.request<number, Error>({
-        path: `/users/count`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name UsersList
-     * @summary Get list of users
-     * @request GET:/users
-     * @secure
-     */
-    usersList: (params: RequestParams = {}) =>
-      this.request<UsersPermissionsUser[], Error>({
-        path: `/users`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name UsersCreate
-     * @summary Create a user
-     * @request POST:/users
-     * @secure
-     */
-    usersCreate: (
-      data: {
-        email: string;
-        username: string;
-        password: string;
-      },
-      params: RequestParams = {},
-    ) =>
-      this.request<
-        UsersPermissionsUser & {
-          role?: UsersPermissionsRole;
-        },
-        Error
-      >({
-        path: `/users`,
-        method: "POST",
-        body: data,
-        secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name GetUsers
-     * @summary Get authenticated user info
-     * @request GET:/users/me
-     * @secure
-     */
-    getUsers: (params: RequestParams = {}) =>
-      this.request<UsersPermissionsUser, Error>({
-        path: `/users/me`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name UsersDetail
-     * @summary Get a user
-     * @request GET:/users/{id}
-     * @secure
-     */
-    usersDetail: (id: string, params: RequestParams = {}) =>
-      this.request<UsersPermissionsUser, Error>({
-        path: `/users/${id}`,
-        method: "GET",
-        secure: true,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name UsersUpdate
-     * @summary Update a user
-     * @request PUT:/users/{id}
-     * @secure
-     */
-    usersUpdate: (
+    uploadIdCreate: (
       id: string,
+      query: {
+        /** File id */
+        id: string;
+      },
       data: {
-        email: string;
-        username: string;
-        password: string;
+        fileInfo?: {
+          name?: string;
+          alternativeText?: string;
+          caption?: string;
+        };
+        /** @format binary */
+        files?: File;
       },
       params: RequestParams = {},
     ) =>
-      this.request<
-        UsersPermissionsUser & {
-          role?: UsersPermissionsRole;
-        },
-        Error
-      >({
-        path: `/users/${id}`,
-        method: "PUT",
+      this.request<UploadFile[], any>({
+        path: `/upload?id=${id}`,
+        method: "POST",
+        query: query,
         body: data,
         secure: true,
-        type: ContentType.Json,
-        format: "json",
-        ...params,
-      }),
-
-    /**
-     * No description
-     *
-     * @tags Users-Permissions - Users & Roles
-     * @name UsersDelete
-     * @summary Delete a user
-     * @request DELETE:/users/{id}
-     * @secure
-     */
-    usersDelete: (id: string, params: RequestParams = {}) =>
-      this.request<UsersPermissionsUser, Error>({
-        path: `/users/${id}`,
-        method: "DELETE",
-        secure: true,
+        type: ContentType.FormData,
         format: "json",
         ...params,
       }),
@@ -3811,14 +2300,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @description Redirects to provider login before being redirect to /auth/{provider}/callback
      *
      * @tags Users-Permissions - Auth
-     * @name List
+     * @name ConnectDetail
      * @summary Login with a provider
-     * @request GET:/connect/(.*)
+     * @request GET:/connect/{provider}
      * @secure
      */
-    list: (params: RequestParams = {}) =>
+    connectDetail: (provider: string, params: RequestParams = {}) =>
       this.request<any, void | Error>({
-        path: `/connect/(.*)`,
+        path: `/connect/${provider}`,
         method: "GET",
         secure: true,
         ...params,
@@ -4031,6 +2520,322 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         body: data,
         secure: true,
         type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+  };
+  usersPermissions = {
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name PermissionsList
+     * @summary Get default generated permissions
+     * @request GET:/users-permissions/permissions
+     * @secure
+     */
+    permissionsList: (params: RequestParams = {}) =>
+      this.request<
+        {
+          permissions?: UsersPermissionsPermissionsTree;
+        },
+        Error
+      >({
+        path: `/users-permissions/permissions`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name RolesList
+     * @summary List roles
+     * @request GET:/users-permissions/roles
+     * @secure
+     */
+    rolesList: (params: RequestParams = {}) =>
+      this.request<
+        {
+          roles?: (UsersPermissionsRole & {
+            nb_users?: number;
+          })[];
+        },
+        Error
+      >({
+        path: `/users-permissions/roles`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name RolesCreate
+     * @summary Create a role
+     * @request POST:/users-permissions/roles
+     * @secure
+     */
+    rolesCreate: (
+      data: {
+        name?: string;
+        description?: string;
+        type?: string;
+        permissions?: UsersPermissionsPermissionsTree;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          ok?: "true";
+        },
+        Error
+      >({
+        path: `/users-permissions/roles`,
+        method: "POST",
+        body: data,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name RolesDetail
+     * @summary Get a role
+     * @request GET:/users-permissions/roles/{id}
+     * @secure
+     */
+    rolesDetail: (id: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          role?: UsersPermissionsRole;
+        },
+        Error
+      >({
+        path: `/users-permissions/roles/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name RolesUpdate
+     * @summary Update a role
+     * @request PUT:/users-permissions/roles/{role}
+     * @secure
+     */
+    rolesUpdate: (
+      role: string,
+      data: {
+        name?: string;
+        description?: string;
+        type?: string;
+        permissions?: UsersPermissionsPermissionsTree;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        {
+          ok?: "true";
+        },
+        Error
+      >({
+        path: `/users-permissions/roles/${role}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name RolesDelete
+     * @summary Delete a role
+     * @request DELETE:/users-permissions/roles/{role}
+     * @secure
+     */
+    rolesDelete: (role: string, params: RequestParams = {}) =>
+      this.request<
+        {
+          ok?: "true";
+        },
+        Error
+      >({
+        path: `/users-permissions/roles/${role}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+  };
+  users = {
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name UsersList
+     * @summary Get list of users
+     * @request GET:/users
+     * @secure
+     */
+    usersList: (params: RequestParams = {}) =>
+      this.request<UsersPermissionsUser[], Error>({
+        path: `/users`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name UsersCreate
+     * @summary Create a user
+     * @request POST:/users
+     * @secure
+     */
+    usersCreate: (
+      data: {
+        email: string;
+        username: string;
+        password: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        UsersPermissionsUser & {
+          role?: UsersPermissionsRole;
+        },
+        Error
+      >({
+        path: `/users`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name UsersDetail
+     * @summary Get a user
+     * @request GET:/users/{id}
+     * @secure
+     */
+    usersDetail: (id: string, params: RequestParams = {}) =>
+      this.request<UsersPermissionsUser, Error>({
+        path: `/users/${id}`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name UsersUpdate
+     * @summary Update a user
+     * @request PUT:/users/{id}
+     * @secure
+     */
+    usersUpdate: (
+      id: string,
+      data: {
+        email: string;
+        username: string;
+        password: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<
+        UsersPermissionsUser & {
+          role?: UsersPermissionsRole;
+        },
+        Error
+      >({
+        path: `/users/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name UsersDelete
+     * @summary Delete a user
+     * @request DELETE:/users/{id}
+     * @secure
+     */
+    usersDelete: (id: string, params: RequestParams = {}) =>
+      this.request<UsersPermissionsUser, Error>({
+        path: `/users/${id}`,
+        method: "DELETE",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name GetUsers
+     * @summary Get authenticated user info
+     * @request GET:/users/me
+     * @secure
+     */
+    getUsers: (params: RequestParams = {}) =>
+      this.request<UsersPermissionsUser, Error>({
+        path: `/users/me`,
+        method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users-Permissions - Users & Roles
+     * @name CountList
+     * @summary Get user count
+     * @request GET:/users/count
+     * @secure
+     */
+    countList: (params: RequestParams = {}) =>
+      this.request<number, Error>({
+        path: `/users/count`,
+        method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),

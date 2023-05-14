@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
-import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, Row, Select, Space, Switch, Table, notification } from "antd";
+import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, Row, Select, Space, Switch, Table, message, notification } from "antd";
 import { Order, postOrders } from "../../services/order";
 import { useEffect, useState } from "react";
 import { Client, ClientResponseDataObject, getClients } from "../../services/client";
@@ -10,9 +10,10 @@ import { Product, ProductResponseDataObject, getProducts } from "../../services/
 import { OrderDetail, postBulkOrderDetails } from "../../services/orderDetail";
 import currencyFilter from "../../utils/currencyFilter";
 import { ColumnsType } from "antd/es/table";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined, } from "@ant-design/icons";
 import styled from "styled-components";
 import Title from "antd/es/typography/Title";
+import CQuantityInput from "../../components/CQuantityInput";
 
 const CustomFormItem = styled(Form.Item)`
   margin-top: 10px;
@@ -31,13 +32,18 @@ const columns: ColumnsType<any> = [
     dataIndex: 'name'
   },
   {
+    title: 'Preço Unitário',
+    dataIndex: 'price',
+    align: 'right'
+  },
+  {
     title: 'Quantidade',
     dataIndex: 'quantity',
     align: 'right'
   },
   {
-    title: 'Preço',
-    dataIndex: 'price',
+    title: 'Preço Total',
+    dataIndex: 'amount_price',
     align: 'right'
   }
 ]
@@ -133,12 +139,33 @@ const OrderCreatePage: React.FC = () => {
     const orderDetail: OrderDetail = {
       product_id: id,
       quantity: 1,
+      amount_price: productsList[id].price,
       ...productsList[id]
     };
     setOrderDetails([
       ...orderDetails,
       orderDetail
     ])
+  }
+
+  const handleChangeQuantity = (quantity: any, index: number) => {
+    console.log(quantity);
+    if (quantity === 0) {
+      message.warning('@todo: Adicionar método de remoção de produto')
+      quantity = 1;
+    }
+    setOrderDetails(orderDetails.map((orderDetail, idx) => {
+      if (index === idx) {
+        return {
+          ...orderDetail,
+          quantity,
+          amount_price: orderDetail.price * quantity
+        }
+      }
+      else {
+        return orderDetail
+      }
+    }))
   }
 
   const onFinish = async (values: Order) => {
@@ -241,29 +268,41 @@ const OrderCreatePage: React.FC = () => {
           </Col>
           <Col span={16}>
             <Card title="Carrinho">
-              <Select
-                style={{ width: '100%' }}
-                showSearch
-                placeholder="Adicione um produto"
-                filterOption={(input, option) =>
-                  (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                }
-                loading={productsLoading}
-                options={productListOptions}
-                onChange={handleChangeProduct}
-              />
               <Table
+                pagination={false}
                 dataSource={
                   orderDetails.map((order, index) => ({
                     key: index,
                     name: order?.name,
-                    quantity: order?.quantity,
                     price: currencyFilter(order?.price),
-                    actions: <Button type="link"><DeleteOutlined /></Button>
+                    quantity: <CQuantityInput
+                      quantity={order?.quantity}
+                      index={index}
+                      handleOnChange={handleChangeQuantity}
+                    />,
+                    amount_price: currencyFilter(order?.amount_price)
                   }))
                 }
                 columns={columns}
               />
+              <Row>
+                <Col span={12}>
+                  <Space.Compact style={{ width: '100%' }}>
+                    <Select
+                      style={{ width: '100%' }}
+                      showSearch
+                      placeholder="Adicione um produto"
+                      filterOption={(input, option) =>
+                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                      }
+                      loading={productsLoading}
+                      options={productListOptions}
+                      onChange={handleChangeProduct}
+                    />
+                    <Button type="default">Inserir</Button>
+                  </Space.Compact>
+                </Col>
+              </Row>
             </Card>
           </Col>
         </Row>

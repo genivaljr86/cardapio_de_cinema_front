@@ -13,6 +13,8 @@ export interface OrderDetail {
   /** @format float */
   price: number;
   /** @format float */
+  amount_price: number;
+  /** @format float */
   quantity: number;
   /** @format date-time */
   createdAt?: string;
