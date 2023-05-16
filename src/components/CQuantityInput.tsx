@@ -10,7 +10,7 @@ const CQuantityInput: React.FC<QuantityProps> = (params) => {
 
   return (
     <InputNumber
-      {...params}
+      // {...params}
       value={quantity}
       autoFocus={true}
       onBlur={(e) => {
