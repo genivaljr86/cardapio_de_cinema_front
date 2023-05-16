@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
-import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Row, Select, Space, Switch, Table, message, notification } from "antd";
+import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Modal, Row, Select, Space, Switch, Table, notification } from "antd";
 import { Order, postOrders } from "../../services/order";
 import { useEffect, useState } from "react";
 import { Client, ClientResponseDataObject, getClients } from "../../services/client";
@@ -10,7 +10,7 @@ import { Product, ProductResponseDataObject, getProducts } from "../../services/
 import { OrderDetail, postBulkOrderDetails } from "../../services/orderDetail";
 import currencyFilter from "../../utils/currencyFilter";
 import { ColumnsType } from "antd/es/table";
-import { EditOutlined, } from "@ant-design/icons";
+import { EditOutlined, ExclamationCircleFilled, } from "@ant-design/icons";
 import styled from "styled-components";
 import Title from "antd/es/typography/Title";
 import CQuantityInput from "../../components/CQuantityInput";
@@ -152,7 +152,14 @@ const OrderCreatePage: React.FC = () => {
 
   const handleChangeQuantity = (quantity: any, index: number) => {
     if (quantity === 0) {
-      message.warning('@todo: Adicionar método de remoção de produto')
+      Modal.confirm({
+        title: 'Tem certeza que desejar apagar este item?',
+        icon: <ExclamationCircleFilled />,
+        content: orderDetails[index].name,
+        onOk() {
+          setOrderDetails(orderDetails.filter((o, idx) => idx !== index))
+        },
+      });
       quantity = 1;
     }
     setOrderDetails(orderDetails.map((orderDetail, idx) => {
