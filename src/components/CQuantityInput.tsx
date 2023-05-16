@@ -10,6 +10,7 @@ const CQuantityInput: React.FC<QuantityProps> = (params) => {
 
   return (
     <InputNumber
+      // @todo: Looking ways to transfering props without firing warnings
       // {...params}
       value={quantity}
       autoFocus={true}

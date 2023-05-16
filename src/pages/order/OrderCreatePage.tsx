@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import CTemplatePage from "../../components/CTemplatePage"
-import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, Row, Select, Space, Switch, Table, message, notification } from "antd";
+import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Row, Select, Space, Switch, Table, message, notification } from "antd";
 import { Order, postOrders } from "../../services/order";
 import { useEffect, useState } from "react";
 import { Client, ClientResponseDataObject, getClients } from "../../services/client";
@@ -59,6 +59,8 @@ const OrderCreatePage: React.FC = () => {
   const [orderDetails, setOrderDetails] = useState<OrderDetail[]>([])
   const [customDelivery, setCustomDelivery] = useState(false)
   const [clientFilled, setClientFilled] = useState(false)
+  const [subTotal, setSubtotal] = useState(0)
+  const [deliveryTax, setDeliveryTax] = useState(25.5)
   const navigate = useNavigate()
 
   async function fetchClientsData() {
@@ -149,7 +151,6 @@ const OrderCreatePage: React.FC = () => {
   }
 
   const handleChangeQuantity = (quantity: any, index: number) => {
-    console.log(quantity);
     if (quantity === 0) {
       message.warning('@todo: Adicionar método de remoção de produto')
       quantity = 1;
@@ -167,6 +168,15 @@ const OrderCreatePage: React.FC = () => {
       }
     }))
   }
+
+  useEffect(() => {
+    /**
+     * @todo Sum taxes
+     */
+    const subTotalHandled = orderDetails.reduce((acc, orderDetails) => acc + orderDetails.amount_price, 0);
+    form.setFieldValue('amount_price', subTotalHandled)
+    setSubtotal(subTotalHandled);
+  }, [orderDetails])
 
   const onFinish = async (values: Order) => {
     const orderHandled = {
@@ -255,8 +265,8 @@ const OrderCreatePage: React.FC = () => {
                     <Form.Item name="delivery_date" label="Data de Entrega">
                       <DatePicker />
                     </Form.Item>
-                    <Form.Item hidden name="amount_price" label="Valor Total" initialValue={22.40}>
-                      <InputNumber readOnly bordered={false} prefix="R$" />
+                    <Form.Item name="amount_price" hidden>
+                      <InputNumber readOnly bordered={false} />
                     </Form.Item>
                   </>
                 ) : (
@@ -285,11 +295,10 @@ const OrderCreatePage: React.FC = () => {
                 }
                 columns={columns}
               />
-              <Row>
-                <Col span={12}>
-                  <Space.Compact style={{ width: '100%' }}>
+              <Row gutter={16}>
+                <Col span={16}>
+                  <Space.Compact>
                     <Select
-                      style={{ width: '100%' }}
                       showSearch
                       placeholder="Adicione um produto"
                       filterOption={(input, option) =>
@@ -302,6 +311,26 @@ const OrderCreatePage: React.FC = () => {
                     <Button type="default">Inserir</Button>
                   </Space.Compact>
                 </Col>
+                {
+                  orderDetails.length > 0 && (
+                    <Col span={8}>
+                      <List itemLayout="horizontal" style={{ paddingRight: '16px' }}>
+                        <List.Item>
+                          <List.Item.Meta title={'Valor Total'} />
+                          <div>{currencyFilter(subTotal)}</div>
+                        </List.Item>
+                        <List.Item>
+                          <List.Item.Meta title={'Taxa de Entrega'} />
+                          <div>{currencyFilter(deliveryTax)}</div>
+                        </List.Item>
+                        <List.Item>
+                          <List.Item.Meta title={'Valor Final'} />
+                          <div>{currencyFilter(deliveryTax + subTotal)}</div>
+                        </List.Item>
+                      </List>
+                    </Col>
+                  )
+                }
               </Row>
             </Card>
           </Col>
