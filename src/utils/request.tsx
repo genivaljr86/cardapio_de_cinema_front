@@ -9,7 +9,7 @@ export const request: AxiosInstance = axios.create({
   headers: { 'Authorization': `Bearer ${devToken}` },
   transformResponse: [(data, header, status) => {
     let dataHandled = JSON.parse(data);
-    if (isEmpty(dataHandled.meta) && status === 200) {
+    if (dataHandled.data && isEmpty(dataHandled.meta) && status === 200) {
       dataHandled = dataHandled.data
     }
     return dataHandled
