@@ -4,10 +4,8 @@ import { ProductResponseDataObject, getProductByID } from "../../services/produc
 import { Link, useParams } from "react-router-dom";
 import { Avatar, Button, Col, Descriptions, Divider, Image, Row, Skeleton } from "antd";
 import currencyFilter from "../../utils/currencyFilter";
-import imageHandler, { ImageFormatTypes } from "../../utils/imageHandler";
-import { CoffeeOutlined, UserOutlined } from "@ant-design/icons";
-
-const formats = ImageFormatTypes
+import imageHandler from "../../utils/imageHandler";
+import { CoffeeOutlined } from "@ant-design/icons";
 
 const ProductViewPage: React.FC = () => {
   const { id } = useParams();
@@ -44,9 +42,9 @@ const ProductViewPage: React.FC = () => {
                     productDataAttributes.photo?.data ?
                       (
                         <Image
-                          src={imageHandler(productDataAttributes.photo, formats.thumbnail)}
+                          src={imageHandler(productDataAttributes.photo, 'thumbnail')}
                           preview={{
-                            src: imageHandler(productDataAttributes.photo, formats.large)
+                            src: imageHandler(productDataAttributes.photo, 'large')
                           }}
                         />
                       ) :

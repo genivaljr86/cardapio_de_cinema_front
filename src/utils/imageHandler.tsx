@@ -2,17 +2,14 @@ import Constants from "../constants";
 import { Product } from "../services/product";
 const { devServerUrl } = Constants
 
-export enum ImageFormatTypes {
-  large = 'large',
-  medium = 'medium',
-  small = 'small',
-  thumbnail = 'thumbnail'
-}
+
+export type ImageFormatTypes = 'large' | 'medium' | 'small' | 'thumbnail';
 
 export default function imageHandler(imageResponse: Product["photo"], format?: ImageFormatTypes) {
-  if (format) {
-    return devServerUrl + imageResponse?.data![0].attributes?.formats[format].url
+  const photoAttributes = imageResponse?.data![0].attributes;
+  if (format && photoAttributes?.formats) {
+    return devServerUrl + photoAttributes?.formats[format].url
   } else {
-    return devServerUrl + imageResponse?.data![0].attributes?.url
+    return devServerUrl + photoAttributes?.url
   }
 }

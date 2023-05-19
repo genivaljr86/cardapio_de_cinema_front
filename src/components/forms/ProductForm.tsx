@@ -1,14 +1,10 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Col, Form, FormInstance, Input, InputNumber, Modal, Row, Space } from "antd"
+import { Button, Col, Divider, Form, FormInstance, Input, InputNumber, Modal, Row, Space } from "antd"
 import TextArea from "antd/es/input/TextArea";
 import Upload, { RcFile, UploadFile, UploadProps } from "antd/es/upload";
-import { ReactElement, useState } from "react";
-
-// const getBase64 = (img: RcFile, callback: (url: string) => void) => {
-//   const reader = new FileReader();
-//   reader.addEventListener('load', () => callback(reader.result as string));
-//   reader.readAsDataURL(img);
-// };
+import { createContext, useEffect, useState } from "react";
+import imageHandler from "../../utils/imageHandler";
+import styled from "styled-components";
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -18,12 +14,39 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
+const SingleUpload = styled(Upload)`
 
-const ProductForm: React.FC<{ form: FormInstance, onFinish: any, extraButtons?: ReactElement }> = ({ form, onFinish, extraButtons }) => {
+.ant-upload-list-item-container{
+  height: auto !important;
+  width: 100% !important;
+}
+
+.ant-upload-select{
+  height: 150px !important;
+  width: 100% !important;
+}
+`
+
+export const FormContext = createContext({})
+
+const ProductForm: React.FC<{ form: FormInstance, onFinish: any, photo?: any }> = ({ form, onFinish, photo }) => {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
   const [fileList, setFileList] = useState<UploadFile[]>([])
+
+
+  useEffect(() => {
+    if (photo?.data) {
+      setFileList([{
+        uid: '-1',
+        name: 'preview.png',
+        status: 'done',
+        url: imageHandler(photo)
+      }])
+    }
+    // eslint-disable-next-line
+  }, [])
 
   const handleCancel = () => setPreviewOpen(false)
   const handlePreview = async (file: UploadFile) => {
@@ -36,7 +59,10 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: any, extraButtons?: 
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList)
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    form.setFieldValue('photo', newFileList)
+    setFileList(newFileList)
+  }
 
 
   const uploadButton = (
@@ -59,37 +85,34 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: any, extraButtons?: 
         requiredMark={true}
         onFinish={onFinish} >
         <Row gutter={16}>
-          <Col span={8}>
+          <Col span={4}>
+            <SingleUpload
+              customRequest={({ file, onSuccess }) => {
+                setTimeout(() => {
+                  onSuccess && onSuccess("ok")
+                }, 0);
+              }}
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChange}
+            >
+              {fileList.length > 0 ? null : uploadButton}
+            </SingleUpload>
+            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+              <img alt="preview" style={{ width: '100%' }} src={previewImage} width={'100%'} />
+            </Modal>
             <Form.Item
               name='photo'
-              valuePropName='fileList'
-              noStyle
-              getValueFromEvent={(event) => {
-                return event.fileList
-              }}
+              hidden
             >
-              <Upload
-                customRequest={({ file, onSuccess }) => {
-                  setTimeout(() => {
-                    onSuccess && onSuccess("ok")
-                  }, 0);
-                }}
-                listType="picture-circle"
-                fileList={fileList}
-                onPreview={handlePreview}
-                onChange={handleChange}
-              >
-                {fileList.length > 0 ? null : uploadButton}
-              </Upload>
+              <Input />
             </Form.Item>
-            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-              <img alt="preview" style={{ width: '100%' }} src={previewImage} />
-            </Modal>
 
           </Col>
-          <Col span={8}>
+          <Col span={10}>
             <Form.Item name="name" label="Nome"
-            // rules={[{ required: true, message: 'Esse campo é obrigatório' }]}
+              rules={[{ required: true, message: 'Esse campo é obrigatório' }]}
             >
               <Input placeholder="Insira o nome completo" />
             </Form.Item>
@@ -106,12 +129,13 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: any, extraButtons?: 
               />
             </Form.Item>
           </Col>
-          <Col span={8}>
+          <Col span={10}>
             <Form.Item name="description" label="Descrição">
-              <TextArea rows={6} />
+              <TextArea rows={5} />
             </Form.Item>
           </Col>
         </Row>
+        <Divider />
         <Form.Item>
           <Space size="small">
             <Button type="primary" htmlType="submit">Salvar</Button>

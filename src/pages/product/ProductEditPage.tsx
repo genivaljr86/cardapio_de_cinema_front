@@ -5,22 +5,23 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getProductByID, putProducts } from "../../services/product";
 import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
+import { isEmpty } from "lodash";
+import { postFile } from "../../services/file";
 
 const ProductEditPage: React.FC = () => {
   const [form] = Form.useForm();
+  const [photoHandle, setPhotoHandle] = useState({})
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AxiosError | undefined>(undefined)
   const navigate = useNavigate();
   const { id } = useParams();
 
 
-  /**
-   * @todo Insert image view preloaded
-   */
   async function fetchData() {
     setLoading(true);
     try {
-      const { data: { attributes: { name, price } } } = await getProductByID(id!);
+      const { data: { attributes: { name, price, photo } } } = await getProductByID(id!, { 'populate[0]': 'photo' });
+      setPhotoHandle(photo)
       form.setFieldsValue({ name, price })
     } catch (err) {
       setError(err as AxiosError)
@@ -34,8 +35,16 @@ const ProductEditPage: React.FC = () => {
   }, [])
 
   const onFinish = async (values: any) => {
+    const valuesHandled = values
+
     try {
-      await putProducts(id!, values);
+      if (!isEmpty(values.photo)) {
+        const formData = new FormData();
+        formData.append('files', valuesHandled?.photo[0].originFileObj)
+        const response = await postFile(formData)
+        valuesHandled.photo = response.data[0].id
+      }
+      await putProducts(id!, valuesHandled);
       notification.success({
         message: 'Sucesso!',
         description: `Produto ${values.name} foi editado!`
@@ -55,7 +64,7 @@ const ProductEditPage: React.FC = () => {
           loading ? (
             <Skeleton />
           ) : (
-            <ProductForm form={form} onFinish={onFinish} />
+            <ProductForm form={form} onFinish={onFinish} photo={photoHandle} />
           )
         }
       </CTemplatePage>
