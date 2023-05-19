@@ -7,6 +7,7 @@ export interface ProductRequest {
     /** @format float */
     price?: number;
     photo?: (number | string)[];
+    description?: string;
   };
 }
 
@@ -33,6 +34,7 @@ export interface Product {
   name: string;
   /** @format float */
   price: number;
+  description?: string;
   photo?: {
     data?: {
       id?: number;

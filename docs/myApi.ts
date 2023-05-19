@@ -24,6 +24,7 @@ export interface ClientRequest {
     name: string;
     address: string;
     phone?: string;
+    description?: string;
   };
 }
 
@@ -50,6 +51,7 @@ export interface Client {
   name: string;
   address: string;
   phone?: string;
+  description?: string;
   /** @format date-time */
   createdAt?: string;
   /** @format date-time */
@@ -213,6 +215,7 @@ export interface Order {
         name?: string;
         address?: string;
         phone?: string;
+        description?: string;
         /** @format date-time */
         createdAt?: string;
         /** @format date-time */
@@ -646,6 +649,7 @@ export interface OrderDetail {
               name?: string;
               address?: string;
               phone?: string;
+              description?: string;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -1301,6 +1305,7 @@ export interface Product {
                     name?: string;
                     address?: string;
                     phone?: string;
+                    description?: string;
                     /** @format date-time */
                     createdAt?: string;
                     /** @format date-time */

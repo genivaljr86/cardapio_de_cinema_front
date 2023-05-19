@@ -10,7 +10,7 @@ const ClientCreatePage: React.FC = () => {
 
   const onFinish = async (values: Client) => {
     try {
-      const { data: { data: { id } } } = await postClients(values);
+      const { data: { id } } = await postClients(values);
       notification.success({
         message: 'Sucesso!',
         description: `Cliente ${values.name} foi criado!`

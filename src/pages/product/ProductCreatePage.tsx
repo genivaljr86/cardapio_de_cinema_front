@@ -3,20 +3,31 @@ import CTemplatePage from "../../components/CTemplatePage";
 import ProductForm from "../../components/forms/ProductForm";
 import { useNavigate } from "react-router-dom";
 import { postProducts } from "../../services/product";
+import { postFile } from "../../services/file";
+import { isEmpty } from "lodash";
 
 const ProductCreatePage: React.FC = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
   const onFinish = async (values: any) => {
+    const valuesHandled = values
+
     try {
-      const { data: { data: { id } } } = await postProducts(values);
+      if (!isEmpty(values.photo)) {
+        const formData = new FormData();
+        formData.append('files', valuesHandled?.photo[0].originFileObj)
+        const response = await postFile(formData)
+        valuesHandled.photo = response.data[0].id
+      }
+      const { data: { id } } = await postProducts(values);
       notification.success({
         message: 'Sucesso!',
         description: `Produto ${values.name} foi criado!`
       })
       navigate(`../view/${id}`);
     } catch (err) {
+      console.log("error", err);
       notification.error({
         message: 'Erro!',
         description: 'Não foi possivel criar agora, tente mais tarde'
