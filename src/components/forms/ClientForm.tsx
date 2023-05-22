@@ -1,4 +1,4 @@
-import { Button, Form, FormInstance, Input, Space } from "antd";
+import { Button, Divider, Form, FormInstance, Input, Space } from "antd";
 /** @todo Review onFinish type */
 const ClientForm: React.FC<{ form: FormInstance, onFinish: any }> = ({ form, onFinish }) => {
   const onReset = () => {
@@ -12,7 +12,12 @@ const ClientForm: React.FC<{ form: FormInstance, onFinish: any }> = ({ form, onF
       form={form}
       requiredMark={true}
       onFinish={onFinish}
-      style={{ maxWidth: 600 }} >
+      style={
+        {
+          margin: '8px auto auto',
+          maxWidth: '600px'
+        }
+      } >
       <Form.Item name="name" label="Nome"
         rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
         <Input placeholder="Insira o nome completo" />
@@ -25,6 +30,7 @@ const ClientForm: React.FC<{ form: FormInstance, onFinish: any }> = ({ form, onF
         rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
         <Input placeholder="Insira o telefone" />
       </Form.Item>
+      <Divider />
       <Form.Item >
         <Space size="small">
           <Button type="primary" htmlType="submit">Salvar</Button>
