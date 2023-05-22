@@ -1,10 +1,11 @@
 import { PlusOutlined } from "@ant-design/icons";
-import { Button, Col, Divider, Form, FormInstance, Input, InputNumber, Modal, Row, Space } from "antd"
+import { Button, Divider, Form, FormInstance, Input, Modal, Space } from "antd"
 import TextArea from "antd/es/input/TextArea";
 import Upload, { RcFile, UploadFile, UploadProps } from "antd/es/upload";
 import { useEffect, useState } from "react";
 import imageHandler from "../../utils/imageHandler";
 import styled from "styled-components";
+import { NumericFormat } from "react-number-format";
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -25,7 +26,6 @@ width: 200px !important;
   margin: 0px auto auto !important;
   height: 200px !important;
   width: 200px!important;
-  /* display: block !important; */
 }
 `
 
@@ -124,15 +124,16 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: any, photo?: any }> 
           <Input placeholder="Insira o nome completo" />
         </Form.Item>
         <Form.Item name="price" label="Preço"
-          initialValue={0}
           rules={[
             { required: true, message: 'Esse campo é obrigatório' },
             // @todo Create min value validation
             // { min: 0.01, message: 'O valor mínimo é de R$ 0.01' }
-          ]}>
-          <InputNumber
+          ]}
+        >
+          <NumericFormat
+            decimalScale={2}
+            customInput={Input}
             addonBefore={'R$'}
-            onKeyPress={(e) => !/^[0-9.]+$/.test(e.key) && e.preventDefault()}
           />
         </Form.Item>
         <Form.Item name="description" label="Descrição">
