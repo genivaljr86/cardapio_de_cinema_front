@@ -1,20 +1,22 @@
-import { Form, Skeleton, notification } from "antd";
-import CTemplatePage from "../../components/CTemplatePage";
-import ProductForm from "../../components/forms/ProductForm";
-import { useNavigate, useParams } from "react-router-dom";
-import { getProductByID, putProducts } from "../../services/product";
-import { useEffect, useState } from "react";
+import { Skeleton, notification } from "antd";
+import CTemplatePage from "../../../components/CTemplatePage";
+import ProductForm from "../../../components/forms/ProductForm";
+import { getProductByID, putProducts } from "../../../services/product";
+import { useEffect } from "react";
 import { AxiosError } from "axios";
 import { isEmpty } from "lodash";
-import { postFile } from "../../services/file";
+import { postFile } from "../../../services/file";
+import useProductEditHooks from "./hooks";
 
 const ProductEditPage: React.FC = () => {
-  const [form] = Form.useForm();
-  const [photoHandle, setPhotoHandle] = useState({})
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<AxiosError | undefined>(undefined)
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const {
+    id,
+    form,
+    navigate,
+    loading, setLoading,
+    photoHandle, setPhotoHandle,
+    error, setError
+  } = useProductEditHooks()
 
 
   async function fetchData() {

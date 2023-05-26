@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react";
-import CTemplatePage from "../../components/CTemplatePage"
-import { ProductResponseDataObject, getProductByID } from "../../services/product";
-import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import CTemplatePage from "../../../components/CTemplatePage"
+import { getProductByID } from "../../../services/product";
+import { Link } from "react-router-dom";
 import { Avatar, Button, Col, Descriptions, Divider, Image, Row, Skeleton } from "antd";
-import currencyFilter from "../../utils/currencyFilter";
-import imageHandler from "../../utils/imageHandler";
+import currencyFilter from "../../../utils/currencyFilter";
+import imageHandler from "../../../utils/imageHandler";
 import { CoffeeOutlined } from "@ant-design/icons";
 import { AxiosError } from "axios";
+import useProductViewHooks from "./hooks";
 
 const ProductViewPage: React.FC = () => {
-  const { id } = useParams();
-
-  const [productDataAttributes, setproductDataAttributes] = useState({} as ProductResponseDataObject['attributes']);
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<AxiosError>()
+  const {
+    id,
+    productDataAttributes, setproductDataAttributes,
+    loading, setLoading,
+    error, setError
+  } = useProductViewHooks()
 
   useEffect(() => {
     const fetchData = async () => {

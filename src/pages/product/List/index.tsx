@@ -2,22 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Button, Modal, Table, TablePaginationConfig, notification } from "antd";
 import { CoffeeOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { ColumnsType } from 'antd/lib/table'
-import CTemplatePage from "../../components/CTemplatePage";
-import { ProductResponseDataObject, deleteProducts, getProducts } from "../../services/product";
+import CTemplatePage from "../../../components/CTemplatePage";
+import { ProductResponseDataObject, deleteProducts, getProducts } from "../../../services/product";
 import { Link } from "react-router-dom";
-import currencyFilter from "../../utils/currencyFilter";
-import useProductListHooks from "./List/hooks";
+import currencyFilter from "../../../utils/currencyFilter";
+import Constants from "../../../constants";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
 }
 
 const ProductsListPage: React.FC = () => {
-  const {
-    pageSize,
-    dataSource, setdataSource,
-    loading, setLoading
-  } = useProductListHooks()
+  const { pagination: { pageSize } } = Constants;
+
+  const [dataSource, setdataSource] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {

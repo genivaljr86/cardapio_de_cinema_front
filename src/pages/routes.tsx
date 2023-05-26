@@ -1,10 +1,10 @@
 import { redirect } from "react-router-dom";
 import App from "./app/App";
-import ClientPageRoutes from "./client/routes";
-import LoginPageRoutes from "./login/routes";
-import ProductPageRoutes from "./product/routes";
-import ErrorPage from "./error/ErrorPage";
-import OrderPageRoutes from "./order/routes";
+import ClientPageRoutes from "./Client/routes";
+import LoginPageRoutes from "./Login/routes";
+import ProductPageRoutes from "./Product/routes";
+import ErrorPage from "./Error/ErrorPage";
+import OrderPageRoutes from "./Order/routes";
 
 const HomePageRoute = {
   index: true,

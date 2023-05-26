@@ -1,6 +1,5 @@
 import { Button, Divider, Form, FormInstance, Input, Space } from "antd";
-/** @todo Review onFinish type */
-const ClientForm: React.FC<{ form: FormInstance, onFinish: any }> = ({ form, onFinish }) => {
+const ClientForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => void) }> = ({ form, onFinish }) => {
   const onReset = () => {
     form.resetFields();
   };

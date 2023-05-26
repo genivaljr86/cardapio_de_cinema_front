@@ -1,12 +1,14 @@
-import { Form, notification } from "antd";
-import CTemplatePage from "../../components/CTemplatePage";
-import { Client, postClients } from "../../services/client";
-import { useNavigate } from "react-router-dom";
-import ClientForm from "../../components/forms/ClientForm";
+import { notification } from "antd";
+import useClientCreateHooks from "./hooks";
+import { Client, postClients } from "../../../services/client";
+import CTemplatePage from "../../../components/CTemplatePage";
+import ClientForm from "../../../components/forms/ClientForm";
 
 const ClientCreatePage: React.FC = () => {
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
+  const {
+    form,
+    navigate
+  } = useClientCreateHooks()
 
   const onFinish = async (values: Client) => {
     try {

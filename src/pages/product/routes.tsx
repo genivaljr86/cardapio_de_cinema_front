@@ -1,7 +1,7 @@
-import { ProductCreatePageRoute } from "./ProductCreatePage";
-import { ProductEditPageRoute } from "./ProductEditPage";
-import { ProductListRoute } from "./ProductListPage";
-import { ProductViewPageRoute } from "./ProductViewPage";
+import { ProductCreatePageRoute } from "./Create";
+import { ProductEditPageRoute } from "./Edit";
+import { ProductListRoute } from "./List";
+import { ProductViewPageRoute } from "./View";
 
 const ProductPageRoutes = {
   path: 'products',

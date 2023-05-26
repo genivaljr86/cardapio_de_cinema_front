@@ -1,25 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Button, Modal, Table, notification } from "antd";
-import { ClientResponseDataObject, deleteClient, getClients } from "../../services/client";
+import { ClientResponseDataObject, deleteClient, getClients } from "../../../services/client";
 import { Link } from "react-router-dom";
-import CTemplatePage from "../../components/CTemplatePage";
+import CTemplatePage from "../../../components/CTemplatePage";
 import { ExclamationCircleFilled, UsergroupAddOutlined } from "@ant-design/icons";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
-import Constants from "../../constants";
 import { AxiosError } from "axios";
+import useClientListHooks from "./hooks";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
 }
 
-
 const ClientListPage: React.FC = () => {
-  const { pagination: { pageSize } } = Constants;
-
-  const [dataSource, setDataSource] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<AxiosError | undefined>(undefined)
-
+  const {
+    pageSize,
+    dataSource, setDataSource,
+    loading, setLoading,
+    error, setError
+  } = useClientListHooks()
 
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {

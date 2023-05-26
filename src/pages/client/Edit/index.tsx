@@ -1,18 +1,19 @@
-import { Form, Skeleton, notification } from "antd";
-import CTemplatePage from "../../components/CTemplatePage";
-import { Client, getClientByID, putClient } from "../../services/client";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import ClientForm from "../../components/forms/ClientForm";
+import { Skeleton, notification } from "antd";
+import { useEffect } from "react";
 import { AxiosError } from "axios";
+import useClientEditHooks from "./hooks";
+import { Client, getClientByID, putClient } from "../../../services/client";
+import CTemplatePage from "../../../components/CTemplatePage";
+import ClientForm from "../../../components/forms/ClientForm";
 
 const ClientEditPage: React.FC = () => {
-  const [form] = Form.useForm();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<AxiosError | undefined>(undefined)
-
-  const navigate = useNavigate();
-  const { id } = useParams();
+  const {
+    id,
+    form,
+    navigate,
+    loading, setLoading,
+    error, setError
+  } = useClientEditHooks()
 
   async function fetchData() {
     setLoading(true);

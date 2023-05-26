@@ -1,7 +1,7 @@
-import { ClientCreatePageRoute } from "./ClientCreatePage";
-import { ClientEditPageRoute } from "./ClientEditPage";
-import { ClientListPageRoute } from "./ClientListPage";
-import { ClientViewPageRoute } from "./ClientViewPage";
+import { ClientCreatePageRoute } from "./Create";
+import { ClientEditPageRoute } from "./Edit";
+import { ClientListPageRoute } from "./List";
+import { ClientViewPageRoute } from "./View";
 
 
 const ClientPageRoutes = {

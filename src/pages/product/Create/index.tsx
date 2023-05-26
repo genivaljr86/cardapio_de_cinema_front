@@ -1,14 +1,16 @@
-import { Form, notification } from "antd";
-import CTemplatePage from "../../components/CTemplatePage";
-import ProductForm from "../../components/forms/ProductForm";
-import { useNavigate } from "react-router-dom";
-import { postProducts } from "../../services/product";
-import { postFile } from "../../services/file";
+import { notification } from "antd";
+import CTemplatePage from "../../../components/CTemplatePage";
+import ProductForm from "../../../components/forms/ProductForm";
+import { postProducts } from "../../../services/product";
+import { postFile } from "../../../services/file";
 import { isEmpty } from "lodash";
+import useProductCreateHooks from "./hooks";
 
 const ProductCreatePage: React.FC = () => {
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
+  const {
+    form,
+    navigate
+  } = useProductCreateHooks()
 
   const onFinish = async (values: any) => {
     const valuesHandled = values

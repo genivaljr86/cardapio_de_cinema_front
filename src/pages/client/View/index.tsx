@@ -1,16 +1,19 @@
-import { Link, useParams } from "react-router-dom";
-import CTemplatePage from "../../components/CTemplatePage"
-import { useEffect, useState } from "react";
-import { ClientResponseDataObject, getClientByID } from "../../services/client";
+import { Link } from "react-router-dom";
+import CTemplatePage from "../../../components/CTemplatePage"
+import { useEffect } from "react";
+import { getClientByID } from "../../../services/client";
 import { Button, Descriptions, Skeleton } from "antd";
 import { AxiosError } from "axios";
+import useClientViewPageHooks from "./hooks";
 
 const ClientViewPage: React.FC = () => {
 
-  const { id } = useParams();
-  const [clientData, setclientData] = useState({} as ClientResponseDataObject);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<AxiosError | undefined>(undefined)
+  const {
+    id,
+    clientData, setclientData,
+    loading, setLoading,
+    error, setError
+  } = useClientViewPageHooks()
 
   useEffect(() => {
     const fetchData = async () => {

@@ -29,7 +29,7 @@ width: 200px !important;
 }
 `
 
-const ProductForm: React.FC<{ form: FormInstance, onFinish: any, photo?: any }> = ({ form, onFinish, photo }) => {
+const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => void), photo?: any }> = ({ form, onFinish, photo }) => {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
@@ -63,7 +63,7 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: any, photo?: any }> 
   };
 
   const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    // form.setFieldValue('photo', newFileList)
+    form.setFieldValue('photo', newFileList)
     setFileList(newFileList)
   }
 
