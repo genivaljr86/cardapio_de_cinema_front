@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
-import { OrderListPageRoute } from "./OrderListPage";
-import { OrderCreatePageRoute } from "./OrderCreatePage";
-import { OrderViewPageRoute } from "./OrderViewPage";
+import { OrderListPageRoute } from "./List";
+import { OrderViewPageRoute } from "./View";
+import { OrderCreatePageRoute } from "./Create";
 
 const OrderPageRoutes: RouteObject = {
   path: 'orders',

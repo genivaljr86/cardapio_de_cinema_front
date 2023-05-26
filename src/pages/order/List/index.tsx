@@ -1,18 +1,16 @@
-import { useEffect, useState } from "react";
-import CTemplatePage from "../../components/CTemplatePage"
+import { useEffect } from "react";
+import CTemplatePage from "../../../components/CTemplatePage"
 import { ColumnsType } from "antd/lib/table";
-import { OrderResponseDataObject, deleteOrders, getOrders } from "../../services/order";
+import { OrderResponseDataObject, deleteOrders, getOrders } from "../../../services/order";
 import { Link } from "react-router-dom";
-import currencyFilter from "../../utils/currencyFilter";
+import currencyFilter from "../../../utils/currencyFilter";
 import { Button, Modal, Table, TablePaginationConfig, notification } from "antd";
 import { DollarCircleOutlined, ExclamationCircleFilled } from "@ant-design/icons";
-import dateTimeFilter from "../../utils/dateTimeFilter";
-import Constants from "../../constants";
+import dateTimeFilter from "../../../utils/dateTimeFilter";
 import { AxiosError } from "axios";
+import useOrderListPageHooks from "./hooks";
 
-interface TableParams {
-  pagination?: TablePaginationConfig;
-}
+
 
 const columns: ColumnsType<any> = [
   {
@@ -40,18 +38,12 @@ const columns: ColumnsType<any> = [
 ]
 
 const OrderListPage: React.FC = () => {
-  const { pagination: { pageSize } } = Constants;
-  const [dataSource, setDataSource] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<AxiosError | undefined>(undefined)
-
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize
-    },
-  });
-
+  const {
+    dataSource, setDataSource,
+    tableParams, setTableParams,
+    loading, setLoading,
+    error, setError
+  } = useOrderListPageHooks()
 
   async function fetchData() {
     setLoading(true);

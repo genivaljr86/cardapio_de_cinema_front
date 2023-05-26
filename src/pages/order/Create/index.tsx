@@ -1,19 +1,18 @@
-import { useNavigate } from "react-router-dom";
-import CTemplatePage from "../../components/CTemplatePage"
+import CTemplatePage from "../../../components/CTemplatePage"
 import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Modal, Row, Select, Space, Switch, Table, notification } from "antd";
-import { Order, postOrders } from "../../services/order";
-import { useEffect, useState } from "react";
-import { Client, ClientResponseDataObject, getClients } from "../../services/client";
-import { dateRequestFilter } from "../../utils/dateTimeFilter";
-import { OptionProps } from "antd/es/select";
-import { Product, ProductResponseDataObject, getProducts } from "../../services/product";
-import { OrderDetail, postBulkOrderDetails } from "../../services/orderDetail";
-import currencyFilter from "../../utils/currencyFilter";
+import { Order, postOrders } from "../../../services/order";
+import { useEffect } from "react";
+import { Client, ClientResponseDataObject, getClients } from "../../../services/client";
+import { dateRequestFilter } from "../../../utils/dateTimeFilter";
+import { Product, ProductResponseDataObject, getProducts } from "../../../services/product";
+import { OrderDetail, postBulkOrderDetails } from "../../../services/orderDetail";
+import currencyFilter from "../../../utils/currencyFilter";
 import { ColumnsType } from "antd/es/table";
 import { EditOutlined, ExclamationCircleFilled, } from "@ant-design/icons";
 import styled from "styled-components";
 import Title from "antd/es/typography/Title";
-import CQuantityInput from "../../components/CQuantityInput";
+import CQuantityInput from "../../../components/CQuantityInput";
+import useOrderCreatePageHooks from "./hooks";
 
 const CustomFormItem = styled(Form.Item)`
   margin-top: 10px;
@@ -24,7 +23,6 @@ const FormSectionTitle = styled(Title)`
   margin-top: 10px;
   margin-bottom: 5px;
 `
-
 
 const columns: ColumnsType<any> = [
   {
@@ -49,19 +47,21 @@ const columns: ColumnsType<any> = [
 ]
 
 const OrderCreatePage: React.FC = () => {
-  const [form] = Form.useForm();
-  const [clientsList, setClientsList] = useState<Client[]>([])
-  const [clientListOptions, setClientListOptions] = useState<OptionProps[]>([])
-  const [clientsLoading, setClientsLoading] = useState(false)
-  const [productsList, setProductsList] = useState<Product[]>([])
-  const [productListOptions, setProductListOptions] = useState<OptionProps[]>([])
-  const [productsLoading, setProductsLoading] = useState(false)
-  const [orderDetails, setOrderDetails] = useState<OrderDetail[]>([])
-  const [customDelivery, setCustomDelivery] = useState(false)
-  const [clientFilled, setClientFilled] = useState(false)
-  const [subTotal, setSubtotal] = useState(0)
-  const [deliveryTax, setDeliveryTax] = useState(25.5)
-  const navigate = useNavigate()
+  const {
+    form,
+    clientsList, setClientsList,
+    clientListOptions, setClientListOptions,
+    clientsLoading, setClientsLoading,
+    productsList, setProductsList,
+    productListOptions, setProductListOptions,
+    productsLoading, setProductsLoading,
+    orderDetails, setOrderDetails,
+    customDelivery, setCustomDelivery,
+    clientFilled, setClientFilled,
+    subTotal, setSubtotal,
+    deliveryTax, setDeliveryTax,
+    navigate
+  } = useOrderCreatePageHooks()
 
   async function fetchClientsData() {
     setClientsLoading(true);
@@ -117,10 +117,12 @@ const OrderCreatePage: React.FC = () => {
 
   useEffect(() => {
     fetchClientsData();
+    // eslint-disable-next-line
   }, [])
 
   useEffect(() => {
     fetchProductsData();
+    // eslint-disable-next-line
   }, [])
 
   const handleChangeClient = (id: any) => {

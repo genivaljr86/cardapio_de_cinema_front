@@ -1,18 +1,14 @@
-import { Link, useParams } from "react-router-dom";
-import CTemplatePage from "../../components/CTemplatePage"
-import { useEffect, useState } from "react";
-import { OrderResponseDataObject, getOrderByID } from "../../services/order";
+import { Link } from "react-router-dom";
+import CTemplatePage from "../../../components/CTemplatePage"
+import { useEffect } from "react";
+import { getOrderByID } from "../../../services/order";
 import { Descriptions, Skeleton, Table } from "antd";
-import currencyFilter from "../../utils/currencyFilter";
-import { OrderDetailResponseDataObject, getOrderDetails } from "../../services/orderDetail";
+import currencyFilter from "../../../utils/currencyFilter";
+import { getOrderDetails } from "../../../services/orderDetail";
 import { ColumnsType } from "antd/es/table";
-import dateTimeFilter from "../../utils/dateTimeFilter";
+import dateTimeFilter from "../../../utils/dateTimeFilter";
 import { AxiosError } from "axios";
-
-type ClientData = {
-  id: number
-  name: string;
-}
+import useOrderViewPageHooks from "./hooks";
 
 const columns: ColumnsType<any> = [
   {
@@ -32,13 +28,14 @@ const columns: ColumnsType<any> = [
 ]
 
 const OrderViewPage: React.FC = () => {
-
-  const { id } = useParams();
-  const [orderData, setOrderData] = useState<OrderResponseDataObject['attributes']>()
-  const [clientData, setClientData] = useState<ClientData>()
-  const [orderDetails, setOrderDetails] = useState<OrderDetailResponseDataObject[]>()
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<AxiosError | undefined>(undefined)
+  const {
+    id,
+    orderData, setOrderData,
+    clientData, setClientData,
+    orderDetails, setOrderDetails,
+    loading, setLoading,
+    error, setError
+  } = useOrderViewPageHooks()
 
   useEffect(() => {
     setLoading(true)
