@@ -1,7 +1,7 @@
 import { Form } from "antd"
 import { useNavigate } from "react-router-dom";
 
-const useClientCreateHooks = () => {
+const useClientCreatePageHooks = () => {
   const [form] = Form.useForm()
   const navigate = useNavigate();
 
@@ -11,4 +11,4 @@ const useClientCreateHooks = () => {
   }
 }
 
-export default useClientCreateHooks
+export default useClientCreatePageHooks

@@ -6,7 +6,7 @@ import CTemplatePage from "../../../components/CTemplatePage";
 import { ExclamationCircleFilled, UsergroupAddOutlined } from "@ant-design/icons";
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import { AxiosError } from "axios";
-import useClientListHooks from "./hooks";
+import useClientListPageHooks from "./hooks";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
@@ -18,7 +18,7 @@ const ClientListPage: React.FC = () => {
     dataSource, setDataSource,
     loading, setLoading,
     error, setError
-  } = useClientListHooks()
+  } = useClientListPageHooks()
 
   const [tableParams, setTableParams] = useState<TableParams>({
     pagination: {

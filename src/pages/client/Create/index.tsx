@@ -1,5 +1,5 @@
 import { notification } from "antd";
-import useClientCreateHooks from "./hooks";
+import useClientCreatePageHooks from "./hooks";
 import { Client, postClients } from "../../../services/client";
 import CTemplatePage from "../../../components/CTemplatePage";
 import ClientForm from "../../../components/forms/ClientForm";
@@ -8,7 +8,7 @@ const ClientCreatePage: React.FC = () => {
   const {
     form,
     navigate
-  } = useClientCreateHooks()
+  } = useClientCreatePageHooks()
 
   const onFinish = async (values: Client) => {
     try {

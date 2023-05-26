@@ -1,7 +1,7 @@
 import { Skeleton, notification } from "antd";
 import { useEffect } from "react";
 import { AxiosError } from "axios";
-import useClientEditHooks from "./hooks";
+import useClientEditPageHooks from "./hooks";
 import { Client, getClientByID, putClient } from "../../../services/client";
 import CTemplatePage from "../../../components/CTemplatePage";
 import ClientForm from "../../../components/forms/ClientForm";
@@ -13,7 +13,7 @@ const ClientEditPage: React.FC = () => {
     navigate,
     loading, setLoading,
     error, setError
-  } = useClientEditHooks()
+  } = useClientEditPageHooks()
 
   async function fetchData() {
     setLoading(true);

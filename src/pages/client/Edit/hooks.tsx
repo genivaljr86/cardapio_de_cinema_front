@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const useClientEditHooks = () => {
+const useClientEditPageHooks = () => {
   const [form] = Form.useForm()
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AxiosError | undefined>(undefined)
@@ -21,4 +21,4 @@ const useClientEditHooks = () => {
   }
 }
 
-export default useClientEditHooks
+export default useClientEditPageHooks

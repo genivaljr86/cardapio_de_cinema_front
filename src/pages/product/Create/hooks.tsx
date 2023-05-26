@@ -1,7 +1,7 @@
 import { Form } from "antd";
 import { useNavigate } from "react-router-dom";
 
-const useProductCreateHooks = () => {
+const useProductCreatePageHooks = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   return {
@@ -10,4 +10,4 @@ const useProductCreateHooks = () => {
   }
 }
 
-export default useProductCreateHooks
+export default useProductCreatePageHooks

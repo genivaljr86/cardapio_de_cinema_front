@@ -3,7 +3,7 @@ import { AxiosError } from "axios";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const useProductEditHooks = () => {
+const useProductEditPageHooks = () => {
   const [form] = Form.useForm();
   const [photoHandle, setPhotoHandle] = useState({})
   const [loading, setLoading] = useState(false);
@@ -20,4 +20,4 @@ const useProductEditHooks = () => {
   }
 }
 
-export default useProductEditHooks
+export default useProductEditPageHooks

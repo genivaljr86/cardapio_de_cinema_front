@@ -4,13 +4,13 @@ import ProductForm from "../../../components/forms/ProductForm";
 import { postProducts } from "../../../services/product";
 import { postFile } from "../../../services/file";
 import { isEmpty } from "lodash";
-import useProductCreateHooks from "./hooks";
+import useProductCreatePageHooks from "./hooks";
 
 const ProductCreatePage: React.FC = () => {
   const {
     form,
     navigate
-  } = useProductCreateHooks()
+  } = useProductCreatePageHooks()
 
   const onFinish = async (values: any) => {
     const valuesHandled = values

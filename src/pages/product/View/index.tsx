@@ -7,7 +7,7 @@ import currencyFilter from "../../../utils/currencyFilter";
 import imageHandler from "../../../utils/imageHandler";
 import { CoffeeOutlined } from "@ant-design/icons";
 import { AxiosError } from "axios";
-import useProductViewHooks from "./hooks";
+import useProductViewPageHooks from "./hooks";
 
 const ProductViewPage: React.FC = () => {
   const {
@@ -15,7 +15,7 @@ const ProductViewPage: React.FC = () => {
     productDataAttributes, setproductDataAttributes,
     loading, setLoading,
     error, setError
-  } = useProductViewHooks()
+  } = useProductViewPageHooks()
 
   useEffect(() => {
     const fetchData = async () => {

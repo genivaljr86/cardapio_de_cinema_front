@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Constants from "../../../constants";
 
-const useProductListHooks = () => {
+const useProductListPageHooks = () => {
   const { pagination: { pageSize } } = Constants;
 
   const [dataSource, setdataSource] = useState([]);
@@ -14,4 +14,4 @@ const useProductListHooks = () => {
   }
 }
 
-export default useProductListHooks
+export default useProductListPageHooks

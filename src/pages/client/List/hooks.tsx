@@ -2,7 +2,7 @@ import { useState } from "react";
 import Constants from "../../../constants";
 import { AxiosError } from "axios";
 
-const useClientListHooks = () => {
+const useClientListPageHooks = () => {
   const { pagination: { pageSize } } = Constants;
 
   const [dataSource, setDataSource] = useState([]);
@@ -17,4 +17,4 @@ const useClientListHooks = () => {
   }
 }
 
-export default useClientListHooks
+export default useClientListPageHooks

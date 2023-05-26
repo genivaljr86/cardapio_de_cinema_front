@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { AxiosError } from "axios";
 import { isEmpty } from "lodash";
 import { postFile } from "../../../services/file";
-import useProductEditHooks from "./hooks";
+import useProductEditPageHooks from "./hooks";
 
 const ProductEditPage: React.FC = () => {
   const {
@@ -16,7 +16,7 @@ const ProductEditPage: React.FC = () => {
     loading, setLoading,
     photoHandle, setPhotoHandle,
     error, setError
-  } = useProductEditHooks()
+  } = useProductEditPageHooks()
 
 
   async function fetchData() {
