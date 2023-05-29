@@ -1,18 +1,18 @@
-import CTemplatePage from "../../../components/CTemplatePage"
-import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Modal, Row, Select, Space, Switch, Table, notification } from "antd";
-import { Order, postOrders } from "../../../services/order";
 import { useEffect } from "react";
+import { Order, postOrders } from "../../../services/order";
 import { Client, ClientResponseDataObject, getClients } from "../../../services/client";
-import { dateRequestFilter } from "../../../utils/dateTimeFilter";
 import { Product, ProductResponseDataObject, getProducts } from "../../../services/product";
 import { OrderDetail, postBulkOrderDetails } from "../../../services/orderDetail";
-import currencyFilter from "../../../utils/currencyFilter";
-import { ColumnsType } from "antd/es/table";
-import { EditOutlined, ExclamationCircleFilled, } from "@ant-design/icons";
 import styled from "styled-components";
-import Title from "antd/es/typography/Title";
-import CQuantityInput from "../../../components/CQuantityInput";
 import useOrderCreatePageHooks from "./hooks";
+import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Modal, Row, Select, Space, Switch, notification } from "antd";
+import Title from "antd/es/typography/Title";
+import { EditOutlined, ExclamationCircleFilled, } from "@ant-design/icons";
+import currencyFilter from "../../../utils/currencyFilter";
+import { dateRequestFilter } from "../../../utils/dateTimeFilter";
+import CTemplatePage from "../../../components/CTemplatePage"
+import CCartTable from "../../../components/tables/CCartTable";
+import CSelectProduct from "../../../components/inputs/CSelectProduct";
 
 const CustomFormItem = styled(Form.Item)`
   margin-top: 10px;
@@ -23,28 +23,6 @@ const FormSectionTitle = styled(Title)`
   margin-top: 10px;
   margin-bottom: 5px;
 `
-
-const columns: ColumnsType<any> = [
-  {
-    title: 'Nome',
-    dataIndex: 'name'
-  },
-  {
-    title: 'Preço Unitário',
-    dataIndex: 'price',
-    align: 'right'
-  },
-  {
-    title: 'Quantidade',
-    dataIndex: 'quantity',
-    align: 'right'
-  },
-  {
-    title: 'Preço Total',
-    dataIndex: 'amount_price',
-    align: 'right'
-  }
-]
 
 const OrderCreatePage: React.FC = () => {
   const {
@@ -107,6 +85,7 @@ const OrderCreatePage: React.FC = () => {
           label: name
         }
       });
+
       setProductsList(productListHandle);
       setProductListOptions(orderListOptionsHandle);
     } catch (err) {
@@ -275,7 +254,7 @@ const OrderCreatePage: React.FC = () => {
                       <DatePicker />
                     </Form.Item>
                     <Form.Item name="amount_price" hidden>
-                      <InputNumber readOnly bordered={false} />
+                      <InputNumber bordered={false} />
                     </Form.Item>
                   </>
                 ) : (
@@ -287,38 +266,14 @@ const OrderCreatePage: React.FC = () => {
           </Col>
           <Col span={16}>
             <Card title="Carrinho">
-              <Table
-                pagination={false}
-                dataSource={
-                  orderDetails.map((order, index) => ({
-                    key: index,
-                    name: order?.name,
-                    price: currencyFilter(order?.price),
-                    quantity: <CQuantityInput
-                      quantity={order?.quantity}
-                      index={index}
-                      handleOnChange={handleChangeQuantity}
-                    />,
-                    amount_price: currencyFilter(order?.amount_price)
-                  }))
-                }
-                columns={columns}
-              />
+              <CCartTable orderDetails={orderDetails} handleChangeQuantity={handleChangeQuantity} />
               <Row gutter={16}>
                 <Col span={16}>
-                  <Space.Compact>
-                    <Select
-                      showSearch
-                      placeholder="Adicione um produto"
-                      filterOption={(input, option) =>
-                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                      }
-                      loading={productsLoading}
-                      options={productListOptions}
-                      onChange={handleChangeProduct}
-                    />
-                    <Button type="default">Inserir</Button>
-                  </Space.Compact>
+                  <CSelectProduct
+                    productListOptions={productListOptions}
+                    handleChangeProduct={handleChangeProduct}
+                    loading={productsLoading}
+                  />
                 </Col>
                 {
                   orderDetails.length > 0 && (

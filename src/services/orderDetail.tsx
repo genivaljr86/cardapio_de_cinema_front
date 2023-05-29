@@ -3,7 +3,7 @@ import { request } from "../utils/request";
 
 export interface OrderDetail {
   order_id?: object;
-  product_id?: {
+  product_id?: number | {
     data?: {
       id?: number;
       attributes?: object;
