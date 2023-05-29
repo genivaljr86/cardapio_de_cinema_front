@@ -8,7 +8,7 @@ interface TableParams {
 }
 
 const useOrderListPageHooks = () => {
-  const { pagination: { pageSize } } = Constants;
+  const { PAGINATION: { PAGE_SIZE: pageSize } } = Constants;
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AxiosError | undefined>(undefined)

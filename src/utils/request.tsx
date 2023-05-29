@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from "axios";
 import Constants from "../constants";
 import { isEmpty } from 'lodash'
 
-const { devApi, devToken } = Constants;
+const { DEV_API: devApi, DEV_TOKEN: devToken } = Constants;
 
 export const request: AxiosInstance = axios.create({
   baseURL: devApi,

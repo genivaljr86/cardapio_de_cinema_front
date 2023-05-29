@@ -3,7 +3,7 @@ import Constants from "../../../constants";
 import { AxiosError } from "axios";
 
 const useClientListPageHooks = () => {
-  const { pagination: { pageSize } } = Constants;
+  const { PAGINATION: { PAGE_SIZE: pageSize } } = Constants;
 
   const [dataSource, setDataSource] = useState([]);
   const [loading, setLoading] = useState(true);

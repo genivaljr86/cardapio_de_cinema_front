@@ -1,6 +1,6 @@
 import Constants from "../constants";
 import { Product } from "../services/product";
-const { devServerUrl } = Constants
+const { DEV_SERVER_URL: devServerUrl } = Constants
 
 
 export type ImageFormatTypes = 'large' | 'medium' | 'small' | 'thumbnail';

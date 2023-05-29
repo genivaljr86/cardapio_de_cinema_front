@@ -13,7 +13,7 @@ interface TableParams {
 }
 
 const ProductsListPage: React.FC = () => {
-  const { pagination: { pageSize } } = Constants;
+  const { PAGINATION: { PAGE_SIZE: pageSize } } = Constants;
 
   const [dataSource, setdataSource] = useState([]);
   const [loading, setLoading] = useState(false);
