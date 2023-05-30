@@ -1,23 +1,24 @@
 import { CoffeeOutlined, DollarOutlined, HomeOutlined, PoweroffOutlined, TeamOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useMatches } from "react-router-dom";
 
 
-const SidebarMenu: React.FC = () => {
-  let location = useLocation();
+const CSidebarMenu: React.FC = () => {
+  const location = useLocation();
+  const maches = useMatches()
   const [current, setCurrent] = useState(location.pathname)
   useEffect(() => {
     if (location) {
-      if (current !== location.pathname) {
-        setCurrent(location.pathname);
+      if (current !== maches[1].pathname) {
+        setCurrent(maches[1].pathname);
       }
     }
-  }, [location, current]);
+  }, [maches, current, location]);
 
   const sideMenuItens: MenuProps['items'] = [
     {
-      key: '/app',
+      key: '/app/',
       icon: <HomeOutlined />,
       label: <Link to={'/app'}>Home</Link>
     },
@@ -45,12 +46,13 @@ const SidebarMenu: React.FC = () => {
   ]
   return (
     <Menu
+
       mode="inline"
-      style={{ height: '100%', borderRight: 0 }}
+      style={{ height: '100%', borderRight: 0, fontSize: '16px' }}
       items={sideMenuItens}
       selectedKeys={[current]}
     />
   )
 }
 
-export default SidebarMenu;
+export default CSidebarMenu;

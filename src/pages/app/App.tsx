@@ -1,6 +1,6 @@
 import React from 'react';
 import { Layout, theme } from 'antd';
-import SidebarMenu from '../../components/SidebarMenu';
+import CSidebarMenu from '../../components/CSidebarMenu';
 import { Outlet } from 'react-router-dom';
 import logo from '../../resources/img/logo.jpg'
 
@@ -19,7 +19,7 @@ const App: React.FC = () => {
       </Header>
       <Layout>
         <Sider width={200} style={{ background: colorBgContainer }}>
-          <SidebarMenu />
+          <CSidebarMenu />
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
           <Outlet />
