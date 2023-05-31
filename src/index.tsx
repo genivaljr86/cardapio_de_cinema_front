@@ -5,7 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 import routes from './pages/routes';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, theme } from 'antd';
 import locale from 'antd/locale/pt_BR'
 
 const root = ReactDOM.createRoot(
@@ -16,7 +16,12 @@ const router = createBrowserRouter(routes);
 
 root.render(
   <React.StrictMode>
-    <ConfigProvider locale={locale}>
+    <ConfigProvider locale={locale} theme={{
+      algorithm: theme.darkAlgorithm,
+      token: {
+        borderRadius: 0
+      }
+    }}>
       <RouterProvider router={router} />
     </ConfigProvider>
   </React.StrictMode>
