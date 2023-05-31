@@ -5,14 +5,14 @@ import { Client, putClient } from "../../../services/client";
 import ClientForm from "../../forms/ClientForm";
 import { EditOutlined } from "@ant-design/icons";
 
-export interface UseClientModalParams {
+export interface ClientModalParams {
   id: string;
   clientData: any;
   onCancel?: Function;
   onSuccess?: Function;
 }
 
-const ClientEditModal = ({ id, clientData, onSuccess, onCancel }: UseClientModalParams) => {
+const ClientEditModal = ({ id, clientData, onSuccess, onCancel }: ClientModalParams) => {
   const {
     form,
     loading, setLoading,
