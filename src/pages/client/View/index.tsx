@@ -35,7 +35,7 @@ const ClientViewPage: React.FC = () => {
 
   const {
     id,
-    clientData, setclientData,
+    clientDataAttributes, setclientDataAttributes,
     ordersList, setOrdersList,
     ordersLoading, setOrdersLoading,
     loading, setLoading,
@@ -45,8 +45,8 @@ const ClientViewPage: React.FC = () => {
 
   const fetchClientData = async () => {
     try {
-      const { data: dataResponse } = await getClientByID(id!);
-      setclientData(dataResponse)
+      const { data: { attributes } } = await getClientByID(id!);
+      setclientDataAttributes(attributes)
     } catch (err) {
       setError(err as AxiosError)
     }
@@ -114,13 +114,13 @@ const ClientViewPage: React.FC = () => {
                 title={
                   <>
                     Dados do Cliente
-                    <ClientEditModal id={id!} onSuccess={fetchClientData} clientData={clientData} />
+                    <ClientEditModal id={id!} onSuccess={fetchClientData} clientData={clientDataAttributes} />
                   </>
                 }
               >
-                <Descriptions.Item label={'Nome'}>{clientData.attributes?.name}</Descriptions.Item>
-                <Descriptions.Item label={'Endereço'}>{clientData.attributes?.address}</Descriptions.Item>
-                <Descriptions.Item label={'Telefone'}>{clientData.attributes?.phone}</Descriptions.Item>
+                <Descriptions.Item label={'Nome'}>{clientDataAttributes?.name}</Descriptions.Item>
+                <Descriptions.Item label={'Endereço'}>{clientDataAttributes?.address}</Descriptions.Item>
+                <Descriptions.Item label={'Telefone'}>{clientDataAttributes?.phone}</Descriptions.Item>
               </Descriptions>
               <Descriptions title={'Vendas'}>
               </Descriptions>

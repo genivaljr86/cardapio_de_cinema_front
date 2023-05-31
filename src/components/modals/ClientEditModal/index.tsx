@@ -20,7 +20,7 @@ const ClientEditModal = ({ id, clientData, onSuccess, onCancel }: ClientModalPar
   } = useClientEditModalHooks()
 
   useEffect(() => {
-    const { attributes: { name, address, phone } } = clientData;
+    const { name, address, phone } = clientData;
     form.setFieldsValue({ name, address, phone })
     //eslint-disable-next-line
   }, [clientData])
