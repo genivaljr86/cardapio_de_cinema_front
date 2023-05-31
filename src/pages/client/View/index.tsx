@@ -7,7 +7,7 @@ import { OrderResponseDataObject, getOrders } from "../../../services/order";
 import currencyFilter from "../../../utils/currencyFilter";
 import dateTimeFilter from "../../../utils/dateTimeFilter";
 import CTemplatePage from "../../../components/CTemplatePage"
-import ClientEditModal from "../../../components/modals/CreateEditModal";
+import ClientEditModal from "../../../components/modals/ClientEditModal";
 import { ColumnsType } from "antd/es/table";
 import { Descriptions, Skeleton, Table } from "antd";
 
