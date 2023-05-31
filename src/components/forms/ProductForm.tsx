@@ -133,6 +133,7 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => vo
         >
           <NumericFormat
             decimalScale={2}
+            fixedDecimalScale
             customInput={Input}
             addonBefore={'R$'}
           />
