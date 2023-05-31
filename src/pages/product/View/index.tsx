@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import CTemplatePage from "../../../components/CTemplatePage"
 import { getProductByID } from "../../../services/product";
-import { Link } from "react-router-dom";
-import { Avatar, Button, Col, Descriptions, Divider, Image, Row, Skeleton } from "antd";
+import { Avatar, Col, Descriptions, Divider, Image, Row, Skeleton } from "antd";
 import currencyFilter from "../../../utils/currencyFilter";
 import imageHandler from "../../../utils/imageHandler";
 import { CoffeeOutlined } from "@ant-design/icons";
@@ -78,9 +77,6 @@ const ProductViewPage: React.FC = () => {
                 </Col>
               </Row>
               <Divider />
-              <Link to={`../edit/${id}`}>
-                <Button type="primary">Editar Produto</Button>
-              </Link>
             </>
           )
       }
