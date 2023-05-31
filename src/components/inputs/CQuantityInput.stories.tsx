@@ -4,7 +4,7 @@ import CQuantityInput from "./CQuantityInput";
 
 const meta: Meta<typeof CQuantityInput> = {
   component: CQuantityInput,
-  title: 'Atomos/CQuantityInput',
+  title: 'Atoms/CQuantityInput',
   excludeStories: /.*Data$/,
   argTypes: { handleOnChange: { action: 'handleOnChange' } }
 }
@@ -12,9 +12,5 @@ const meta: Meta<typeof CQuantityInput> = {
 export default meta
 
 type Story = StoryObj<typeof CQuantityInput>
-
-export const CQuantityActionsData = {
-  handleOnChange: action('handleOnChange')
-}
 
 export const Default: Story = {}
