@@ -8,6 +8,7 @@ import imageHandler from "../../../utils/imageHandler";
 import { CoffeeOutlined } from "@ant-design/icons";
 import { AxiosError } from "axios";
 import useProductViewPageHooks from "./hooks";
+import ProductEditModal from "../../../components/modals/ProductEditModal";
 
 const ProductViewPage: React.FC = () => {
   const {
@@ -17,18 +18,19 @@ const ProductViewPage: React.FC = () => {
     error, setError
   } = useProductViewPageHooks()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data: { attributes } } = await getProductByID(id!, { 'populate[0]': 'photo' });
-        setproductDataAttributes(attributes)
-      } catch (err) {
-        setError(err as AxiosError)
-        console.log("err", err);
-        throw err;
-      }
-      setLoading(false)
+  const fetchData = async () => {
+    try {
+      const { data: { attributes } } = await getProductByID(id!, { 'populate[0]': 'photo' });
+      setproductDataAttributes(attributes)
+    } catch (err) {
+      setError(err as AxiosError)
+      console.log("err", err);
+      throw err;
     }
+    setLoading(false)
+  }
+
+  useEffect(() => {
     fetchData();
     // eslint-disable-next-line
   }, [])
@@ -59,7 +61,12 @@ const ProductViewPage: React.FC = () => {
                   }
                 </Col>
                 <Col span={20}>
-                  <Descriptions title={'Dados Gerais'}>
+                  <Descriptions title={
+                    <>
+                      Dados Gerais
+                      <ProductEditModal productData={productDataAttributes} id={id!} photo={productDataAttributes.photo} onSuccess={fetchData} />
+                    </>
+                  }>
                     <Descriptions.Item label={'Nome'}>{productDataAttributes.name}</Descriptions.Item>
                     <Descriptions.Item label={'Preço'}>
                       {currencyFilter(productDataAttributes.price)}

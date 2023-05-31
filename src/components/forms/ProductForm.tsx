@@ -29,7 +29,7 @@ width: 200px !important;
 }
 `
 
-const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => void), photo?: any }> = ({ form, onFinish, photo }) => {
+const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => void), photo?: any, hiddenButtons?: boolean }> = ({ form, onFinish, photo, hiddenButtons }) => {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [previewTitle, setPreviewTitle] = useState('')
@@ -104,6 +104,7 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => vo
             fileList={fileList}
             onPreview={handlePreview}
             onChange={handleChange}
+            accept={'image/png, image/jpeg'}
           >
             {fileList.length > 0 ? null : uploadButton}
           </SingleUpload>
@@ -141,14 +142,19 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => vo
         </Form.Item>
 
         <Divider />
-        <Form.Item>
-          <Space size="small">
-            <Button type="primary" htmlType="submit">Salvar</Button>
-            <Button htmlType="button" type="link" onClick={onReset}>
-              Limpar
-            </Button>
-          </Space>
-        </Form.Item>
+        {
+          !hiddenButtons && (
+            <Form.Item>
+              <Space size="small">
+                <Button type="primary" htmlType="submit">Salvar</Button>
+                <Button htmlType="button" type="link" onClick={onReset}>
+                  Limpar
+                </Button>
+              </Space>
+            </Form.Item>
+
+          )
+        }
       </Form>
     </>
   );
