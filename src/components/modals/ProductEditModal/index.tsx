@@ -1,7 +1,5 @@
 import { Button, Modal, Tooltip, notification } from "antd";
 import { useEffect } from "react";
-import { Client, putClient } from "../../../services/client";
-import ClientForm from "../../forms/ClientForm";
 import { EditOutlined } from "@ant-design/icons";
 import useProductEditModalHooks from "./hooks";
 import ProductForm from "../../forms/ProductForm";
