@@ -26,7 +26,7 @@ const ProductEditModal = ({ id, photo, productData, onSuccess, onCancel }: Produ
     const { name, price, description } = productData
     form.setFieldsValue({ name, price, description })
     //eslint-disable-next-line
-  }, [productData])
+  }, [productData, openModal])
 
 
   const onFinish = async (values: any) => {

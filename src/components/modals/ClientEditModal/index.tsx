@@ -23,7 +23,7 @@ const ClientEditModal = ({ id, clientData, onSuccess, onCancel }: ClientModalPar
     const { name, address, phone } = clientData;
     form.setFieldsValue({ name, address, phone })
     //eslint-disable-next-line
-  }, [clientData])
+  }, [clientData, openModal])
 
 
 
