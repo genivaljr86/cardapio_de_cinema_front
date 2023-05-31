@@ -1,5 +1,5 @@
 import { Button, Divider, Form, FormInstance, Input, Space } from "antd";
-const ClientForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => void) }> = ({ form, onFinish }) => {
+const ClientForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => void), hiddenButtons?: boolean }> = ({ form, onFinish, hiddenButtons = false }) => {
   const onReset = () => {
     form.resetFields();
   };
@@ -30,14 +30,18 @@ const ClientForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => voi
         <Input placeholder="Insira o telefone" />
       </Form.Item>
       <Divider />
-      <Form.Item >
-        <Space size="small">
-          <Button type="primary" htmlType="submit">Salvar</Button>
-          <Button htmlType="button" type="link" onClick={onReset}>
-            Limpar
-          </Button>
-        </Space>
-      </Form.Item>
+      {
+        !hiddenButtons && (
+          <Form.Item >
+            <Space size="small">
+              <Button type="primary" htmlType="submit">Salvar</Button>
+              <Button htmlType="button" type="link" onClick={onReset}>
+                Limpar
+              </Button>
+            </Space>
+          </Form.Item>
+        )
+      }
     </Form>
   )
 }

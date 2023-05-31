@@ -1,33 +1,107 @@
-import { Link } from "react-router-dom";
-import CTemplatePage from "../../../components/CTemplatePage"
 import { useEffect } from "react";
-import { getClientByID } from "../../../services/client";
-import { Button, Descriptions, Skeleton } from "antd";
-import { AxiosError } from "axios";
+import { Link, RouteObject, } from "react-router-dom";
 import useClientViewPageHooks from "./hooks";
+import { getClientByID } from "../../../services/client";
+import { AxiosError } from "axios";
+import { OrderResponseDataObject, getOrders } from "../../../services/order";
+import currencyFilter from "../../../utils/currencyFilter";
+import dateTimeFilter from "../../../utils/dateTimeFilter";
+import CTemplatePage from "../../../components/CTemplatePage"
+import ClientEditModal from "../../../components/modals/CreateEditModal";
+import { ColumnsType } from "antd/es/table";
+import { Descriptions, Skeleton, Table } from "antd";
+
+const columns: ColumnsType<any> = [
+  {
+    title: 'ID',
+    dataIndex: 'orderId'
+
+  },
+  {
+    title: 'Cliente (Destinário)',
+    dataIndex: 'name'
+  },
+  {
+    title: 'Valor',
+    dataIndex: 'amount_price'
+  },
+  {
+    title: 'Data de Entrega',
+    dataIndex: 'delivery_date'
+  }
+]
 
 const ClientViewPage: React.FC = () => {
 
   const {
     id,
     clientData, setclientData,
+    ordersList, setOrdersList,
+    ordersLoading, setOrdersLoading,
     loading, setLoading,
     error, setError
   } = useClientViewPageHooks()
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const { data: dataResponse } = await getClientByID(id!);
-        setclientData(dataResponse)
-      } catch (err) {
-        setError(err as AxiosError)
-      }
-      setLoading(false)
+
+  const fetchClientData = async () => {
+    try {
+      const { data: dataResponse } = await getClientByID(id!);
+      setclientData(dataResponse)
+    } catch (err) {
+      setError(err as AxiosError)
     }
-    fetchData();
+    setLoading(false)
+  }
+  useEffect(() => {
+    fetchClientData();
     // eslint-disable-next-line
   }, [])
+
+  const fetchOrdersData = async () => {
+    setOrdersLoading(true)
+    try {
+      const params = {
+        'filters[client]': id,
+        'populate[1]': 'client',
+      }
+      const { data: { data: dataResponse, meta: { pagination } } } = await getOrders(params);
+      const ordersListHandled = dataResponse.map((row: OrderResponseDataObject) => {
+        const {
+          id,
+          attributes: { name, address, amount_price, delivery_date, custom_delivery,
+            client: {
+              data: {
+                attributes: {
+                  name: clientName
+                }
+              }
+            }
+          }
+        } = row;
+        return {
+          key: id,
+          orderId: <Link to={`../../orders/view/${id}`}>{`#${id}`}</Link>,
+          name: clientName + (custom_delivery ? ` (${name})` : ``),
+          address,
+          amount_price: currencyFilter(amount_price!),
+          delivery_date: dateTimeFilter(delivery_date),
+          // actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>
+        }
+      })
+      setOrdersList(ordersListHandled)
+
+    } catch (error) {
+      console.log('error', error);
+    }
+    setOrdersLoading(false)
+  }
+  useEffect(() => {
+    fetchOrdersData();
+    // eslint-disable-next-line
+  }, [])
+
+
+
   return <>
     <CTemplatePage error={error}>
       {
@@ -36,14 +110,25 @@ const ClientViewPage: React.FC = () => {
         )
           : (
             <>
-              <Descriptions title={'Dados Pessoais'}>
+              <Descriptions
+                title={
+                  <>
+                    Dados do Cliente
+                    <ClientEditModal id={id!} onSuccess={fetchClientData} clientData={clientData} />
+                  </>
+                }
+              >
                 <Descriptions.Item label={'Nome'}>{clientData.attributes?.name}</Descriptions.Item>
                 <Descriptions.Item label={'Endereço'}>{clientData.attributes?.address}</Descriptions.Item>
                 <Descriptions.Item label={'Telefone'}>{clientData.attributes?.phone}</Descriptions.Item>
               </Descriptions>
-              <Link to={`../edit/${id}`}>
-                <Button type="primary">Editar Cliente</Button>
-              </Link>
+              <Descriptions title={'Vendas'}>
+              </Descriptions>
+              <Table
+                loading={ordersLoading}
+                dataSource={ordersList}
+                columns={columns}
+              />
             </>
           )
       }
@@ -51,7 +136,7 @@ const ClientViewPage: React.FC = () => {
   </>
 }
 
-export const ClientViewPageRoute = {
+export const ClientViewPageRoute: RouteObject = {
   path: 'view/:id',
   element: <ClientViewPage />,
   handle: {
