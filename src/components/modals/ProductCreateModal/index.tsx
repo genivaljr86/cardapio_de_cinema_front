@@ -1,6 +1,6 @@
-import { Button, Modal, Tooltip } from "antd";
+import { Modal } from "antd";
 import { useEffect } from "react";
-import { CoffeeOutlined, EditOutlined } from "@ant-design/icons";
+import { CoffeeOutlined } from "@ant-design/icons";
 import ProductForm from "../../forms/ProductForm";
 import { isEmpty } from "lodash";
 import { postFile } from "../../../services/file";
