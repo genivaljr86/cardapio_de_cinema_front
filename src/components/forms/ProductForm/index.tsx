@@ -1,87 +1,17 @@
-import { PlusOutlined } from "@ant-design/icons";
-import { Button, Divider, Form, FormInstance, Input, Modal, Space } from "antd"
+import { Button, Divider, Form, FormInstance, Input, Space } from "antd"
 import TextArea from "antd/es/input/TextArea";
-import Upload, { RcFile, UploadFile, UploadProps } from "antd/es/upload";
-import { useEffect } from "react";
-import imageHandler from "../../../utils/imageHandler";
-import styled from "styled-components";
 import { NumericFormat } from "react-number-format";
-import useProductFormHooks from "./hooks";
+import CUploadImage from "../../inputs/CUploadImage";
 
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-
-const Center = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`
-const SingleUpload = styled(Upload)`
-width: 200px !important;
-.ant-upload-list-item-container, .ant-upload-select{
-  margin: 0px auto auto !important;
-  height: 200px !important;
-  width: 200px!important;
-}
-`
 
 const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => void), photo?: any, hiddenButtons?: boolean }> = ({ form, onFinish, photo, hiddenButtons }) => {
-  const {
-    previewOpen, setPreviewOpen,
-    previewImage, setPreviewImage,
-    previewTitle, setPreviewTitle,
-    fileList, setFileList
-  } = useProductFormHooks()
-
-  /**
-   * @todo Create modal to control update of images
-   * @todo Create external component to upload using onChange param
-   */
-
-  useEffect(() => {
-    if (photo?.data) {
-      setFileList([{
-        uid: '-1',
-        name: 'preview.png',
-        status: 'done',
-        url: imageHandler(photo)
-      }])
-    }
-    // eslint-disable-next-line
-  }, [])
-
-  const handleCancel = () => setPreviewOpen(false)
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
-    }
-
-    setPreviewImage(file.url || (file.preview as string));
-    setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-  };
-
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    form.setFieldValue('photo', newFileList)
-    setFileList(newFileList)
-  }
-
-
-  const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
-
   const onReset = () => {
     form.resetFields();
   };
+
+  const onChangeImage = (fileImage: any) => {
+    form.setFieldValue("photo", fileImage)
+  }
 
   return (
     <>
@@ -97,30 +27,11 @@ const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => vo
             maxWidth: '600px'
           }
         }>
-        <Center>
-          <SingleUpload
-            customRequest={({ file, onSuccess }) => {
-              setTimeout(() => {
-                onSuccess && onSuccess("ok")
-              }, 0);
-            }}
-            listType="picture-circle"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-            accept={'image/png, image/jpeg'}
-          >
-            {fileList.length > 0 ? null : uploadButton}
-          </SingleUpload>
-          <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-            <img alt="preview" style={{ width: '100%' }} src={previewImage} width={'100%'} />
-          </Modal>
-        </Center>
+        <CUploadImage photo={photo} onChangeImage={onChangeImage} />
         <Form.Item
           name='photo'
           hidden
         >
-          <Upload fileList={fileList} />
         </Form.Item>
 
         <Form.Item name="name" label="Nome"
