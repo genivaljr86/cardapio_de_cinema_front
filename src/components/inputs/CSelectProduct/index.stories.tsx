@@ -1,5 +1,4 @@
-import { Meta } from "@storybook/react"
-import { action } from '@storybook/addon-actions'
+import { Meta, StoryObj } from "@storybook/react"
 import { ProductListResponseDataItem } from "../../../services/product"
 import CSelectProduct from "."
 
@@ -7,6 +6,14 @@ const meta: Meta = {
   component: CSelectProduct,
   title: 'Organisms/CSelectProduct',
   excludeStories: /.*Data$/,
+  args: {
+    onChangeProduct: {
+      action: 'onChangeProduct'
+    },
+    onSelectProduct: {
+      action: 'onSelectProduct'
+    }
+  }
 }
 export default meta
 
@@ -78,10 +85,15 @@ export const CSelectProductData = {
   products
 }
 
-export const CSelectProductActionsData = {
-  onChangeProduct: action('onChangeProduct'),
-  onSelectProduct: action('onSelectProduct'),
-}
+type Story = StoryObj<typeof CSelectProduct>
 
-export const Default = () => <CSelectProduct {...CSelectProductData} {...CSelectProductActionsData} />
-export const Loading = () => <CSelectProduct products={[]} {...CSelectProductActionsData} loading={true} />
+
+export const Default: Story = {
+  args: CSelectProductData
+}
+export const Loading: Story = {
+  args: {
+    loading: true,
+    ...CSelectProductData
+  }
+}
