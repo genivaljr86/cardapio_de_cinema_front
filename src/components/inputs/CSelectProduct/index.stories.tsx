@@ -7,7 +7,6 @@ const meta: Meta = {
   component: CSelectProduct,
   title: 'Organisms/CSelectProduct',
   excludeStories: /.*Data$/,
-
 }
 export default meta
 
