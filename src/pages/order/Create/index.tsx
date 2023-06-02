@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Order, postOrders } from "../../../services/order";
 import { Client, ClientResponseDataObject, getClients } from "../../../services/client";
-import { Product, ProductResponseDataObject, getProducts } from "../../../services/product";
+import { ProductListResponseDataItem, getProducts } from "../../../services/product";
 import { OrderDetail, postBulkOrderDetails } from "../../../services/orderDetail";
 import styled from "styled-components";
 import useOrderCreatePageHooks from "./hooks";
@@ -31,7 +31,6 @@ const OrderCreatePage: React.FC = () => {
     clientListOptions, setClientListOptions,
     clientsLoading, setClientsLoading,
     productsList, setProductsList,
-    productListOptions, setProductListOptions,
     productsLoading, setProductsLoading,
     orderDetails, setOrderDetails,
     customDelivery, setCustomDelivery,
@@ -70,24 +69,8 @@ const OrderCreatePage: React.FC = () => {
   async function fetchProductsData() {
     setProductsLoading(true);
     try {
-      const productListHandle: Product[] = [];
       const { data: { data: dataResponse } } = await getProducts();
-      const orderListOptionsHandle = dataResponse.map((row: ProductResponseDataObject) => {
-        const { id, attributes: { name, price } } = row;
-        /**
-         * @todo Remove this conditional for reasons of TS
-         */
-        if (id) {
-          productListHandle[id] = { name, price };
-        }
-        return {
-          value: id,
-          label: name
-        }
-      });
-
-      setProductsList(productListHandle);
-      setProductListOptions(orderListOptionsHandle);
+      setProductsList(dataResponse);
     } catch (err) {
       throw err;
     }
@@ -106,6 +89,8 @@ const OrderCreatePage: React.FC = () => {
 
   const handleChangeClient = (id: any) => {
     setClientFilled(true);
+    // const {name,address,phone} = clientsList[id]
+    // form.setFieldsValue({name,address,phone})
     form.setFieldValue('name', clientsList[id].name)
     form.setFieldValue('address', clientsList[id].address)
     form.setFieldValue('phone', clientsList[id].phone)
@@ -118,12 +103,13 @@ const OrderCreatePage: React.FC = () => {
     }
   }
 
-  const handleChangeProduct = (id: any) => {
+  const onSelectProduct = (product: ProductListResponseDataItem) => {
+    const { id, attributes: productAtts } = product
     const orderDetail: OrderDetail = {
       product_id: id,
       quantity: 1,
-      amount_price: productsList[id].price,
-      ...productsList[id]
+      amount_price: productAtts.price,
+      ...productAtts
     };
     setOrderDetails([
       ...orderDetails,
@@ -270,8 +256,8 @@ const OrderCreatePage: React.FC = () => {
               <Row gutter={16}>
                 <Col span={16}>
                   <CSelectProduct
-                    productListOptions={productListOptions}
-                    handleChangeProduct={handleChangeProduct}
+                    products={productsList}
+                    onSelectProduct={onSelectProduct}
                     loading={productsLoading}
                   />
                 </Col>

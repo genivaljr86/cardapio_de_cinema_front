@@ -1,30 +1,52 @@
 import { Button, Select, Space } from "antd"
-import { OptionProps } from "antd/es/select"
+import { ProductListResponseDataItem } from "../../services/product"
+import { useState } from "react"
 
 export type CSelectProductParams = {
-  productListOptions: OptionProps[]
-  handleChangeProduct?: (id: any) => void
-  handleSelectProduct?: () => void
+  products: ProductListResponseDataItem[]
+  onChangeProduct?: (id: any) => void
+  onSelectProduct?: (product: ProductListResponseDataItem) => void
   loading?: boolean
 }
 
-const CSelectProduct: React.FC<CSelectProductParams> = ({ productListOptions, handleChangeProduct, handleSelectProduct, loading = false }) => {
+const CSelectProduct: React.FC<CSelectProductParams> = ({ products, onChangeProduct, onSelectProduct, loading = false }) => {
+  const [productSelected, setProductSelected] = useState<ProductListResponseDataItem>()
+  const [selected, setSelected] = useState<any>()
+
+  const handleChangeProduct = (id: string) => {
+    const product = products.find((product) => Number(id) === product.id)
+    setProductSelected(product)
+    setSelected(id)
+    onChangeProduct && onChangeProduct(product)
+  }
+
+  const handleSelectProduct = () => {
+    onSelectProduct && onSelectProduct(productSelected!)
+    setSelected(null)
+  }
+
   return (
     <Space.Compact>
       <Select
-        disabled={loading}
         showSearch
         placeholder={loading ? 'Carregando Produtos' : 'Escolha um produto'}
+        loading={loading}
+        disabled={loading}
+        value={selected}
         filterOption={(input, option) =>
           (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
         }
-        loading={loading}
-        options={productListOptions}
+        options={products.map(({ id, attributes: { name } }) => (
+          {
+            value: id,
+            label: name
+          }
+        ))}
         onChange={handleChangeProduct}
       />
       {
         handleSelectProduct && (
-          <Button disabled={loading} onClick={() => handleSelectProduct()} type="default">Inserir</Button>
+          <Button disabled={loading || productSelected === undefined} onClick={() => handleSelectProduct()} type="default">Inserir</Button>
         )
       }
     </Space.Compact>

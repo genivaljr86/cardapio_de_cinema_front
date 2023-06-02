@@ -12,7 +12,7 @@ export interface ProductRequest {
 }
 
 export interface ProductListResponseDataItem {
-  id?: number;
+  id: number;
   attributes: Product;
 }
 
