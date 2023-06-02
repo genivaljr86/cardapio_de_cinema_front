@@ -4,6 +4,7 @@ import Upload, { RcFile } from "antd/es/upload";
 import { useEffect, useState } from "react"
 import imageHandler from "../../../utils/imageHandler";
 import styled from "styled-components";
+import useCUploadImageHooks from "./hooks";
 
 export type CUploadImageParams = {
   photo: any,
@@ -40,10 +41,12 @@ const uploadButton = (
   </div>
 );
 const CUploadImage: React.FC<CUploadImageParams> = ({ photo, onChangeImage }) => {
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
-  const [previewTitle, setPreviewTitle] = useState('')
-  const [fileList, setFileList] = useState<UploadFile[]>([])
+  const {
+    previewOpen, setPreviewOpen,
+    previewImage, setPreviewImage,
+    previewTitle, setPreviewTitle,
+    fileList, setFileList
+  } = useCUploadImageHooks()
 
   useEffect(() => {
     if (photo?.data) {
