@@ -1,4 +1,4 @@
-import { Button, Modal, Tooltip, notification } from "antd";
+import { App, Button, Modal, Tooltip } from "antd";
 import { useEffect } from "react";
 import { EditOutlined } from "@ant-design/icons";
 import useProductEditModalHooks from "./hooks";
@@ -19,7 +19,8 @@ const ProductEditModal = ({ id, photo, productData, onSuccess, onCancel }: Produ
   const {
     form,
     loading, setLoading,
-    openModal, setOpenModal
+    openModal, setOpenModal,
+    notification
   } = useProductEditModalHooks()
 
   useEffect(() => {

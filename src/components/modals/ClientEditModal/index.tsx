@@ -1,4 +1,4 @@
-import { Button, Modal, Tooltip, notification } from "antd";
+import { Button, Modal, Tooltip } from "antd";
 import { useEffect } from "react";
 import useClientEditModalHooks from "./hooks";
 import { Client, putClient } from "../../../services/client";
@@ -16,7 +16,8 @@ const ClientEditModal = ({ id, clientData, onSuccess, onCancel }: ClientModalPar
   const {
     form,
     loading, setLoading,
-    openModal, setOpenModal
+    openModal, setOpenModal,
+    notification
   } = useClientEditModalHooks()
 
   useEffect(() => {
@@ -24,9 +25,6 @@ const ClientEditModal = ({ id, clientData, onSuccess, onCancel }: ClientModalPar
     form.setFieldsValue({ name, address, phone })
     //eslint-disable-next-line
   }, [clientData, openModal])
-
-
-
 
   const onFinish = async (values: Client) => {
     setLoading(true);

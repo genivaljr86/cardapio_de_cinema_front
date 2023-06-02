@@ -1,4 +1,3 @@
-import { notification } from "antd";
 import CTemplatePage from "../../../components/CTemplatePage";
 import ProductForm from "../../../components/forms/ProductForm";
 import { postProducts } from "../../../services/product";
@@ -9,7 +8,8 @@ import useProductCreatePageHooks from "./hooks";
 const ProductCreatePage: React.FC = () => {
   const {
     form,
-    navigate
+    navigate,
+    notification
   } = useProductCreatePageHooks()
 
   const onFinish = async (values: any) => {
