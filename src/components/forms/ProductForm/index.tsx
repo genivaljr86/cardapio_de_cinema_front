@@ -2,10 +2,11 @@ import { PlusOutlined } from "@ant-design/icons";
 import { Button, Divider, Form, FormInstance, Input, Modal, Space } from "antd"
 import TextArea from "antd/es/input/TextArea";
 import Upload, { RcFile, UploadFile, UploadProps } from "antd/es/upload";
-import { useEffect, useState } from "react";
-import imageHandler from "../../utils/imageHandler";
+import { useEffect } from "react";
+import imageHandler from "../../../utils/imageHandler";
 import styled from "styled-components";
 import { NumericFormat } from "react-number-format";
+import useProductFormHooks from "./hooks";
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -30,13 +31,16 @@ width: 200px !important;
 `
 
 const ProductForm: React.FC<{ form: FormInstance, onFinish: ((values: any) => void), photo?: any, hiddenButtons?: boolean }> = ({ form, onFinish, photo, hiddenButtons }) => {
-  const [previewOpen, setPreviewOpen] = useState(false)
-  const [previewImage, setPreviewImage] = useState('')
-  const [previewTitle, setPreviewTitle] = useState('')
-  const [fileList, setFileList] = useState<UploadFile[]>([])
+  const {
+    previewOpen, setPreviewOpen,
+    previewImage, setPreviewImage,
+    previewTitle, setPreviewTitle,
+    fileList, setFileList
+  } = useProductFormHooks()
 
   /**
    * @todo Create modal to control update of images
+   * @todo Create external component to upload using onChange param
    */
 
   useEffect(() => {

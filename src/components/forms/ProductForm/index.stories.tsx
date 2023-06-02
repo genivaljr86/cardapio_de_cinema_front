@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import ProductForm from "./ProductForm";
+import ProductForm from ".";
 
 const meta: Meta<typeof ProductForm> = {
   component: ProductForm,
