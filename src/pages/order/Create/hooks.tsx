@@ -1,7 +1,6 @@
 import { Form } from "antd";
 import { useState } from "react";
 import { ClientResponseDataObject } from "../../../services/client";
-import { OptionProps } from "antd/es/select";
 import { ProductListResponseDataItem } from "../../../services/product";
 import { OrderDetail } from "../../../services/orderDetail";
 import { useNavigate } from "react-router-dom";
