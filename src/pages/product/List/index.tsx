@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button, Modal, Table, TablePaginationConfig, notification } from "antd";
 import { CoffeeOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { ColumnsType } from 'antd/lib/table'
@@ -6,25 +6,15 @@ import CTemplatePage from "../../../components/CTemplatePage";
 import { ProductResponseDataObject, deleteProducts, getProducts } from "../../../services/product";
 import { Link } from "react-router-dom";
 import currencyFilter from "../../../utils/currencyFilter";
-import Constants from "../../../constants";
 import ProductCreateModal from "../../../components/modals/ProductCreateModal";
-
-interface TableParams {
-  pagination?: TablePaginationConfig;
-}
+import useProductListPageHooks from "./hooks";
 
 const ProductsListPage: React.FC = () => {
-  const { PAGINATION: { PAGE_SIZE: pageSize } } = Constants;
-
-  const [dataSource, setdataSource] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize,
-    },
-  });
+  const {
+    dataSource, setdataSource,
+    loading, setLoading,
+    tableParams, setTableParams
+  } = useProductListPageHooks()
 
   const columns: ColumnsType<any> = [
     {
@@ -111,12 +101,15 @@ const ProductsListPage: React.FC = () => {
     });
   };
 
-
+  /**
+   * @todo Avoid initial double request by tableParams changes
+   */
   useEffect(() => {
     setLoading(true);
     fetchData();
     // eslint-disable-next-line
   }, [JSON.stringify(tableParams)])
+
   return (
     <>
       <CTemplatePage>
