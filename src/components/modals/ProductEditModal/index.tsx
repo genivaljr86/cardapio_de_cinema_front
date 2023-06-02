@@ -73,6 +73,7 @@ const ProductEditModal = ({ id, photo, productData, onSuccess, onCancel }: Produ
         </Button>
       </Tooltip>
       <Modal
+        forceRender
         title={<><EditOutlined /> Editar Produto</>}
         open={openModal}
         confirmLoading={loading}

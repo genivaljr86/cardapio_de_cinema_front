@@ -62,6 +62,7 @@ const ClientEditModal = ({ id, clientData, onSuccess, onCancel }: ClientModalPar
         </Button>
       </Tooltip>
       <Modal
+        forceRender
         title={<><EditOutlined /> Editar Cliente</>}
         open={openModal}
         confirmLoading={loading}
