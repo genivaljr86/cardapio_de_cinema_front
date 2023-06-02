@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { Order, postOrders } from "../../../services/order";
-import { Client, ClientResponseDataObject, getClients } from "../../../services/client";
+import { ClientResponseDataObject, getClients } from "../../../services/client";
 import { ProductListResponseDataItem, getProducts } from "../../../services/product";
 import { OrderDetail, postBulkOrderDetails } from "../../../services/orderDetail";
 import styled from "styled-components";
 import useOrderCreatePageHooks from "./hooks";
-import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Modal, Row, Select, Space, Switch, notification } from "antd";
+import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Modal, Row, Space, Switch, notification } from "antd";
 import Title from "antd/es/typography/Title";
 import { EditOutlined, ExclamationCircleFilled, } from "@ant-design/icons";
 import currencyFilter from "../../../utils/currencyFilter";
@@ -13,6 +13,7 @@ import { dateRequestFilter } from "../../../utils/dateTimeFilter";
 import CTemplatePage from "../../../components/CTemplatePage"
 import CCartTable from "../../../components/tables/CCartTable";
 import CSelectProduct from "../../../components/inputs/CSelectProduct";
+import CSelectClient from "../../../components/inputs/CSelectClient";
 
 const CustomFormItem = styled(Form.Item)`
   margin-top: 10px;
@@ -28,13 +29,12 @@ const OrderCreatePage: React.FC = () => {
   const {
     form,
     clientsList, setClientsList,
-    clientListOptions, setClientListOptions,
     clientsLoading, setClientsLoading,
     productsList, setProductsList,
     productsLoading, setProductsLoading,
     orderDetails, setOrderDetails,
     customDelivery, setCustomDelivery,
-    clientFilled, setClientFilled,
+    clientOriginal, setClientOriginal,
     subTotal, setSubtotal,
     deliveryTax, setDeliveryTax,
     navigate
@@ -43,23 +43,8 @@ const OrderCreatePage: React.FC = () => {
   async function fetchClientsData() {
     setClientsLoading(true);
     try {
-      const clientListHandle: Client[] = [];
       const { data: { data: dataResponse } } = await getClients();
-      const clientListOptionsHandle = dataResponse.map((row: ClientResponseDataObject) => {
-        const { id, attributes: { name, address, phone } } = row;
-        /**
-         * @todo Remove this conditional for reasons of TS
-         */
-        if (id) {
-          clientListHandle[id] = { name, address, phone };
-        }
-        return {
-          value: id,
-          label: name
-        }
-      });
-      setClientsList(clientListHandle);
-      setClientListOptions(clientListOptionsHandle);
+      setClientsList(dataResponse);
     } catch (err) {
       throw err;
     }
@@ -87,19 +72,16 @@ const OrderCreatePage: React.FC = () => {
     // eslint-disable-next-line
   }, [])
 
-  const handleChangeClient = (id: any) => {
-    setClientFilled(true);
-    // const {name,address,phone} = clientsList[id]
-    // form.setFieldsValue({name,address,phone})
-    form.setFieldValue('name', clientsList[id].name)
-    form.setFieldValue('address', clientsList[id].address)
-    form.setFieldValue('phone', clientsList[id].phone)
+  const onChangeClient = (client: ClientResponseDataObject) => {
+    const { attributes: { name, address, phone } } = client
+    form.setFieldsValue({ name, address, phone })
+    setClientOriginal(client);
   }
 
   const handleChangeCustomDelivery = (value: boolean) => {
     setCustomDelivery(value);
     if (!value) {
-      handleChangeClient(form.getFieldValue('client'));
+      onChangeClient(clientOriginal!);
     }
   }
 
@@ -195,18 +177,13 @@ const OrderCreatePage: React.FC = () => {
             <Card title="Cliente">
               <Form.Item name="client"
                 rules={[{ required: true, message: 'Esse campo é obrigatório' }]}>
-                <Select
-                  showSearch
-                  placeholder="Escolha um cliente"
-                  filterOption={(input, option) =>
-                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                  }
-                  loading={clientsLoading}
-                  options={clientListOptions}
-                  onChange={handleChangeClient} />
+                <CSelectClient
+                  clients={clientsList}
+                  onChangeClient={onChangeClient}
+                  loading={clientsLoading} />
               </Form.Item>
               {
-                clientFilled ? (
+                clientOriginal ? (
                   <>
                     <Row>
                       <Col span={21}>

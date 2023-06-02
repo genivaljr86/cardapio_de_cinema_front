@@ -11,7 +11,7 @@ export interface Client {
 }
 
 export interface ClientResponseDataObject {
-  id?: number;
+  id: number;
   attributes: Client;
 }
 
