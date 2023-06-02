@@ -73,8 +73,8 @@ const OrderCreatePage: React.FC = () => {
   }, [])
 
   const onChangeClient = (client: ClientResponseDataObject) => {
-    const { attributes: { name, address, phone } } = client
-    form.setFieldsValue({ name, address, phone })
+    const { id, attributes: { name, address, phone } } = client
+    form.setFieldsValue({ client: id, name, address, phone })
     setClientOriginal(client);
   }
 
