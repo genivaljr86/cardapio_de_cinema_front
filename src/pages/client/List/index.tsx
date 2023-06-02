@@ -7,6 +7,7 @@ import { ExclamationCircleFilled, UsergroupAddOutlined } from "@ant-design/icons
 import { ColumnsType, TablePaginationConfig } from "antd/es/table";
 import { AxiosError } from "axios";
 import useClientListPageHooks from "./hooks";
+import ClientCreateModal from "../../../components/modals/ClientCreateModal";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
@@ -126,9 +127,9 @@ const ClientListPage: React.FC = () => {
           pagination={tableParams.pagination}
           onChange={handleTableChange}
           columns={columns} />
-        <Link to={'./new'}>
+        <ClientCreateModal onSuccess={fetchData} >
           <Button type="primary" icon={<UsergroupAddOutlined />}>Criar Cliente</Button>
-        </Link>
+        </ClientCreateModal>
       </CTemplatePage>
     </>
   )

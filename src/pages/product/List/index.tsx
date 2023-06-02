@@ -7,6 +7,7 @@ import { ProductResponseDataObject, deleteProducts, getProducts } from "../../..
 import { Link } from "react-router-dom";
 import currencyFilter from "../../../utils/currencyFilter";
 import Constants from "../../../constants";
+import ProductCreateModal from "../../../components/modals/ProductCreateModal";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
@@ -125,9 +126,9 @@ const ProductsListPage: React.FC = () => {
           pagination={tableParams.pagination}
           onChange={handleTableChange}
           columns={columns} />
-        <Link to={`./new`}>
+        <ProductCreateModal onSuccess={fetchData}>
           <Button type="primary" icon={<CoffeeOutlined />}>Criar Produto</Button>
-        </Link>
+        </ProductCreateModal>
       </CTemplatePage>
     </>
   )
