@@ -1,4 +1,4 @@
-import { App, Button, Modal, Tooltip } from "antd";
+import { Button, Modal, Tooltip } from "antd";
 import { useEffect } from "react";
 import { EditOutlined } from "@ant-design/icons";
 import useProductEditModalHooks from "./hooks";
