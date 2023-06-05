@@ -1,8 +1,8 @@
-import { Button, Modal, Tooltip } from "antd";
+import { Modal, } from "antd";
 import { useEffect } from "react";
-import { Client, postClients, putClient } from "../../../services/client";
+import { Client, postClients } from "../../../services/client";
 import ClientForm from "../../forms/ClientForm";
-import { EditOutlined, UsergroupAddOutlined } from "@ant-design/icons";
+import { UsergroupAddOutlined } from "@ant-design/icons";
 import useClientCreateModalHooks from "./hooks";
 
 export interface ClientModalParams {
