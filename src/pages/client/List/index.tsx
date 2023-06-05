@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Table, notification } from "antd";
+import { Button, Table, notification } from "antd";
 import { ClientResponseDataObject, deleteClient, getClients } from "../../../services/client";
 import { Link } from "react-router-dom";
 import CTemplatePage from "../../../components/CTemplatePage";
@@ -18,7 +18,7 @@ const ClientListPage: React.FC = () => {
     pageSize,
     dataSource, setDataSource,
     loading, setLoading,
-    error, setError
+    error, setError, Modal
   } = useClientListPageHooks()
 
   const [tableParams, setTableParams] = useState<TableParams>({

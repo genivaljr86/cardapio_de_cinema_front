@@ -1,7 +1,7 @@
 import { PlusOutlined } from "@ant-design/icons";
 import { Modal, UploadFile, UploadProps } from "antd"
 import Upload, { RcFile } from "antd/es/upload";
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import imageHandler from "../../../utils/imageHandler";
 import styled from "styled-components";
 import useCUploadImageHooks from "./hooks";

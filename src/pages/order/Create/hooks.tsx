@@ -5,6 +5,7 @@ import { ProductListResponseDataItem } from "../../../services/product";
 import { OrderDetail } from "../../../services/orderDetail";
 import { useNavigate } from "react-router-dom";
 import CNotification from "../../../components/feedback/notification";
+import modal from "../../../components/feedback/modal";
 
 const useOrderCreatePageHooks = () => {
   const [form] = Form.useForm();
@@ -19,6 +20,7 @@ const useOrderCreatePageHooks = () => {
   const [deliveryTax, setDeliveryTax] = useState(25.5)
   const navigate = useNavigate()
   const notification = CNotification();
+  const Modal = modal()
   return {
     form,
     clientsList, setClientsList,
@@ -31,7 +33,8 @@ const useOrderCreatePageHooks = () => {
     subTotal, setSubtotal,
     deliveryTax, setDeliveryTax,
     navigate,
-    notification
+    notification,
+    Modal
   }
 }
 

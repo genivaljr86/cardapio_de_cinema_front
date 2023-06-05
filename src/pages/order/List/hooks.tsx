@@ -2,6 +2,7 @@ import { useState } from "react";
 import Constants from "../../../constants";
 import { AxiosError } from "axios";
 import { TablePaginationConfig } from "antd";
+import modal from "../../../components/feedback/modal";
 
 interface TableParams {
   pagination?: TablePaginationConfig;
@@ -18,12 +19,14 @@ const useOrderListPageHooks = () => {
       pageSize
     },
   });
+  const Modal = modal()
 
   return {
     dataSource, setDataSource,
     tableParams, setTableParams,
     loading, setLoading,
-    error, setError
+    error, setError,
+    Modal
   }
 }
 

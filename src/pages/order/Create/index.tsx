@@ -5,7 +5,7 @@ import { ProductListResponseDataItem, getProducts } from "../../../services/prod
 import { OrderDetail, postBulkOrderDetails } from "../../../services/orderDetail";
 import styled from "styled-components";
 import useOrderCreatePageHooks from "./hooks";
-import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Modal, Row, Space, Switch } from "antd";
+import { Button, Card, Col, DatePicker, Empty, Form, Input, InputNumber, List, Row, Space, Switch } from "antd";
 import Title from "antd/es/typography/Title";
 import { EditOutlined, ExclamationCircleFilled, } from "@ant-design/icons";
 import currencyFilter from "../../../utils/currencyFilter";
@@ -38,7 +38,8 @@ const OrderCreatePage: React.FC = () => {
     subTotal, setSubtotal,
     deliveryTax, setDeliveryTax,
     navigate,
-    notification
+    notification,
+    Modal
   } = useOrderCreatePageHooks()
 
   async function fetchClientsData() {

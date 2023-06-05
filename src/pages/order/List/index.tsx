@@ -4,7 +4,7 @@ import { ColumnsType } from "antd/lib/table";
 import { OrderResponseDataObject, deleteOrders, getOrders } from "../../../services/order";
 import { Link } from "react-router-dom";
 import currencyFilter from "../../../utils/currencyFilter";
-import { Button, Modal, Table, TablePaginationConfig, notification } from "antd";
+import { Button, Table, TablePaginationConfig, notification } from "antd";
 import { DollarCircleOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import dateTimeFilter from "../../../utils/dateTimeFilter";
 import { AxiosError } from "axios";
@@ -42,7 +42,8 @@ const OrderListPage: React.FC = () => {
     dataSource, setDataSource,
     tableParams, setTableParams,
     loading, setLoading,
-    error, setError
+    error, setError,
+    Modal
   } = useOrderListPageHooks()
 
   async function fetchData() {

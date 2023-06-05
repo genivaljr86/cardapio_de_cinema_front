@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Button, Modal, Table, TablePaginationConfig, notification } from "antd";
+import { Avatar, Button, Space, Table, TablePaginationConfig, notification } from "antd";
 import { CoffeeOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { ColumnsType } from 'antd/lib/table'
 import CTemplatePage from "../../../components/CTemplatePage";
@@ -8,12 +8,14 @@ import { Link } from "react-router-dom";
 import currencyFilter from "../../../utils/currencyFilter";
 import ProductCreateModal from "../../../components/modals/ProductCreateModal";
 import useProductListPageHooks from "./hooks";
+import imageHandler from "../../../utils/imageHandler";
 
 const ProductsListPage: React.FC = () => {
   const {
     dataSource, setdataSource,
     loading, setLoading,
-    tableParams, setTableParams
+    tableParams, setTableParams,
+    Modal
   } = useProductListPageHooks()
 
   const columns: ColumnsType<any> = [
@@ -37,14 +39,18 @@ const ProductsListPage: React.FC = () => {
     try {
       const params = {
         'pagination[page]': tableParams.pagination?.current,
-        'pagination[pageSize]': tableParams.pagination?.pageSize
+        'pagination[pageSize]': tableParams.pagination?.pageSize,
+        'populate[0]': 'photo'
       }
       const { data: { data: dataResponse, meta: { pagination } } } = await getProducts(params);
       const dataList = dataResponse.map((row: ProductResponseDataObject) => {
-        const { id, attributes: { name, price, } } = row;
+        const { id, attributes: { name, price, photo } } = row;
         return {
           key: id,
-          name: <Link to={`view/${id}`}>{name}</Link>,
+          name: <Space size={16}>
+            <Avatar src={imageHandler(photo, 'thumbnail')} size={'default'} />
+            <Link to={`view/${id}`}>{name}</Link>
+          </Space>,
           price,
           actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>
         }
