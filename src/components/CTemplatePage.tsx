@@ -1,12 +1,16 @@
-import { Layout, Result, theme } from "antd";
+import { Divider, Layout, Result, theme } from "antd";
 import CBreadcrumb from "./CBreadBrumb"
 import { AxiosError } from "axios";
 import { ResultStatusType } from "antd/es/result";
 import { isEmpty } from "lodash";
+import Title from "antd/es/typography/Title";
+import { Helmet } from "react-helmet-async";
+import CTitlePage from "./CTitlePage";
 
 const { Content } = Layout;
 
 interface Props {
+  title?: string
   children: React.ReactNode;
   error?: AxiosError
 }
@@ -19,7 +23,7 @@ const errorMessages: { [key: number]: string } = {
   500: 'Desculpe, houve algum erro.',
 }
 
-const CTemplatePage: React.FC<Props> = ({ error = {}, children }) => {
+const CTemplatePage: React.FC<Props> = ({ error = {}, children, title }) => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -37,6 +41,10 @@ const CTemplatePage: React.FC<Props> = ({ error = {}, children }) => {
   }
 
   return <>
+
+    <Helmet>
+      <title>{`${title || ''} | Cardápio de Cinema`}</title>
+    </Helmet>
     <CBreadcrumb />
     <Content
       style={{
@@ -46,9 +54,13 @@ const CTemplatePage: React.FC<Props> = ({ error = {}, children }) => {
         background: colorBgContainer,
       }}
     >
+
       {
         isEmpty(error) ? (
-          children
+          <>
+            {title && <CTitlePage title={title} />}
+            {children}
+          </>
         ) : (
           ResultError(error?.response?.status!)
         )

@@ -103,7 +103,7 @@ const ClientViewPage: React.FC = () => {
 
 
   return <>
-    <CTemplatePage error={error}>
+    <CTemplatePage title={`Cliente #${id}`} error={error}>
       {
         loading ? (
           <Skeleton active />

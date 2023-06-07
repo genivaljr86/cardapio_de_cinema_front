@@ -93,23 +93,22 @@ const ClientListPage: React.FC = () => {
       okType: 'danger',
       cancelText: 'Não',
       onOk() {
-        return new Promise((resolve, reject) => {
-          deleteClient(id!)
-            .then(response => {
-              notification.success({
-                message: 'Sucesso!',
-                description: 'Cliente apagado com sucesso'
-              })
-              fetchData();
-              resolve(response);
+        return new Promise(async (resolve, reject) => {
+          try {
+            const response = deleteClient(id)
+            notification.success({
+              message: 'Sucesso!',
+              description: 'Cliente apagado com sucesso'
             })
-            .catch(err => {
-              notification.error({
-                message: 'Erro!',
-                description: 'Não foi possivel criar agora, tente mais tarde'
-              });
-              reject();
+            fetchData();
+            resolve(response)
+          } catch (error) {
+            notification.error({
+              message: 'Erro!',
+              description: 'Não foi possivel criar agora, tente mais tarde'
             });
+            reject(error);
+          }
         })
       },
     });
@@ -121,7 +120,7 @@ const ClientListPage: React.FC = () => {
   }, [JSON.stringify(tableParams)])
   return (
     <>
-      <CTemplatePage error={error}>
+      <CTemplatePage title='Clientes' error={error}>
         <Table loading={loading}
           dataSource={dataSource}
           pagination={tableParams.pagination}

@@ -35,7 +35,7 @@ const ProductViewPage: React.FC = () => {
   }, [])
 
   return (
-    <CTemplatePage error={error}>
+    <CTemplatePage title={`Produto #${id}`} error={error}>
       {
         loading ? (
           <Skeleton active />

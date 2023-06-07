@@ -57,7 +57,7 @@ const OrderViewPage: React.FC = () => {
   }, [])
 
   return (
-    <CTemplatePage error={error}>
+    <CTemplatePage title={`Venda #${id}`} error={error}>
       {
         loading ? (
           <>

@@ -118,7 +118,7 @@ const ProductsListPage: React.FC = () => {
 
   return (
     <>
-      <CTemplatePage>
+      <CTemplatePage title="Produtos">
         <Table
           loading={loading}
           dataSource={dataSource}

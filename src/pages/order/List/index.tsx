@@ -136,7 +136,7 @@ const OrderListPage: React.FC = () => {
   }, [JSON.stringify(tableParams)])
 
   return (
-    <CTemplatePage error={error}>
+    <CTemplatePage title='Vendas' error={error}>
       <Table
         loading={loading}
         dataSource={dataSource}
