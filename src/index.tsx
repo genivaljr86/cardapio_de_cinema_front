@@ -5,8 +5,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 import routes from './pages/routes';
-import { App, ConfigProvider, theme } from 'antd';
-import locale from 'antd/locale/pt_BR'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,16 +14,7 @@ const router = createBrowserRouter(routes);
 
 root.render(
   <React.StrictMode>
-    <ConfigProvider locale={locale} theme={{
-      algorithm: theme.darkAlgorithm,
-      token: {
-        borderRadius: 0
-      }
-    }}>
-      <App>
-        <RouterProvider router={router} />
-      </App>
-    </ConfigProvider>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
