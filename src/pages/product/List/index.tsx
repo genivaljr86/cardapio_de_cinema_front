@@ -9,6 +9,7 @@ import currencyFilter from "../../../utils/currencyFilter";
 import ProductCreateModal from "../../../components/modals/ProductCreateModal";
 import useProductListPageHooks from "./hooks";
 import imageHandler from "../../../utils/imageHandler";
+import CProductLabel from "../../../components/CProductLabel";
 
 const ProductsListPage: React.FC = () => {
   const {
@@ -47,10 +48,10 @@ const ProductsListPage: React.FC = () => {
         const { id, attributes: { name, price, photo } } = row;
         return {
           key: id,
-          name: <Space size={16}>
-            <Avatar src={imageHandler(photo, 'thumbnail')} size={'default'} />
-            <Link to={`view/${id}`}>{name}</Link>
-          </Space>,
+          name:
+            <Link to={`view/${id}`}>
+              <CProductLabel photo={imageHandler(photo, 'thumbnail')} name={name} />,
+            </Link>,
           price,
           actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>
         }

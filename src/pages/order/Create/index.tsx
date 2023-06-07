@@ -56,7 +56,10 @@ const OrderCreatePage: React.FC = () => {
   async function fetchProductsData() {
     setProductsLoading(true);
     try {
-      const { data: { data: dataResponse } } = await getProducts();
+      const params = {
+        'populate[0]': 'photo'
+      }
+      const { data: { data: dataResponse } } = await getProducts(params);
       setProductsList(dataResponse);
     } catch (err) {
       throw err;
