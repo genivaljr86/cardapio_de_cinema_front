@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Avatar, Button, Space, Table, TablePaginationConfig, notification } from "antd";
+import { Button, Table, TablePaginationConfig, notification } from "antd";
 import { CoffeeOutlined, ExclamationCircleFilled } from "@ant-design/icons";
 import { ColumnsType } from 'antd/lib/table'
 import CTemplatePage from "../../../components/CTemplatePage";

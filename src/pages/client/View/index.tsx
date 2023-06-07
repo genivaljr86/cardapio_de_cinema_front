@@ -64,7 +64,7 @@ const ClientViewPage: React.FC = () => {
         'filters[client]': id,
         'populate[1]': 'client',
       }
-      const { data: { data: dataResponse, meta: { pagination } } } = await getOrders(params);
+      const { data: { data: dataResponse } } = await getOrders(params);
       const ordersListHandled = dataResponse.map((row: OrderResponseDataObject) => {
         const {
           id,

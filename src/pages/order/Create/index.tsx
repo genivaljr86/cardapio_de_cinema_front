@@ -36,7 +36,7 @@ const OrderCreatePage: React.FC = () => {
     customDelivery, setCustomDelivery,
     clientOriginal, setClientOriginal,
     subTotal, setSubtotal,
-    deliveryTax, setDeliveryTax,
+    deliveryTax,
     navigate,
     notification,
     Modal
@@ -137,6 +137,7 @@ const OrderCreatePage: React.FC = () => {
     const subTotalHandled = orderDetails.reduce((acc, orderDetails) => acc + orderDetails.amount_price, 0);
     form.setFieldValue('amount_price', subTotalHandled)
     setSubtotal(subTotalHandled);
+    // eslint-disable-next-line
   }, [orderDetails])
 
   const onFinish = async (values: Order) => {

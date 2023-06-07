@@ -1,4 +1,4 @@
-import { Avatar, Space, Table } from "antd"
+import { Table } from "antd"
 import { ColumnsType } from "antd/es/table"
 import currencyFilter from "../../utils/currencyFilter"
 import { OrderDetail } from "../../services/orderDetail"
