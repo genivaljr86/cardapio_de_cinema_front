@@ -16,13 +16,18 @@ const columns: ColumnsType<any> = [
     dataIndex: 'name'
   },
   {
+    title: 'Preço',
+    dataIndex: 'price',
+    align: 'right'
+  },
+  {
     title: 'Quantidade',
     dataIndex: 'quantity',
     align: 'right'
   },
   {
-    title: 'Preço',
-    dataIndex: 'price',
+    title: 'Total',
+    dataIndex: 'amount_price',
     align: 'right'
   }
 ]
@@ -94,8 +99,9 @@ const OrderViewPage: React.FC = () => {
                 orderDetails?.map(({ attributes }, index) => ({
                   key: index,
                   name: attributes?.name,
-                  quantity: attributes?.quantity,
-                  price: currencyFilter(attributes?.price!)
+                  price: currencyFilter(attributes?.price!),
+                  quantity: `x` + attributes?.quantity,
+                  amount_price: currencyFilter(attributes?.amount_price!)
                 }))
               }
               columns={columns}
