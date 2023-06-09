@@ -1,9 +1,8 @@
-import { Divider, Layout, Result, theme } from "antd";
+import { Layout, Result, theme } from "antd";
 import CBreadcrumb from "./CBreadBrumb"
 import { AxiosError } from "axios";
 import { ResultStatusType } from "antd/es/result";
 import { isEmpty } from "lodash";
-import Title from "antd/es/typography/Title";
 import { Helmet } from "react-helmet-async";
 import CTitlePage from "./CTitlePage";
 
