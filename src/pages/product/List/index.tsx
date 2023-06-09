@@ -50,7 +50,7 @@ const ProductsListPage: React.FC = () => {
           key: id,
           name:
             <Link to={`view/${id}`}>
-              <CProductLabel photo={imageHandler(photo, 'thumbnail')} name={name} />,
+              <CProductLabel photo={imageHandler(photo, 'thumbnail')} name={name} />
             </Link>,
           price,
           actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>

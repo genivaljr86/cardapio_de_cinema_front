@@ -171,7 +171,7 @@ const OrderCreatePage: React.FC = () => {
   }
 
   return (
-    <CTemplatePage>
+    <CTemplatePage title="Criar Venda">
       <Form
         layout="vertical"
         autoComplete="off"
@@ -235,18 +235,21 @@ const OrderCreatePage: React.FC = () => {
           </Col>
           <Col span={16}>
             <Card title="Carrinho">
-              <CCartTable orderDetails={orderDetails} handleChangeQuantity={handleChangeQuantity} />
-              <Row gutter={16}>
-                <Col span={16}>
+              <CCartTable
+                orderDetails={orderDetails}
+                handleChangeQuantity={handleChangeQuantity}
+                footer={() => (
                   <CSelectProduct
                     products={productsList}
                     onSelectProduct={onSelectProduct}
                     loading={productsLoading}
                   />
-                </Col>
+                )}
+              />
+              <Row gutter={16}>
                 {
                   orderDetails.length > 0 && (
-                    <Col span={8}>
+                    <Col span={8} offset={16}>
                       <List itemLayout="horizontal" style={{ paddingRight: '16px' }}>
                         <List.Item>
                           <List.Item.Meta title={'Valor Total'} />

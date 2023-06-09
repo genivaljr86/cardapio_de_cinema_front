@@ -35,6 +35,9 @@ const CSelectProduct: React.FC<CSelectProductParams> = ({ products, onChangeProd
         loading={loading}
         disabled={loading}
         value={selected}
+        style={{
+          minWidth: '100%'
+        }}
         filterOption={(input, option) =>
           (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
         }
@@ -48,7 +51,7 @@ const CSelectProduct: React.FC<CSelectProductParams> = ({ products, onChangeProd
       />
       {
         onSelectProduct && (
-          <Button disabled={loading || productSelected === undefined} onClick={() => handleSelectProduct()} type="default">Inserir</Button>
+          <Button disabled={loading || productSelected === undefined} onClick={() => handleSelectProduct()} type="primary">Inserir</Button>
         )
       }
     </Space.Compact>

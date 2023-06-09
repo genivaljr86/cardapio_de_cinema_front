@@ -31,7 +31,8 @@ const columns: ColumnsType<any> = [
 
 type CCartTableParams = {
   orderDetails: OrderDetail[];
-  handleChangeQuantity: (quantity: any, index: number) => void
+  handleChangeQuantity: (quantity: any, index: number) => void,
+  footer?: () => React.ReactNode
 }
 
 interface CCartTableItem extends OrderDetail {
@@ -39,7 +40,7 @@ interface CCartTableItem extends OrderDetail {
 }
 
 
-const CCartTable: React.FC<CCartTableParams> = ({ orderDetails, handleChangeQuantity }) => {
+const CCartTable: React.FC<CCartTableParams> = ({ orderDetails, handleChangeQuantity, footer }) => {
   return (
     <>
       <Table
@@ -59,6 +60,7 @@ const CCartTable: React.FC<CCartTableParams> = ({ orderDetails, handleChangeQuan
           })
         }
         columns={columns}
+        footer={footer}
       />
     </>
   )
