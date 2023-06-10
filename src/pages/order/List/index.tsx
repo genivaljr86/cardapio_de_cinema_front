@@ -9,8 +9,7 @@ import { DollarCircleOutlined, ExclamationCircleFilled } from "@ant-design/icons
 import dateTimeFilter from "../../../utils/dateTimeFilter";
 import { AxiosError } from "axios";
 import useOrderListPageHooks from "./hooks";
-
-
+import { animated, useSpring } from "@react-spring/web";
 
 const columns: ColumnsType<any> = [
   {
@@ -45,6 +44,11 @@ const OrderListPage: React.FC = () => {
     error, setError,
     Modal
   } = useOrderListPageHooks()
+
+  const springs = useSpring({
+    from: { y: -30, opacity: 0 },
+    to: { y: 0, opacity: 1 },
+  })
 
   async function fetchData() {
     setLoading(true);
@@ -140,6 +144,19 @@ const OrderListPage: React.FC = () => {
       <Table
         loading={loading}
         dataSource={dataSource}
+        components={
+          {
+            body: {
+              row: ({ ...props }) => {
+                const newProps = {
+                  ...props,
+                  style: springs
+                }
+                return <animated.tr {...newProps}></animated.tr>
+              }
+            }
+          }
+        }
         pagination={tableParams.pagination}
         onChange={handleTableChange}
         columns={columns} />

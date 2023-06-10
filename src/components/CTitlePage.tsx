@@ -8,7 +8,7 @@ export type CTitlePageParams = {
 const AnimatedTitle = animated(Title)
 const CTitlePage: React.FC<CTitlePageParams> = ({ title }) => {
   const springs = useSpring({
-    from: { x: -50, opacity: 0 },
+    from: { x: -30, opacity: 0 },
     to: { x: 0, opacity: 1 },
   })
 

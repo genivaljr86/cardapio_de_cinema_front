@@ -6,6 +6,7 @@ import CQuantityInput from "../inputs/CQuantityInput"
 import imageHandler from "../../utils/imageHandler"
 import { Product } from "../../services/product"
 import CProductLabel from "../CProductLabel"
+import { Animation } from 'react-animate-style'
 
 const columns: ColumnsType<any> = [
   {
@@ -41,6 +42,16 @@ interface CCartTableItem extends OrderDetail {
 
 
 const CCartTable: React.FC<CCartTableParams> = ({ orderDetails, handleChangeQuantity, footer }) => {
+  /**
+   * @todo Create variable to change `isInvisible` on removeitem
+   */
+  const animate = (children: React.ReactNode) => {
+    return (
+      <Animation animationIn="fadeInLeft" animationInDuration={200} isVisible={true} >
+        {children}
+      </Animation>
+    )
+  }
   return (
     <>
       <Table
@@ -49,13 +60,13 @@ const CCartTable: React.FC<CCartTableParams> = ({ orderDetails, handleChangeQuan
           (orderDetails as CCartTableItem[]).map((order, index) => {
             return ({
               key: index,
-              name: <CProductLabel photo={imageHandler(order?.photo, 'thumbnail')} name={order?.name} />,
-              price: currencyFilter(order?.price),
-              quantity: <CQuantityInput
+              name: animate(<CProductLabel photo={imageHandler(order?.photo, 'thumbnail')} name={order?.name} />),
+              price: animate(currencyFilter(order?.price)),
+              quantity: animate(<CQuantityInput
                 quantity={order?.quantity}
                 index={index}
-                handleOnChange={handleChangeQuantity} />,
-              amount_price: currencyFilter(order?.amount_price)
+                handleOnChange={handleChangeQuantity} />),
+              amount_price: animate(currencyFilter(order?.amount_price))
             })
           })
         }
