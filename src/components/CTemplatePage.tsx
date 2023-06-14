@@ -5,6 +5,8 @@ import { ResultStatusType } from "antd/es/result";
 import { isEmpty } from "lodash";
 import { Helmet } from "react-helmet-async";
 import CTitlePage from "./CTitlePage";
+import { animated, useSpring } from "@react-spring/web";
+
 
 const { Content } = Layout;
 
@@ -38,9 +40,11 @@ const CTemplatePage: React.FC<Props> = ({ error = {}, children, title }) => {
       />
     )
   }
-
+  const springs = useSpring({
+    from: { y: -30, opacity: 0 },
+    to: { y: 0, opacity: 1 },
+  })
   return <>
-
     <Helmet>
       <title>{`${title || ''} | Cardápio de Cinema`}</title>
     </Helmet>
@@ -58,7 +62,9 @@ const CTemplatePage: React.FC<Props> = ({ error = {}, children, title }) => {
         isEmpty(error) ? (
           <>
             {title && <CTitlePage title={title} />}
-            {children}
+            <animated.div style={springs}>
+              {children}
+            </animated.div>
           </>
         ) : (
           ResultError(error?.response?.status!)
