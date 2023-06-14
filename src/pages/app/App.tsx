@@ -1,20 +1,12 @@
 import React, { useState } from 'react';
-import { App as AntDApp, ConfigProvider, Layout, theme } from 'antd';
-import CSidebarMenu from '../../components/CSidebarMenu';
-import { Outlet } from 'react-router-dom';
-import logo from '../../resources/img/logo.jpg'
+import { App as AntDApp, ConfigProvider, theme } from 'antd';
 import { HelmetProvider } from 'react-helmet-async';
 import CThemeButton from '../../components/CThemeButton';
 import CThemeContext from '../../components/contexts/CThemeContext';
 import locale from 'antd/locale/pt_BR'
-
-
-const { Header, Sider } = Layout;
+import CAppTemplate from '../../components/CAppTemplate';
 
 const App: React.FC = () => {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   const [cTheme, setCTheme] = useState('dark')
   const value = { cTheme, setCTheme }
@@ -34,20 +26,7 @@ const App: React.FC = () => {
             }
           }}>
             <AntDApp>
-              <Layout>
-                <Header className="header">
-                  <img src={logo} alt="Logo do Cardápio de Cinema" width={60} />
-                  {/* <Menu theme="dark" mode="horizontal" /> */}
-                </Header>
-                <Layout>
-                  <Sider width={200} style={{ background: colorBgContainer }}>
-                    <CSidebarMenu />
-                  </Sider>
-                  <Layout style={{ padding: '0 24px 24px' }}>
-                    <Outlet />
-                  </Layout>
-                </Layout>
-              </Layout>
+              <CAppTemplate />
               <CThemeButton />
             </AntDApp>
           </ConfigProvider>

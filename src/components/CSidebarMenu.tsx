@@ -47,7 +47,13 @@ const CSidebarMenu: React.FC = () => {
   return (
     <Menu
       mode="inline"
-      style={{ height: '100%', borderRight: 0, fontSize: '16px' }}
+      style={
+        {
+          height: '100%',
+          borderRight: 0,
+          // fontSize: '16px'
+        }
+      }
       items={sideMenuItens}
       selectedKeys={[current]}
     />

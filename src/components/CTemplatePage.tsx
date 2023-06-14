@@ -29,6 +29,7 @@ const CTemplatePage: React.FC<Props> = ({ error = {}, children, title }) => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+
   const ResultError = (status: number) => {
     const code: number = errorCodes.includes(status) ? status : 500;
 
@@ -53,7 +54,7 @@ const CTemplatePage: React.FC<Props> = ({ error = {}, children, title }) => {
       style={{
         padding: 24,
         margin: 0,
-        minHeight: 'calc(100vh - 140px)',
+        minHeight: 'calc(100vh - 78px)', //140px
         background: colorBgContainer,
       }}
     >
