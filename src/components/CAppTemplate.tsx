@@ -6,14 +6,13 @@ import Sider from "antd/es/layout/Sider"
 import CSidebarMenu from "./CSidebarMenu"
 import { Outlet } from "react-router-dom"
 
-const CenterSider = styled(Sider)`
-  .ant-layout-sider-children {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    ul {
-      height: auto !important;
-    }
+const Center = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  ul {
+    height: auto !important;
   }
 `
 
@@ -24,19 +23,22 @@ const CAppTemplate: React.FC = () => {
 
   return (
     <Layout>
-      {/* <Header className="header">
-        <img src={logo} alt="Logo do Cardápio de Cinema" width={60} />
-      </Header> */}
       <Layout>
-        <CenterSider
+        <Sider
           collapsible
           defaultCollapsed
           collapsedWidth={90}
           width={200}
+          trigger={null}
           style={{ background: colorBgContainer }}
         >
-          <CSidebarMenu />
-        </CenterSider>
+          <Header style={{ paddingInline: '14px', paddingTop: '10px', }}>
+            <img src={logo} alt="Logo do Cardápio de Cinema" width={60} style={{ borderRadius: '360px', border: '2px solid #dc4446' }} />
+          </Header>
+          <Center>
+            <CSidebarMenu />
+          </Center>
+        </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
           <Outlet />
         </Layout>
