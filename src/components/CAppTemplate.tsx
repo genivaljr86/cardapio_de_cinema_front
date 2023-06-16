@@ -10,7 +10,7 @@ const Center = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: calc(100vh - 72px);
   ul {
     height: auto !important;
   }
