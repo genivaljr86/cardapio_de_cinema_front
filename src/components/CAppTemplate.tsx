@@ -6,7 +6,7 @@ import Sider from "antd/es/layout/Sider"
 import CSidebarMenu from "./CSidebarMenu"
 import { Outlet } from "react-router-dom"
 
-const Center = styled.div`
+const CSidebarMenuWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,9 +35,9 @@ const CAppTemplate: React.FC = () => {
           <Header style={{ paddingInline: '14px', paddingTop: '10px', }}>
             <img src={logo} alt="Logo do Cardápio de Cinema" width={60} style={{ borderRadius: '360px', border: '2px solid #dc4446' }} />
           </Header>
-          <Center>
+          <CSidebarMenuWrapper>
             <CSidebarMenu />
-          </Center>
+          </CSidebarMenuWrapper>
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
           <Outlet />
