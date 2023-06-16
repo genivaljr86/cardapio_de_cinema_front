@@ -22,27 +22,41 @@ const CAppTemplate: React.FC = () => {
   } = theme.useToken();
 
   return (
-    <Layout>
-      <Layout>
-        <Sider
-          collapsible
-          defaultCollapsed
-          collapsedWidth={90}
-          width={200}
-          trigger={null}
-          style={{ background: colorBgContainer }}
-        >
-          <Header style={{ paddingInline: '14px', paddingTop: '10px', }}>
-            <img src={logo} alt="Logo do Cardápio de Cinema" width={60} style={{ borderRadius: '360px', border: '2px solid #dc4446' }} />
-          </Header>
-          <CSidebarMenuWrapper>
-            <CSidebarMenu />
-          </CSidebarMenuWrapper>
-        </Sider>
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Outlet />
-        </Layout>
-      </ Layout>
+    <Layout hasSider>
+      <Sider
+        collapsible
+        defaultCollapsed
+        collapsedWidth={90}
+        width={200}
+        trigger={null}
+        style={
+          {
+            background: colorBgContainer,
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+            top: 0,
+            bottom: 0,
+          }
+        }
+      >
+        <Header style={{ paddingInline: '14px', paddingTop: '10px', }}>
+          <img src={logo} alt="Logo do Cardápio de Cinema" width={60} style={{ borderRadius: '360px', border: '2px solid #dc4446' }} />
+        </Header>
+        <CSidebarMenuWrapper>
+          <CSidebarMenu />
+        </CSidebarMenuWrapper>
+      </Sider>
+      <Layout style={
+        {
+          padding: '0 24px 24px',
+          marginLeft: 100
+        }
+      }
+      >
+        <Outlet />
+      </Layout>
     </Layout >
   )
 }
