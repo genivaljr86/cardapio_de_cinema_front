@@ -1,4 +1,4 @@
-import { CoffeeOutlined, DollarOutlined, HomeOutlined, PoweroffOutlined, TeamOutlined } from "@ant-design/icons";
+import { CoffeeOutlined, DollarOutlined, HomeOutlined, KeyOutlined, PoweroffOutlined, TeamOutlined } from "@ant-design/icons";
 import { Menu, MenuProps } from "antd";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useMatches } from "react-router-dom";
@@ -36,6 +36,11 @@ const CSidebarMenu: React.FC = () => {
       key: '/app/orders',
       icon: <DollarOutlined />,
       label: <Link to={'orders'}>Vendas</Link>
+    },
+    {
+      key: '/app/users',
+      icon: <KeyOutlined />,
+      label: <Link to={'users'}>Usuários</Link>
     },
     {
       key: 'logout',

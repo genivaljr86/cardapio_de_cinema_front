@@ -5,6 +5,7 @@ import LoginPageRoutes from "./Login/routes";
 import ProductPageRoutes from "./Product/routes";
 import ErrorPage from "./Error/ErrorPage";
 import OrderPageRoutes from "./Order/routes";
+import UserPageRoutes from "./User/routes";
 
 const HomePageRoute = {
   index: true,
@@ -21,7 +22,8 @@ const AppSubRoutes = {
     HomePageRoute,
     ClientPageRoutes,
     ProductPageRoutes,
-    OrderPageRoutes
+    OrderPageRoutes,
+    UserPageRoutes
   ]
 };
 

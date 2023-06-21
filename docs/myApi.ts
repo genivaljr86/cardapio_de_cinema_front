@@ -24,7 +24,6 @@ export interface ClientRequest {
     name: string;
     address: string;
     phone?: string;
-    description?: string;
   };
 }
 
@@ -51,7 +50,6 @@ export interface Client {
   name: string;
   address: string;
   phone?: string;
-  description?: string;
   /** @format date-time */
   createdAt?: string;
   /** @format date-time */
@@ -185,6 +183,10 @@ export interface OrderRequest {
     /** @format date-time */
     delivery_date?: string;
     custom_delivery?: boolean;
+    /** @format float */
+    delivery_tax?: number;
+    /** @format float */
+    subtotal_price?: number;
   };
 }
 
@@ -215,7 +217,6 @@ export interface Order {
         name?: string;
         address?: string;
         phone?: string;
-        description?: string;
         /** @format date-time */
         createdAt?: string;
         /** @format date-time */
@@ -357,6 +358,10 @@ export interface Order {
               /** @format date-time */
               delivery_date?: string;
               custom_delivery?: boolean;
+              /** @format float */
+              delivery_tax?: number;
+              /** @format float */
+              subtotal_price?: number;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -523,6 +528,7 @@ export interface Order {
                   attributes?: object;
                 }[];
               };
+              description?: string;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -574,6 +580,10 @@ export interface Order {
   /** @format date-time */
   delivery_date?: string;
   custom_delivery?: boolean;
+  /** @format float */
+  delivery_tax?: number;
+  /** @format float */
+  subtotal_price?: number;
   /** @format date-time */
   createdAt?: string;
   /** @format date-time */
@@ -649,7 +659,6 @@ export interface OrderDetail {
               name?: string;
               address?: string;
               phone?: string;
-              description?: string;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -920,6 +929,7 @@ export interface OrderDetail {
                         attributes?: object;
                       }[];
                     };
+                    description?: string;
                     /** @format date-time */
                     createdAt?: string;
                     /** @format date-time */
@@ -971,6 +981,10 @@ export interface OrderDetail {
         /** @format date-time */
         delivery_date?: string;
         custom_delivery?: boolean;
+        /** @format float */
+        delivery_tax?: number;
+        /** @format float */
+        subtotal_price?: number;
         /** @format date-time */
         createdAt?: string;
         /** @format date-time */
@@ -1038,6 +1052,7 @@ export interface ProductRequest {
     price?: number;
     photo?: (number | string)[];
     order_details?: (number | string)[];
+    description?: string;
   };
 }
 
@@ -1305,7 +1320,6 @@ export interface Product {
                     name?: string;
                     address?: string;
                     phone?: string;
-                    description?: string;
                     /** @format date-time */
                     createdAt?: string;
                     /** @format date-time */
@@ -1339,6 +1353,10 @@ export interface Product {
               /** @format date-time */
               delivery_date?: string;
               custom_delivery?: boolean;
+              /** @format float */
+              delivery_tax?: number;
+              /** @format float */
+              subtotal_price?: number;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -1422,6 +1440,7 @@ export interface Product {
                   attributes?: object;
                 }[];
               };
+              description?: string;
               /** @format date-time */
               createdAt?: string;
               /** @format date-time */
@@ -1467,6 +1486,7 @@ export interface Product {
       };
     }[];
   };
+  description?: string;
   /** @format date-time */
   createdAt?: string;
   /** @format date-time */
