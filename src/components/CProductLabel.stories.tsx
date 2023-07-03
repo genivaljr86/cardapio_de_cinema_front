@@ -17,3 +17,10 @@ export const Default: Story = {
     name: 'Product Name'
   }
 }
+
+export const NoImage: Story = {
+  args: {
+    photo: undefined,
+    name: 'Product Name'
+  }
+}
