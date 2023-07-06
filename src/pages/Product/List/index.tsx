@@ -1,6 +1,5 @@
-import { useEffect } from "react";
-import { Button, Table, TablePaginationConfig, notification } from "antd";
-import { CoffeeOutlined, ExclamationCircleFilled } from "@ant-design/icons";
+import { Button } from "antd";
+import { CoffeeOutlined } from "@ant-design/icons";
 import { ColumnsType } from 'antd/lib/table'
 import CTemplatePage from "../../../components/CTemplatePage";
 import { ProductResponseDataObject, deleteProducts, getProducts } from "../../../services/product";
@@ -10,121 +9,71 @@ import ProductCreateModal from "../../../components/modals/ProductCreateModal";
 import useProductListPageHooks from "./hooks";
 import imageHandler from "../../../utils/imageHandler";
 import CProductLabel from "../../../components/CProductLabel";
+import CTable from "../../../components/tables/CTable";
+
+const columns: ColumnsType<any> = [
+  {
+    title: 'Nome',
+    dataIndex: 'name'
+  },
+  {
+    title: 'Preço',
+    dataIndex: 'price',
+    render: currencyFilter
+  },
+  {
+    title: '',
+    align: 'right',
+    dataIndex: 'actions'
+  }
+]
 
 const ProductsListPage: React.FC = () => {
   const {
     dataSource, setdataSource,
     loading, setLoading,
-    tableParams, setTableParams,
-    Modal
+    totalRecords, setTotalRecords
   } = useProductListPageHooks()
 
-  const columns: ColumnsType<any> = [
-    {
-      title: 'Nome',
-      dataIndex: 'name'
-    },
-    {
-      title: 'Preço',
-      dataIndex: 'price',
-      render: currencyFilter
-    },
-    {
-      title: '',
-      align: 'right',
-      dataIndex: 'actions'
-    }
-  ];
-
-  const fetchData = async () => {
+  const fetchData = async (filters: any = {}) => {
+    setLoading(true)
     try {
       const params = {
-        'pagination[page]': tableParams.pagination?.current,
-        'pagination[pageSize]': tableParams.pagination?.pageSize,
+        ...filters,
         'populate[0]': 'photo'
       }
       const { data: { data: dataResponse, meta: { pagination } } } = await getProducts(params);
       const dataList = dataResponse.map((row: ProductResponseDataObject) => {
-        const { id, attributes: { name, price, photo } } = row;
+        const { id, attributes: { name, price, photo } } = row
         return {
           key: id,
           name:
             <Link to={`view/${id}`}>
-              <CProductLabel photo={imageHandler(photo, 'thumbnail')} name={name} />
+              <CProductLabel photo={photo?.data ? imageHandler(photo, 'thumbnail') : undefined} name={name} />
             </Link>,
-          price,
-          actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>
+          price
         }
       });
       setdataSource(dataList);
-      setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: pagination.total
-        },
-      });
+      setTotalRecords(pagination.total);
 
     } catch (err) {
       throw err;
     }
-
-    setLoading(false);
-  }
-  const handleTableChange = (
-    pagination: TablePaginationConfig
-  ) => {
-    setTableParams({ pagination })
+    setLoading(false)
   }
 
-  const showDeleteConfirm = (id: number) => {
-    Modal.confirm({
-      title: 'Tem certeza que desejar apagar?',
-      icon: <ExclamationCircleFilled />,
-      content: 'Essa ação é irreversivel.',
-      okText: 'Sim',
-      okType: 'danger',
-      cancelText: 'Não',
-      onOk() {
-        return new Promise((resolve, reject) => {
-          deleteProducts(id!)
-            .then(response => {
-              notification.success({
-                message: 'Sucesso!',
-                description: 'Produto apagado com sucesso'
-              })
-              fetchData();
-              resolve(response);
-            })
-            .catch(err => {
-              notification.error({
-                message: 'Erro!',
-                description: 'Não foi possivel apagar agora, tente mais tarde'
-              });
-              reject(err);
-            });
-        })
-      },
-    });
-  };
-
-  /**
-   * @todo Avoid initial double request by tableParams changes
-   */
-  useEffect(() => {
-    setLoading(true);
-    fetchData();
-    // eslint-disable-next-line
-  }, [JSON.stringify(tableParams)])
+  const handleDeleteRequest = (id: number) => deleteProducts(id!)
 
   return (
     <>
       <CTemplatePage title="Produtos">
-        <Table
+        <CTable
           loading={loading}
           dataSource={dataSource}
-          pagination={tableParams.pagination}
-          onChange={handleTableChange}
+          totalRecords={totalRecords}
+          onChangeTable={fetchData}
+          onDelete={handleDeleteRequest}
           columns={columns} />
         <ProductCreateModal onSuccess={fetchData}>
           <Button type="primary" icon={<CoffeeOutlined />}>Criar Produto</Button>
