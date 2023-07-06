@@ -20,11 +20,6 @@ const columns: ColumnsType<any> = [
     title: 'Preço',
     dataIndex: 'price',
     render: currencyFilter
-  },
-  {
-    title: '',
-    align: 'right',
-    dataIndex: 'actions'
   }
 ]
 
@@ -63,21 +58,24 @@ const ProductsListPage: React.FC = () => {
     setLoading(false)
   }
 
-  const handleDeleteRequest = (id: number) => deleteProducts(id!)
+  const onDelete = (id: number) => deleteProducts(id!)
 
   return (
     <>
       <CTemplatePage title="Produtos">
         <CTable
           loading={loading}
+          columns={columns}
           dataSource={dataSource}
           totalRecords={totalRecords}
           onChangeTable={fetchData}
-          onDelete={handleDeleteRequest}
-          columns={columns} />
-        <ProductCreateModal onSuccess={fetchData}>
-          <Button type="primary" icon={<CoffeeOutlined />}>Criar Produto</Button>
-        </ProductCreateModal>
+          onDelete={onDelete}
+          footerActions={(updateTable) => (
+            <ProductCreateModal onSuccess={updateTable}>
+              <Button type="primary" icon={<CoffeeOutlined />}>Criar Produto</Button>
+            </ProductCreateModal>
+          )}
+        />
       </CTemplatePage>
     </>
   )
