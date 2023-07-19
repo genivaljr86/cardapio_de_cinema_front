@@ -20,6 +20,9 @@ const CTable: React.FC<CTableProps> = ({ dataSource, footer, footerActions, onCh
   } = useCTableHooks()
 
   const updateTable = () => {
+    /**
+     * @todo Remove this if
+     */
     if (onChangeTable) {
       const params = {
         'pagination[page]': tableParams.pagination?.current,
@@ -86,7 +89,8 @@ const CTable: React.FC<CTableProps> = ({ dataSource, footer, footerActions, onCh
               {footerActions(updateTable)}
             </div>
           </Col>
-          <Col flex="none">
+          {/* Inserir a paginação aqui no futuro */}
+          {/* <Col flex="none">
             {
               (onChangeTable && totalRecords) &&
               <Pagination
@@ -104,7 +108,7 @@ const CTable: React.FC<CTableProps> = ({ dataSource, footer, footerActions, onCh
                   })
                 }} />
             }
-          </Col>
+          </Col> */}
         </Row>
       )
     }

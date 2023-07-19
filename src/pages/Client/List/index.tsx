@@ -1,134 +1,75 @@
-import React, { useEffect, useState } from "react";
-import { Button, Table, notification } from "antd";
-import { ClientResponseDataObject, deleteClient, getClients } from "../../../services/client";
-import { Link } from "react-router-dom";
 import CTemplatePage from "../../../components/CTemplatePage";
-import { ExclamationCircleFilled, UsergroupAddOutlined } from "@ant-design/icons";
-import { ColumnsType, TablePaginationConfig } from "antd/es/table";
-import { AxiosError } from "axios";
-import useClientListPageHooks from "./hooks";
+import CTable from "../../../components/tables/CTable";
 import ClientCreateModal from "../../../components/modals/ClientCreateModal";
+import useClientListPageHooks from "./hooks";
+import { ClientResponseDataObject, deleteClient, getClients } from "../../../services/client";
+import { Button } from "antd";
+import { UsergroupAddOutlined } from "@ant-design/icons";
+import { ColumnsType } from "antd/es/table";
+import { Link } from "react-router-dom";
+import { AxiosError } from "axios";
 
-interface TableParams {
-  pagination?: TablePaginationConfig;
-}
+const columns: ColumnsType<any> = [
+  {
+    title: 'Nome',
+    dataIndex: 'name'
+  },
+  {
+    title: 'Endereço',
+    dataIndex: 'address'
+  }
+];
 
 const ClientListPage: React.FC = () => {
   const {
-    pageSize,
     dataSource, setDataSource,
     loading, setLoading,
-    error, setError, Modal
+    totalRecords, setTotalRecords,
+    error, setError
   } = useClientListPageHooks()
 
-  const [tableParams, setTableParams] = useState<TableParams>({
-    pagination: {
-      current: 1,
-      pageSize,
-    },
-  });
 
-  const columns: ColumnsType<any> = [
-    {
-      title: 'Nome',
-      dataIndex: 'name'
-    },
-    {
-      title: 'Endereço',
-      dataIndex: 'address'
-    },
-    {
-      title: '',
-      align: 'right',
-      dataIndex: 'actions'
-    }
-  ];
-
-  async function fetchData() {
+  async function fetchData(filters: any = {}) {
     setLoading(true);
     try {
-      const params = {
-        'pagination[page]': tableParams.pagination?.current,
-        'pagination[pageSize]': tableParams.pagination?.pageSize
-      }
+      const params = filters
       const { data: { data: dataResponse, meta: { pagination } } } = await getClients(params);
       const dataList = dataResponse.map((row: ClientResponseDataObject) => {
         const { id, attributes: { name, address } } = row;
         return {
           key: id,
           name: <Link to={`view/${id}`}>{name}</Link>,
-          address,
-          actions: <Button type="link" onClick={() => showDeleteConfirm(id!)}>Apagar</Button>
+          address
         }
       });
 
       setDataSource(dataList);
-      setTableParams({
-        ...tableParams,
-        pagination: {
-          ...tableParams.pagination,
-          total: pagination.total
-        },
-      });
+      setTotalRecords(pagination.total);
 
     } catch (err) {
       setError(err as AxiosError)
     }
     setLoading(false);
-
-  };
-
-  const handleTableChange = (
-    pagination: TablePaginationConfig
-  ) => {
-    setTableParams({ pagination })
   }
 
-  const showDeleteConfirm = (id: number) => {
-    Modal.confirm({
-      title: 'Tem certeza que desejar apagar?',
-      icon: <ExclamationCircleFilled />,
-      content: 'Essa ação é irreversivel.',
-      okText: 'Sim',
-      okType: 'danger',
-      cancelText: 'Não',
-      onOk() {
-        return new Promise(async (resolve, reject) => {
-          try {
-            const response = deleteClient(id)
-            notification.success({
-              message: 'Sucesso!',
-              description: 'Cliente apagado com sucesso'
-            })
-            fetchData();
-            resolve(response)
-          } catch (error) {
-            notification.error({
-              message: 'Erro!',
-              description: 'Não foi possivel criar agora, tente mais tarde'
-            });
-            reject(error);
-          }
-        })
-      },
-    });
-  };
+  const onDelete = (id: number) => deleteClient(id!)
 
-  useEffect(() => {
-    fetchData();
-    //eslint-disable-next-line
-  }, [JSON.stringify(tableParams)])
   return (
     <>
       <CTemplatePage title='Clientes' error={error}>
-        <Table loading={loading}
+        <CTable
+          loading={loading}
+          columns={columns}
           dataSource={dataSource}
-          pagination={tableParams.pagination}
-          onChange={handleTableChange}
-          columns={columns} />
-        <ClientCreateModal onSuccess={fetchData} >
-          <Button type="primary" icon={<UsergroupAddOutlined />}>Criar Cliente</Button>
-        </ClientCreateModal>
+          totalRecords={totalRecords}
+          onChangeTable={fetchData}
+          onDelete={onDelete}
+          footerActions={(updateTable) => (
+            <ClientCreateModal onSuccess={updateTable}>
+              <Button type="primary" icon={<UsergroupAddOutlined />}>Criar Cliente</Button>
+            </ClientCreateModal>
+          )}
+        />
       </CTemplatePage>
     </>
   )
